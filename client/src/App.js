@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'; 
+import React, { useEffect, useState } from 'react';
 
 function App() {
+  const [backendData, setBackendData] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/users') //No need to specify localhost:3001 because of the proxy
+      .then((response) => response.json())
+      .then((data) => { setBackendData(data); }) //Update the data with data from the backend
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>User List</h1>
+        <ul>
+          {backendData.map((user) => (
+            <li key = {user.id}>
+              <strong>{user.name}</strong> - {user.email}
+            </li>
+          ))}
+        </ul>
     </div>
   );
 }
