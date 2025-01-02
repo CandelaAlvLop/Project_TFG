@@ -46,8 +46,6 @@ app.get('/api/users', (req, res) => {
 });
 
 
-
-//Every time we start we go though every model, check if the table exists in th DB and if they do not create it
 //Start API, you can use any port but it must be different than our react application
 app.listen(3001, () => {
     //Pass anonymous function that is going to run whenever the server starts, to get a confirmation that the server is running
