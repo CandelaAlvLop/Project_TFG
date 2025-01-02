@@ -1,27 +1,26 @@
 import './App.css'; 
-import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Home from './pages/Home'; // Import your Home component
 
 function App() {
-  const [backendData, setBackendData] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/users') //No need to specify localhost:3001 because of the proxy
-      .then((response) => response.json())
-      .then((data) => { setBackendData(data); }) //Update the data with data from the backend
-  }, []);
-
   return (
-    <div>
-      <h1>User List</h1>
-        <ul>
-          {backendData.map((user) => (
-            <li key = {user.id}>
-              <strong>{user.name}</strong> - {user.email}
-            </li>
-          ))}
-        </ul>
-    </div>
-  );
+    <Router>
+      <div className="App">
+        <nav>
+            <ul>
+              <li>
+                <Link to="/users">Users</Link> {/* Link to Users page */}
+              </li>
+              
+            </ul>
+        </nav>
+        <Routes>
+          {/* Route for Home */}
+          <Route path="/users" element={<Home />} />
+        </Routes>
+      </div>
+    </Router>
+  )
 }
 
 export default App;
