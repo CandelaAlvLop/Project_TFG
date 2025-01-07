@@ -1,7 +1,23 @@
-import './App.css'; 
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './pages/Home'; // Import your Home component
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
+  )
+}
+
+export default App;
+
+/*
 function App() {
   return (
     <Router>
@@ -9,13 +25,11 @@ function App() {
         <nav>
             <ul>
               <li>
-                <Link to="/users">Users</Link> {/* Link to Users page */}
+                <Link to="/users">Users</Link> 
               </li>
-              
             </ul>
         </nav>
         <Routes>
-          {/* Route for Home */}
           <Route path="/users" element={<Home />} />
         </Routes>
       </div>
@@ -23,4 +37,4 @@ function App() {
   )
 }
 
-export default App;
+export default App;*/

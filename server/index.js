@@ -1,10 +1,13 @@
 const express = require('express') //instance of the express framework
 const app = express() //this allows to make API requests, initialize our server, etc
+const cors = require("cors"); //Allow cross platform, sending information from backend to frontend
 
+app.use(express.json());
+app.use(cors());
 
 //Router
-const userRoute = require("./routes/Users");
-app.use("/users", userRoute);
+const userRoute = require("./routes/UserManager");
+app.use("/UserManager", userRoute);
 
 
 //Start API, you can use any port but it must be different than our react application
