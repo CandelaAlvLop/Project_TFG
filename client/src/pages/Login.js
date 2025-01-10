@@ -9,16 +9,17 @@ function Login() {
 
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
-    const [LoginStatus, setLoginStatus] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault(); //Prevent refreshing
         axios.post('http://localhost:3001/UserManager/login', {
             username: Username, 
             password: Password 
         }).then((response) => {
             if (response.data.message) {
-                setLoginStatus(response.data.message); //Set error message
+                setError(response.data.message); //Set error message
             } else {
                 navigate('/Dashboard'); 
             }
@@ -33,19 +34,20 @@ function Login() {
                 <div className="title">
                     <h1>Login to your account</h1>
                 </div>
-                {/*<form action = "">*/}
+                <form onSubmit={handleSubmit}>
                     <div className="subtitle">
                         <label htmlFor="username">Username</label>
                         <input 
                             type="text" 
                             id="username" 
                             name="username" 
-                            /*value={values.username} */
+                            value={Username}
                             placeholder="Enter username" 
-                            required pattern="^.{1,10}$"
+                            pattern="^.{1,10}$"
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
+                            required 
                         />
                     </div>
                     <div className="subtitle">
@@ -54,18 +56,19 @@ function Login() {
                             type="password" 
                             id="password" 
                             name="password" 
-                            /*value={values.password}*/
+                            value={Password}
                             placeholder="Enter password"
-                            required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$"
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$" 
+                            //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
                             onChange={(e) => {
                                 setPassword(e.target.value);
                             }}
+                            required 
                         />
-                        <div className="error">{LoginStatus}</div>
+                        <div className="error">{error}</div>
                     </div>
-                    <button onClick={handleSubmit}>Login</button>
-                    {/*<button type="submit">Login</button>*/}
-               {/*</form>*/}
+                    <button type="submit">Login</button>
+               </form>
             </div>
         </div>
     );
