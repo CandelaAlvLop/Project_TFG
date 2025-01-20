@@ -26,16 +26,15 @@ function Login() {
         });
     };
 
-
     return (
         <div>
             <Navbar />
                 <div className="login">
-                <div className="title">
+                <div className="title-login">
                     <h1>Login to your account</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div className="subtitle">
+                    <div className="subtitle-login">
                         <label htmlFor="username">Username</label>
                         <input 
                             type="text" 
@@ -43,14 +42,12 @@ function Login() {
                             name="username" 
                             value={Username}
                             placeholder="Enter username" 
-                            pattern="^.{1,10}$"
+                            pattern="^.{3,10}$" 
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
                             required 
                         />
-                    </div>
-                    <div className="subtitle">
                         <label htmlFor="password">Password</label>
                         <input 
                             type="password" 
@@ -65,9 +62,9 @@ function Login() {
                             }}
                             required 
                         />
-                        <div className="error">{error}</div>
+                        <div className="error-login">{error}</div>
                     </div>
-                    <button type="submit">Login</button>
+                    <button className="button-login" type="submit">Login</button>
                </form>
             </div>
         </div>

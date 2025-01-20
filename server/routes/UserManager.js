@@ -4,16 +4,20 @@ const db = require('../db');
 
 
 router.post("/register", (req, res) => {
+    const name = req.body.name
+    const surname = req.body.surname
     const username = req.body.username
     const DNI = req.body.DNI
+    const email = req.body.email
     const password = req.body.password
     
     db.query(
-        "INSERT INTO users (username,DNI,password) VALUES (?,?,?)", 
-        [username, DNI, password], 
+        "INSERT INTO users (name,surname,username,DNI,email,password) VALUES (?,?,?,?,?,?)", 
+        [name, surname, username, DNI, email, password], 
         (err, result) => {
             if (err) {
                 console.log(err);
+                res.send(err);
             } else {
             console.log('User registered succesfully:', result);
             }
