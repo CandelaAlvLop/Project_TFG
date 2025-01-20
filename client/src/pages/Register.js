@@ -12,6 +12,7 @@ function Register() {
     const [NewDNI, setNewDNI] = useState("");
     const [NewEmail, setNewEmail] = useState("");
     const [NewPassword, setNewPassword] = useState("");
+    const [NewType, setNewType] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -23,8 +24,9 @@ function Register() {
             username: NewUsername, 
             DNI: NewDNI,
             email: NewEmail,
-            password: NewPassword 
-        }).then((response) => {
+            password: NewPassword,
+            type: NewType
+        }).then(() => {
             navigate('/Dashboard'); 
         });
     };
@@ -127,6 +129,25 @@ function Register() {
                             }}
                             required 
                         />
+                        <div id="typeField">
+			  	            <label class="subtitle-regiser" for="type">Choose type of user</label>
+			  	            <select 
+                                id="type" 
+                                name="type" 
+                                value={NewType}
+                                onChange={(e) => {
+                                    setNewType(e.target.value);
+                                }}
+                                required>
+                                <option value="">Select a type</option>
+			  		            <option value="Donor">Donor</option>
+					            <option value="Research">Research</option>
+					            <option value="Government">Government</option>
+					            <option value="Education">Education</option>
+                                <option value="Transport">Transport</option>
+			  	            </select>
+			            </div>
+
                         <div className="error-register">{error}</div>
                     </div>
                     <button className="button-register" type="submit">Register</button>

@@ -36,7 +36,7 @@ body, html {
     margin-left: 20px;
 }
 
-.register input[type="text"], .register input[type="password"] {
+.register input[type="text"], .register input[type="password"], select {
     border-radius: 10px;
     width: 500px;
     margin: 15px;

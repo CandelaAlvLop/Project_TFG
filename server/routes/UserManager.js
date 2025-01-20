@@ -10,16 +10,19 @@ router.post("/register", (req, res) => {
     const DNI = req.body.DNI
     const email = req.body.email
     const password = req.body.password
+    const type = req.body.type
     
     db.query(
-        "INSERT INTO users (name,surname,username,DNI,email,password) VALUES (?,?,?,?,?,?)", 
-        [name, surname, username, DNI, email, password], 
+        "INSERT INTO users (name,surname,username,DNI,email,password, type) VALUES (?,?,?,?,?,?,?)", 
+        [name, surname, username, DNI, email, password, type], 
         (err, result) => {
             if (err) {
                 console.log(err);
-                res.send(err);
+                res.send({message: "Registration failed", error: err});
             } else {
-            console.log('User registered succesfully:', result);
+                console.log('User registered succesfully:', result);
+                res.send(result[0]);
+                console.log("Redirecting to Dashboard");
             }
         }
     ); 
