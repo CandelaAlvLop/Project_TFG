@@ -5,11 +5,11 @@ body, html {
 }
 
 .register {
-    max-width: 700px;
+    max-width: 70%;
     padding: 25px;
     border-radius: 30px;
     background: #ffffff;
-    margin: 100px auto;
+    margin: 100px 70px;
 }
 
 .title-register {
@@ -38,8 +38,8 @@ body, html {
 
 .register input[type="text"], .register input[type="password"], select {
     border-radius: 10px;
-    width: 500px;
-    margin: 15px;
+    width: 90%;
+    margin: 20px 0;
     padding: 10px;
     border: 1px solid #ccc;
     display: block;

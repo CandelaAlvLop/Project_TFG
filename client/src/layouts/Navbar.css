@@ -1,13 +1,10 @@
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-    align-items: center;
-    display: flex; 
-    justify-content: space-around;
+    position: fixed;
+    top: 0px;
+    margin-top: 0px;
+    width: 100%;
+    background-color: black;
   }
   
   li {
@@ -17,13 +14,12 @@ ul {
   li a {
     display: block;
     color: white;
-    text-align: center;
-    padding: 14px 16px;
+    padding: 20px;
     text-decoration: none;
   }
   
   li a:hover {
-    background-color: #111;
+    background-color: #5f5e5e;
   }
 
 

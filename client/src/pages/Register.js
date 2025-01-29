@@ -26,8 +26,13 @@ function Register() {
             email: NewEmail,
             password: NewPassword,
             type: NewType
+            //setError(validation(values));
         }).then(() => {
             navigate('/Dashboard'); 
+        }).catch((error) => {
+            if (error.response && error.response.data) {
+                setError(error.response.data);
+            }
         });
     };
 
@@ -46,7 +51,7 @@ function Register() {
                             id="name" 
                             name="name" 
                             value={NewName}
-                            placeholder="Enter name" 
+                            placeholder="Enter name (must start with capital letter)" 
                             //Name must start with a capital letter and be followed by small letters, max 10 letters
                             pattern="^[A-Z][a-z]{1,9}$" 
                             onChange={(e) => {
@@ -61,7 +66,7 @@ function Register() {
                             id="surname" 
                             name="surname" 
                             value={NewSurname}
-                            placeholder="Enter surname" 
+                            placeholder="Enter surname (must start with capital letter)" 
                             //Surname must start with a capital letter and be followed by small letters, max 10 letters
                             pattern="^[A-Z][a-z]{1,9}$" 
                             onChange={(e) => {
@@ -76,7 +81,7 @@ function Register() {
                             id="username" 
                             name="username" 
                             value={NewUsername}
-                            placeholder="Enter username" 
+                            placeholder="Enter username (between 2 and 10 characters)" 
                             //Username between 2 and 10 characters 
                             pattern="^.{2,10}$" 
                             onChange={(e) => {
@@ -91,7 +96,7 @@ function Register() {
                             id="DNI" 
                             name="DNI" 
                             value={NewDNI} 
-                            placeholder="Enter DNI" 
+                            placeholder="Enter DNI (9 digits and a letter)" 
                             //DNI contains 8 digits and a capital letter
                             pattern="^[0-9]{8}[A-Z]$"
                             onChange={(e) => {
@@ -121,7 +126,7 @@ function Register() {
                             id="password" 
                             name="password" 
                             value={NewPassword}
-                            placeholder="Enter password"
+                            placeholder="Enter password (minimum 6 characters)"
                             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$" 
                             //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
                             onChange={(e) => {
