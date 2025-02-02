@@ -12,6 +12,7 @@ router.post("/register", (req, res) => {
     const password = req.body.password
     const type = req.body.type
     
+    //Add user
     db.query(
         "INSERT INTO users (name,surname,username,DNI,email,password, type) VALUES (?,?,?,?,?,?,?)", 
         [name, surname, username, DNI, email, password, type], 
