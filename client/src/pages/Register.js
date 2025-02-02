@@ -1,11 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Navbar from './Navbar';
+import Footer from "./Footer";
 import '../layouts/Register.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
 
 function Register() {
+    //Show top of the page
+    useEffect(() => {
+        window.scrollTo(0, 0); 
+    }, []);
+
     const [NewName, setNewName] = useState("");
     const [NewSurname, setNewSurname] = useState("");
     const [NewUsername, setNewUsername] = useState("");
@@ -158,6 +164,7 @@ function Register() {
                     <button className="button-register" type="submit">Register</button>
                </form>
             </div>
+            {<Footer />}
         </div>
     );
 }
