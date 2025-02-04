@@ -45,10 +45,10 @@ router.post("/register", (req, res) => {
                 (err, result) => {
                     if (err) {
                         console.log(err);
-                        res.send({message: "Registration failed", error: err});
+                        return res.status(500).send({message: "Registration failed", error: err});
                     } else {
                         console.log("User registered succesfully:", result);
-                        res.send({message: "Registration successful", userId: result.insertId});
+                        res.status(201).send({message: "Registration successful", userId: result.insertId});
                         console.log("Redirecting to Dashboard");
                     }
                 }
@@ -69,15 +69,15 @@ router.post("/login", (req, res) => {
         (err, result) => {
             if (err) {
                 console.log(err);
-                res.send(err);
+                res.status(500).send(err);
             } 
             if (result.length > 0) { //Check if combination is in database
-                console.log("User logged succesfully:", result);
-                res.send(result[0]);
+                console.log("User logged succesfully:", result[0]);
+                res.status(200).send(result[0]);
                 console.log("Redirecting to Dashboard");
             } else {
                 console.log("Wrong username or password");
-                res.send({message: "Wrong username or password"})
+                res.status(400).send({message: "Wrong username or password"})
             }
         }
     ); 

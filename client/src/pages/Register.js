@@ -35,8 +35,10 @@ function Register() {
         }).then(() => {
             navigate('/Dashboard'); 
         }).catch((error) => {
-            if (error.response && error.response.data) {
+            if (error.response) {
                 setError(error.response.data.message);
+            } else {
+                setError("Unexpected error during Register");
             }
         });
     };

@@ -22,13 +22,23 @@ function Login() {
         axios.post('http://localhost:3001/UserManager/login', {
             username: Username, 
             password: Password 
-        }).then((response) => {
+        }).then(() => {
+            navigate('/Dashboard'); 
+        }).catch((error) => {
+            if (error.response) {
+                setError(error.response.data.message);
+            } else {
+                setError("Unexpected error during Login");
+            }
+        });
+    /*
+    .then((response) => {
             if (response.data.message) {
                 setError(response.data.message); //Set error message
             } else {
                 navigate('/Dashboard'); 
             }
-        });
+    });*/ 
     };
 
     return (
