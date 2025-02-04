@@ -32,12 +32,11 @@ function Register() {
             email: NewEmail,
             password: NewPassword,
             type: NewType
-            //setError(validation(values));
         }).then(() => {
             navigate('/Dashboard'); 
         }).catch((error) => {
             if (error.response && error.response.data) {
-                setError(error.response.data);
+                setError(error.response.data.message);
             }
         });
     };
