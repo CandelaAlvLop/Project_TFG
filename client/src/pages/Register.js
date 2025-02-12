@@ -33,7 +33,7 @@ function Register() {
             password: NewPassword,
             type: NewType
         }).then(() => {
-            navigate('/Dashboard'); 
+            navigate('/dashboard'); 
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -66,6 +66,7 @@ function Register() {
                             }}
                             required 
                         />
+                        <div className="error-register">{error.name}</div>
                     
                         <label htmlFor="surname">Surname</label>
                         <input 
@@ -81,6 +82,7 @@ function Register() {
                             }}
                             required 
                         />
+                        <div className="error-register">{error.surname}</div>
                     
                         <label htmlFor="username">Username</label>
                         <input 
@@ -89,13 +91,14 @@ function Register() {
                             name="username" 
                             value={NewUsername}
                             placeholder="Enter username (between 2 and 10 characters)" 
-                            //Username between 2 and 10 characters 
+                            //Username must be between 2 and 10 characters 
                             pattern="^.{2,10}$" 
                             onChange={(e) => {
                                 setNewUsername(e.target.value);
                             }}
                             required 
                         />
+                        <div className="error-register">{error.username}</div>
                     
                         <label htmlFor="DNI">DNI</label>
                         <input 
@@ -111,6 +114,7 @@ function Register() {
                             }}
                             required 
                         />
+                        <div className="error-register">{error.DNI}</div>
                     
                         <label htmlFor="email">Email</label>
                         <input 
@@ -126,6 +130,7 @@ function Register() {
                             }}
                             required 
                         />
+                        <div className="error-register">{error.email}</div>
                     
                         <label htmlFor="password">Password</label>
                         <input 
@@ -141,6 +146,8 @@ function Register() {
                             }}
                             required 
                         />
+                        <div className="error-register">{error.password}</div>
+
                         <div id="typeField">
 			  	            <label class="subtitle-regiser" for="type">Choose type of user</label>
 			  	            <select 
@@ -159,13 +166,14 @@ function Register() {
                                 <option value="Transport">Transport</option>
 			  	            </select>
 			            </div>
+                        <div className="error-register">{error.type}</div>
 
                         <div className="error-register">{error}</div>
                     </div>
                     <button className="button-register" type="submit">Register</button>
                </form>
             </div>
-            {<Footer />}
+            <Footer />
         </div>
     );
 }

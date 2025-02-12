@@ -23,7 +23,7 @@ function Login() {
             username: Username, 
             password: Password 
         }).then(() => {
-            navigate('/Dashboard'); 
+            navigate('/dashboard'); 
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -101,7 +101,7 @@ function Login() {
                         </form>
                     </main>
                 </div>
-                {<Footer />}
+                <Footer />
         </div>
     );
 }
