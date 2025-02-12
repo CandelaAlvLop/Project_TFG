@@ -1,22 +1,13 @@
-import React, {useEffect} from "react";
-import { useNavigate } from "react-router-dom";
-import NavbarStart from "./NavbarStart";
+import React from "react";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
-import "../layouts/MainPage.css";
 import Drawing from "../images/drawing-mainpage.png";
 
-function MainPage() {
-    //Show top of the page
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
 
-    const navigate = useNavigate();
-
+function Faq() {
     return (
         <div>
-            <NavbarStart />
-
+            <Navbar />
             {/*Header Section*/}
             <section className="header-mainpage">
                 <h1>Claim Your Data!</h1>
@@ -29,8 +20,8 @@ function MainPage() {
                 <img src={Drawing} alt="Data Visualization" />
             </section>
 
-            {/* Main Content Sidebar Section */}
-            <div className="maincontent-mainpage">
+             {/* Main Content Sidebar Section */}
+             <div className="maincontent-mainpage">
                 {/* Sidebar */}
                 <aside className="sidebar-mainpage">
                     <h3>Welcome</h3>
@@ -48,13 +39,7 @@ function MainPage() {
 
                 {/* Register and Login access */}
                 <main className="access-mainpage">
-                    <h2>Start the process!</h2>
-
-                    {/* Login and Register Buttons */}
-                    <div className="buttons-mainpage">
-                        <button className="register" onClick={() => navigate("/register")}>Register</button>
-                        <button className="login" onClick={() => navigate("/login")}>Login</button>
-                    </div>
+                    <h1>Frequently Asked Questions</h1>
                 </main>
             </div>
             <Footer />
@@ -62,4 +47,4 @@ function MainPage() {
     );
 }
 
-export default MainPage;
+export default Faq;

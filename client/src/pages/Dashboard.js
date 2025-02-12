@@ -1,11 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import "../layouts/Dashboard.css";
 import Footer from "./Footer";
 import Navbar from "./NavbarIn";
-
+import Navbar2 from "./Navbar2";
 
 function Dashboard() {
 
@@ -24,24 +23,17 @@ function Dashboard() {
   return (
     <div>
       <Navbar />
-        <div >
-            <nav className="navbar-dashboard">
-              <Link to="/personaldata" className="personaldata">Personal Data</Link>
-              <Link to="/myconsume" className="myconsume">My Consume</Link>
-              <Link to="/datadonation" className="datadonation">Data Donation</Link>
-            </nav>
-          </div>
-
-          <div className="main-dashboard">
-            <h1>Welcome to your dashboard</h1>
-            <p>Check your activity and energy consume</p>
-          </div>
+      <Navbar2 />
+      <div className="main-dashboard">
+        <h1>Welcome to your dashboard</h1>
+        <p>Check your activity and energy consume</p>
+      </div>
  
-          <div className="graph-dashboard">
-            <h2>Energy Consume History</h2>
-            <Line data={data} />
-          </div>
-    <Footer/>
+      <div className="graph-dashboard">
+        <h2>Energy Consume History</h2>
+        <Line data={data} />
+      </div>
+      <Footer/>
     </div>
 
   );

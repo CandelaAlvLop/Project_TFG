@@ -4,6 +4,13 @@ import MainPage from './pages/MainPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import PersonalData from './pages/PersonalData';
+import Notifications from './pages/Notifications';
+import MyConsume from './pages/MyConsume';
+import DataDonation from './pages/DataDonation';
+import Campaigns from './pages/Campaigns';
+import Instructions from './pages/Instructions';
+import Faq from './pages/Faq';
 
 function App() {
   return (
@@ -13,6 +20,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/personaldata" element={<PersonalData />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/myconsume" element={<MyConsume />} />
+        <Route path="/datadonation" element={<DataDonation />} />
+        <Route path="/campaigns" element={<Campaigns />} />
+        <Route path="/instructions" element={<Instructions />} />
+        <Route path="/faq" element={<Faq/>} />
       </Routes>
     </Router>
   )
