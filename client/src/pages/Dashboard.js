@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from 'react';
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import "../layouts/Dashboard.css";
@@ -7,6 +7,10 @@ import Navbar from "./NavbarIn";
 import Navbar2 from "./Navbar2";
 
 function Dashboard() {
+  //Show top of the page
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []);
 
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],

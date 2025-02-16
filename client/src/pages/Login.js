@@ -12,6 +12,10 @@ function Login() {
         window.scrollTo(0, 0);
     }, []);
     
+    const usernamePattern = /^.{2,10}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$/;
+
+
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -31,14 +35,6 @@ function Login() {
                 setError("Unexpected error during Login");
             }
         });
-    /*
-    .then((response) => {
-            if (response.data.message) {
-                setError(response.data.message); //Set error message
-            } else {
-                navigate('/Dashboard'); 
-            }
-    });*/ 
     };
 
     return (
@@ -75,11 +71,18 @@ function Login() {
                                     name="username" 
                                     value={Username}
                                     placeholder="Enter username" 
+
                                     pattern="^.{3,10}$" 
-                                    onChange={(e) => {
-                                        setUsername(e.target.value);
-                                    }}
                                     required 
+
+                                    onInvalid={(e) => e.target.setCustomValidity("Username must be between 2 and 10 characters")}
+                                    onInput={(e) => {
+                                        e.target.setCustomValidity("");
+                                        if (!usernamePattern.test(e.target.value)) {
+                                            e.target.setCustomValidity("Username must be between 2 and 10 characters");
+                                        }
+                                    }}
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                                 <label htmlFor="password">Password</label>
                                 <input 
@@ -88,12 +91,19 @@ function Login() {
                                     name="password" 
                                     value={Password}
                                     placeholder="Enter password"
+                                    
                                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$" 
+                                    required
+
                                     //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
-                                    onChange={(e) => {
-                                        setPassword(e.target.value);
+                                    onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
+                                    onInput={(e) => {
+                                        e.target.setCustomValidity("");
+                                        if (!(passwordPattern).test(e.target.value)) {
+                                            e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character");
+                                        }
                                     }}
-                                    required 
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <div className="error-login">{error}</div>
                             </div>

@@ -12,6 +12,12 @@ function Register() {
         window.scrollTo(0, 0); 
     }, []);
 
+    const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
+    const usernamePattern = /^.{2,10}$/;
+    const DNIPattern = /^[0-9]{8}[A-Z]$/;
+    const emailPattern = /^[\w.-]+@([\w-]+\.)+[\w-]{2,}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$/;
+
     const [NewName, setNewName] = useState("");
     const [NewSurname, setNewSurname] = useState("");
     const [NewUsername, setNewUsername] = useState("");
@@ -59,15 +65,21 @@ function Register() {
                             name="name" 
                             value={NewName}
                             placeholder="Enter name (must start with capital letter)" 
+                            
                             //Name must start with a capital letter and be followed by small letters, max 10 letters
-                            pattern="^[A-Z][a-z]{1,9}$" 
-                            onChange={(e) => {
-                                setNewName(e.target.value);
-                            }}
+                           /* pattern="^[A-Z][a-z]{1,9}$" 
                             required 
+
+                            onInvalid={(e) => e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!name_surnamePattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters");
+                                }
+                            }}*/
+                            onChange={(e) => setNewName(e.target.value)}
                         />
-                        <div className="error-register">{error.name}</div>
-                    
+                        
                         <label htmlFor="surname">Surname</label>
                         <input 
                             type="text" 
@@ -75,14 +87,20 @@ function Register() {
                             name="surname" 
                             value={NewSurname}
                             placeholder="Enter surname (must start with capital letter)" 
+                            
                             //Surname must start with a capital letter and be followed by small letters, max 10 letters
                             pattern="^[A-Z][a-z]{1,9}$" 
-                            onChange={(e) => {
-                                setNewSurname(e.target.value);
+                            required
+
+                            onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!name_surnamePattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters");
+                                }
                             }}
-                            required 
+                            onChange={(e) => setNewSurname(e.target.value)}
                         />
-                        <div className="error-register">{error.surname}</div>
                     
                         <label htmlFor="username">Username</label>
                         <input 
@@ -91,14 +109,20 @@ function Register() {
                             name="username" 
                             value={NewUsername}
                             placeholder="Enter username (between 2 and 10 characters)" 
-                            //Username must be between 2 and 10 characters 
-                            pattern="^.{2,10}$" 
-                            onChange={(e) => {
-                                setNewUsername(e.target.value);
+                            
+                            //Username must be between 3 and 10 characters 
+                            pattern="^.{3,10}$" 
+                            required
+
+                            onInvalid={(e) => e.target.setCustomValidity("Username must be between 3 and 10 characters")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!usernamePattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Username must be between 3 and 10 characters");
+                                }
                             }}
-                            required 
+                            onChange={(e) => setNewUsername(e.target.value)}
                         />
-                        <div className="error-register">{error.username}</div>
                     
                         <label htmlFor="DNI">DNI</label>
                         <input 
@@ -107,14 +131,20 @@ function Register() {
                             name="DNI" 
                             value={NewDNI} 
                             placeholder="Enter DNI (9 digits and a letter)" 
+                            
                             //DNI contains 8 digits and a capital letter
                             pattern="^[0-9]{8}[A-Z]$"
-                            onChange={(e) => {
-                                setNewDNI(e.target.value);
+                            required
+                            
+                            onInvalid={(e) => e.target.setCustomValidity("DNI must contain 8 digits and a capital letter")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!DNIPattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("DNI must contain 8 digits and a capital letter");
+                                }
                             }}
-                            required 
+                            onChange={(e) => setNewDNI(e.target.value)}
                         />
-                        <div className="error-register">{error.DNI}</div>
                     
                         <label htmlFor="email">Email</label>
                         <input 
@@ -123,14 +153,20 @@ function Register() {
                             name="email" 
                             value={NewEmail}
                             placeholder="Enter email" 
+                            
                             //Email structure
-                            pattern="^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$" 
-                            onChange={(e) => {
-                                setNewEmail(e.target.value);
-                            }}
+                            pattern="^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$"
                             required 
+                            
+                            onInvalid={(e) => e.target.setCustomValidity("Not a valid email address")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!emailPattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Not a valid email address");
+                                }
+                            }}
+                            onChange={(e) => setNewEmail(e.target.value)}
                         />
-                        <div className="error-register">{error.email}</div>
                     
                         <label htmlFor="password">Password</label>
                         <input 
@@ -139,14 +175,20 @@ function Register() {
                             name="password" 
                             value={NewPassword}
                             placeholder="Enter password (minimum 6 characters)"
-                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$" 
+                            
                             //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
-                            onChange={(e) => {
-                                setNewPassword(e.target.value);
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$" 
+                            required
+                            
+                            onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!passwordPattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character");
+                                }
                             }}
-                            required 
+                            onChange={(e) => setNewPassword(e.target.value)}
                         />
-                        <div className="error-register">{error.password}</div>
 
                         <div id="typeField">
 			  	            <label class="subtitle-regiser" for="type">Choose type of user</label>
@@ -154,9 +196,9 @@ function Register() {
                                 id="type" 
                                 name="type" 
                                 value={NewType}
-                                onChange={(e) => {
-                                    setNewType(e.target.value);
-                                }}
+                                onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
+                                onInput={(e) => e.target.setCustomValidity("")}
+                                onChange={(e) => setNewType(e.target.value)}
                                 required>
                                 <option value="">Select a type</option>
 			  		            <option value="Donor">Donor</option>
@@ -166,7 +208,6 @@ function Register() {
                                 <option value="Transport">Transport</option>
 			  	            </select>
 			            </div>
-                        <div className="error-register">{error.type}</div>
 
                         <div className="error-register">{error}</div>
                     </div>

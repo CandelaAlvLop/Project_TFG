@@ -12,46 +12,36 @@ router.post("/register", (req, res) => {
     const password = req.body.password
     const type = req.body.type
 
-    /*const name_surnamePattern = "/^[A-Z][a-z]{1,9}$/";
-    const usernamePattern = "/^.{2,10}$/";
-    const DNIPattern = "/^[0-9]{8}[A-Z]$/";
-    const emailPattern = "/^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$/";
-    const passwordPattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$/";
-    const typesPattern = ["Donor", "Research", "Government", "Education", "Transport"];
-    const error = {};
+    const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
+    const usernamePattern = /^.{2,10}$/;
+    const DNIPattern = /^[0-9]{8}[A-Z]$/;
+    const emailPattern = /^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$/;
     
     //Check no parameter is empty
     if (!name || !surname || !username || !DNI || !email || !password || !type) {
         return res.status(400).send({message: "All parameters are required"});
     }
+
     //Check correctness of patterns
     else if (!name_surnamePattern.test(name)) {
-        error.name = "Name must start with a capital letter and be followed by small letters, max 10 letters";
+        return res.status(400).send({message: "Name must start with a capital letter and be followed by small letters, max 10 letters"});
     }
     else if (!name_surnamePattern.test(surname)) {
-        error.surname = "Surname must start with a capital letter and be followed by small letters, max 10 letters";
+        return res.status(400).send({message:"Surname must start with a capital letter and be followed by small letters, max 10 letters"});
     }
     else if (!usernamePattern.test(username)) {
-        error.username = "Username must be between 2 and 10 characters";
+        return res.status(400).send({message:"Username must be between 3 and 10 characters"});
     }
     else if (!DNIPattern.test(DNI)) {
-        error.DNI = "DNI contains 8 digits and a capital letter";
+       return res.status(400).send({message:"DNI contains 8 digits and a capital letter"});
     }
     else if (!emailPattern.test(email)) {
-        error.email = "Not a valid email address";
+        return res.status(400).send({message:"Not a valid email address"});
     }
     else if (!passwordPattern.test(password)) {
-        error.password = "Password of min 6 characters, containing at least one lower and one uppercase letters, one digit and one special character";
+        return res.status(400).send({message:"Password of min 6 characters, containing at least one lower and one uppercase letters, one digit and one special character"});
     }
-    else if (!typesPattern.includes(type)) {
-        error.type = "Select a type";
-    }
-
-    // Return errors if any exist
-    if (Object.keys(error).length > 0) {
-        return res.status(400).send({message: "Validation failed", error});
-    }
- */
     
     //Check uniqueness of username, DNI and email in database
     db.query(

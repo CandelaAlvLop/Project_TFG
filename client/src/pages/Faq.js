@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useEffect} from 'react';
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Drawing from "../images/drawing-mainpage.png";
 
 
 function Faq() {
+    //Show top of the page
+    useEffect(() => {
+        window.scrollTo(0, 0); 
+    }, []);
+
     return (
         <div>
             <Navbar />
