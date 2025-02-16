@@ -67,7 +67,7 @@ function Register() {
                             placeholder="Enter name (must start with capital letter)" 
                             
                             //Name must start with a capital letter and be followed by small letters, max 10 letters
-                           /* pattern="^[A-Z][a-z]{1,9}$" 
+                            pattern="^[A-Z][a-z]{1,9}$" 
                             required 
 
                             onInvalid={(e) => e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters")}
@@ -76,7 +76,7 @@ function Register() {
                                 if (!name_surnamePattern.test(e.target.value)) {
                                     e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters");
                                 }
-                            }}*/
+                            }}
                             onChange={(e) => setNewName(e.target.value)}
                         />
                         
