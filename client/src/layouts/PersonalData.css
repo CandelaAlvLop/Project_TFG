@@ -1,0 +1,68 @@
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: rgb(249,249,249);
+    color: rgb(43, 42, 42);
+}
+
+/*Register Property Form*/
+.property {
+    max-width: 70%;
+    padding: 25px;
+    background: white;
+    margin: 100px 70px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title-property {
+    font-size: 18px;
+    color: rgb(3, 133, 122);
+    margin-top: 10px;
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+
+.error-property {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.subtitle-property {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(43, 42, 42);
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+.property input[type="text"], .property input[type="number"], .property input[type="password"], select {
+    border-radius: 10px;
+    width: 90%;
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid rgb(0, 0, 0, 0.192);
+    display: block;
+    font-size: 14px;
+}
+
+.property input[type="submit"], button {
+    border-radius: 7px;
+    width: 120px;
+    margin-top: 30px;
+    margin-left: 20px;
+    padding: 10px;
+    border: none;
+    background-color: rgb(3, 133, 122);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.property input[type="submit"]:hover, button:hover {
+    background-color: rgb(1, 92, 84)
+}
+

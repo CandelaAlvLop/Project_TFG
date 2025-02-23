@@ -26,8 +26,15 @@ function Login() {
         axios.post('http://localhost:3001/UserManager/login', {
             username: Username, 
             password: Password 
-        }).then(() => {
-            navigate('/dashboard'); 
+       /* }).then(() => {
+            navigate('/dashboard');*/
+
+            
+        }).then((response) => {
+            localStorage.setItem("user_id", response.data.userId); // Store user ID
+            localStorage.setItem("username", response.data.username); // Store username
+            console.log("User ID stored:", response.data.userId);
+            navigate('/dashboard');  
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);

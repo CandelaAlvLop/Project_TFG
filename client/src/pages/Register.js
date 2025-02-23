@@ -38,8 +38,10 @@ function Register() {
             email: NewEmail,
             password: NewPassword,
             type: NewType
-        }).then(() => {
-            navigate('/dashboard'); 
+        }).then((response) => {
+            localStorage.setItem("user_id", response.data.userId); //Store user ID
+            console.log("User ID stored after registration:", response.data.userId);
+            navigate('/dashboard');       
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
