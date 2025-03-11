@@ -67,11 +67,7 @@ function Register() {
                             name="name" 
                             value={NewName}
                             placeholder="Enter name (must start with capital letter)" 
-                            
                             //Name must start with a capital letter and be followed by small letters, max 10 letters
-                            pattern="^[A-Z][a-z]{1,9}$" 
-                            required 
-
                             onInvalid={(e) => e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
@@ -88,12 +84,8 @@ function Register() {
                             id="surname" 
                             name="surname" 
                             value={NewSurname}
-                            placeholder="Enter surname (must start with capital letter)" 
-                            
+                            placeholder="Enter surname (must start with capital letter)"                           
                             //Surname must start with a capital letter and be followed by small letters, max 10 letters
-                            pattern="^[A-Z][a-z]{1,9}$" 
-                            required
-
                             onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
@@ -111,11 +103,7 @@ function Register() {
                             name="username" 
                             value={NewUsername}
                             placeholder="Enter username (between 2 and 10 characters)" 
-                            
                             //Username must be between 3 and 10 characters 
-                            pattern="^.{3,10}$" 
-                            required
-
                             onInvalid={(e) => e.target.setCustomValidity("Username must be between 3 and 10 characters")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
@@ -133,11 +121,7 @@ function Register() {
                             name="DNI" 
                             value={NewDNI} 
                             placeholder="Enter DNI (9 digits and a letter)" 
-                            
-                            //DNI contains 8 digits and a capital letter
-                            pattern="^[0-9]{8}[A-Z]$"
-                            required
-                            
+                            //DNI contains 8 digits and a capital letter                           
                             onInvalid={(e) => e.target.setCustomValidity("DNI must contain 8 digits and a capital letter")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
@@ -155,11 +139,7 @@ function Register() {
                             name="email" 
                             value={NewEmail}
                             placeholder="Enter email" 
-                            
                             //Email structure
-                            pattern="^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$"
-                            required 
-                            
                             onInvalid={(e) => e.target.setCustomValidity("Not a valid email address")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
@@ -177,11 +157,7 @@ function Register() {
                             name="password" 
                             value={NewPassword}
                             placeholder="Enter password (minimum 6 characters)"
-                            
                             //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
-                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$" 
-                            required
-                            
                             onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
@@ -192,24 +168,23 @@ function Register() {
                             onChange={(e) => setNewPassword(e.target.value)}
                         />
 
-                        <div id="typeField">
-			  	            <label class="subtitle-regiser" for="type">Choose type of user</label>
-			  	            <select 
-                                id="type" 
-                                name="type" 
-                                value={NewType}
-                                onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
-                                onInput={(e) => e.target.setCustomValidity("")}
-                                onChange={(e) => setNewType(e.target.value)}
-                                required>
-                                <option value="">Select a type</option>
-			  		            <option value="Donor">Donor</option>
-					            <option value="Research">Research</option>
-					            <option value="Government">Government</option>
-					            <option value="Education">Education</option>
-                                <option value="Transport">Transport</option>
-			  	            </select>
-			            </div>
+                        {/*FIX TYPE BAR AND PASSWORD PATTERN*/}
+			  	        <label htmlFor="type">Choose type of user</label>
+			  	        <select 
+                            id="type" 
+                            name="type" 
+                            value={NewType}
+                            onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
+                            onInput={(e) => e.target.setCustomValidity("")}
+                            onChange={(e) => setNewType(e.target.value)}
+                            required>
+                            <option value="">Select a type</option>
+			  		        <option value="Donor">Donor</option>
+					        <option value="Research">Research</option>
+					        <option value="Government">Government</option>
+					        <option value="Education">Education</option>
+                            <option value="Transport">Transport</option>
+			  	        </select>
 
                         <div className="error-register">{error}</div>
                     </div>

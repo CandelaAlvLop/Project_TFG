@@ -17,6 +17,7 @@ body, html {
 .header-mainpage h1 {
     font-size: 40px;
     font-weight: bold;
+    color:rgba(255, 255, 255, 0.938);
 }
 
 .header-mainpage p {
