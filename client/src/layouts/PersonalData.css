@@ -1,135 +1,96 @@
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f9;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-/* Container for the user data section */
 .user-data {
     width: 50%;
+    padding: 30px;
     background: white;
     margin: 50px auto;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Heading */
 .user-data h1 {
     text-align: center;
-    font-size: 24px;
-    color: #028174;
-    margin-bottom: 20px;
+    font-size: 30px;
+    color: rgb(3, 133, 122);
+    margin-bottom: 30px;
 }
 
-/* Input Row: Used for two inputs per row */
 .row {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    gap: 40px;
+}
+
+.input {
+    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(43, 42, 42);
     margin-bottom: 15px;
 }
 
-/* Each input container */
-.input {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+select {
+    margin-bottom: 10px;
 }
 
-/* Label Styling */
-label {
-    font-size: 14px;
-    font-weight: bold;
-    color: #444;
-    margin-bottom: 5px;
+.input label {
+    display: block;
+    margin-bottom: 7px;
 }
 
-/* Input & Select Fields */
-input, select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+/* Edit User Data*/
+.input input[type="text"], .input input[type="password"], select {
     border-radius: 5px;
+    width: 93%;
+    padding: 10px;
+    border: 1px solid rgb(0, 0, 0, 0.192);
     font-size: 14px;
-    background: #f9f9f9;
+    background: rgba(228, 228, 228, 0.349);
 }
 
-/* Disabled Inputs */
-input:disabled, select:disabled {
-    background: #e0e0e0;
-    color: #666;
+/* Only View User Data*/
+.input input[type="text"]:disabled, .input input[type="password"]:disabled, select:disabled {
+    background: rgba(180, 180, 180, 0.349);
+    color: grey;
     cursor: not-allowed;
 }
 
-/* Buttons Container */
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-/* General Button Styling */
-button {
-    padding: 10px 20px;
-    font-size: 14px;
+.edit, .save, .cancel {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s;
+    margin-top: 0;
+    margin-right: 15px;
 }
 
-/* Edit Button */
-button.edit {
-    background-color: #028174;
+.edit, .save {
+    background-color: rgb(3, 133, 122);
     color: white;
 }
 
-button.edit:hover {
-    background-color: #026b5d;
+.edit:hover, .save:hover {
+    background-color: rgb(1, 92, 84);
 }
 
-/* Save Button */
-button.save {
-    background-color: #28a745;
+.cancel {
+    background-color: rgba(221, 38, 38, 0.904);
     color: white;
 }
 
-button.save:hover {
-    background-color: #218838;
+.cancel:hover {
+    background-color: rgb(180, 31, 31);
 }
 
-/* Cancel Button */
-button.cancel {
-    background-color: #dc3545;
-    color: white;
-}
-
-button.cancel:hover {
-    background-color: #c82333;
-}
-
-/* Error Message Styling */
 .error-upload {
     color: red;
     font-size: 14px;
-    text-align: center;
-    margin-top: 10px;
-    background: #ffe5e5;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid red;
+    margin-bottom: 30px;
+    font-weight: 300;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
     .user-data {
         width: 90%;
     }
-    
     .row {
         flex-direction: column;
         gap: 10px;

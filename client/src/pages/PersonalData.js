@@ -260,7 +260,7 @@ function PersonalData() {
                         <div className="input"> 
                             <label htmlFor="email">Email</label>
                             <input 
-                                type="email" 
+                                type="text" 
                                 id="email" 
                                 name="email" 
                                 value={NewEmail}
@@ -321,15 +321,11 @@ function PersonalData() {
 
                     <div className="error-upload">{error}</div>
 
-                    <div className="buttons">
-                        {isEditing === false && (<button type="button" className="edit" onClick={() => setIsEditing(true)}>Edit</button>)}
-                        {isEditing === true && (
-                            <div>
-                                <button type="button" className="cancel" onClick={handleCancel}>Cancel</button>
-                                <button type="submit" className="save">Save</button>
-                            </div>
-                        )}
-                    </div>
+                    {isEditing === false && (<button type="button" className="edit" onClick={() => setIsEditing(true)}>Edit</button>)}
+                    {isEditing === true && (
+                        <><button type="submit" className="save">Save</button>
+                        <button type="button" className="cancel" onClick={handleCancel}>Cancel</button></>
+                    )}
                 </form>
             </div>
         </div>

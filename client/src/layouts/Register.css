@@ -40,13 +40,14 @@ body, html {
 }
 
 .register input[type="text"], .register input[type="password"], select {
-    border-radius: 10px;
+    border-radius: 5px;
     width: 90%;
     margin: 20px 0;
     padding: 10px;
     border: 1px solid rgb(0, 0, 0, 0.192);
     display: block;
     font-size: 14px;
+    background: rgba(228, 228, 228, 0.349);
 }
 
 .register input[type="submit"], button {
