@@ -11,13 +11,6 @@ function PersonalData() {
     }, []);
 
     const numericalPattern = /^[0-9]*$/;
-    //Patterns
-
-    /*const age_select = [{value: "0-20", label: "0-20"}, {value: "21-35", label: "21-35"}, {value: "36-50", label: "36-50"}, 
-                        {value: "51-65", label: "51-65"}, {value: "66-80", label: "66-80"}, {value: "80+", label: "80+"}];
-    
-    const workSchedule_select = [{value: "morning", label: "Morning"},{value: "afternoon", label: "Afternoon"}, {value: "full day", label: "Full Day"}, 
-                                {value: "night", label: "Night"}, {value: "none", label: "None"}];*/
     
     const [properties, setProperties] = useState([]);
     const [NewSize, setNewSize] = useState();
@@ -119,16 +112,14 @@ function PersonalData() {
                             onChange={(e) => setNewQuantity(e.target.value)}
                         />
                         <label htmlFor="ages">Ages</label>
-                        <select id="ages" name="ages" value={NewAges} multiple
-                            onChange={(e) => setNewAges(e.target.value)}>
-                            <option value="">Select all age ranges of people in the property</option>
-                            <option value="0-20">0-20</option>
-                            <option value="21-35">21-35</option>  
-                            <option value="36-50">36-50</option>
-                            <option value="50-65">50-65</option> 
-                            <option value="66-80">66-80</option>
-                            <option value="80+">80+</option>
-                        </select>    
+                        <div className="checkbox-group">
+                            <label><input type="checkbox" value="0-20" onChange={(e) => setNewAges([...NewAges, e.target.value])} /> 0-20</label>
+                            <label><input type="checkbox" value="21-35" onChange={(e) => setNewAges([...NewAges, e.target.value])} /> 21-35</label>
+                            <label><input type="checkbox" value="36-50" onChange={(e) => setNewAges([...NewAges, e.target.value])} /> 36-50</label>
+                            <label><input type="checkbox" value="50-65" onChange={(e) => setNewAges([...NewAges, e.target.value])} /> 50-65</label>
+                            <label><input type="checkbox" value="66-80" onChange={(e) => setNewAges([...NewAges, e.target.value])} /> 66-80</label>
+                            <label><input type="checkbox" value="80+" onChange={(e) => setNewAges([...NewAges, e.target.value])} /> 80+</label>
+                        </div>
                         <label htmlFor="income">Income</label>
                         <input type="number" id="income" name="income" value={NewIncome} placeholder="Approximate total income"
                             onChange={(e) => setNewIncome(e.target.value)}
@@ -141,15 +132,13 @@ function PersonalData() {
                             <option value="no">No</option>   
                         </select>
                         <label htmlFor="workingSchedule">Working Schedules</label>
-                        <select id="workingSchedule" name="workingSchedule" value={NewWorkingSchedule} multiple
-                            onChange={(e) => setNewWorkingSchedule(e.target.value)}>
-                            <option value="">Select all Working Schedules that apply</option>
-                            <option value="morning">Morning</option>
-                            <option value="afternoon">Afternoon</option>  
-                            <option value="fullDay">Full day</option>
-                            <option value="night">Night</option> 
-                            <option value="noWork">No Work</option>
-                        </select>
+                        <div className="checkbox-group">
+                            <label><input type="checkbox" value="morning" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])} /> Morning</label>
+                            <label><input type="checkbox" value="afternoon" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])} /> Afternoon</label>
+                            <label><input type="checkbox" value="fullDay" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])} /> Full Day</label>
+                            <label><input type="checkbox" value="night" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])} /> Night</label>
+                            <label><input type="checkbox" value="noWork" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])} /> No Work</label>
+                        </div>
                         <label htmlFor="description">Description</label>
                         <input type="text" id="description" name="description" value={NewDescription} placeholder="Extra information about the people living in the property"
                             onChange={(e) => setNewDescription(e.target.value)}
