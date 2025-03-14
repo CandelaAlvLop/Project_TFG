@@ -4,6 +4,7 @@ import Navbar2 from './Navbar2';
 import Footer from "./Footer";
 import '../layouts/PersonalData.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function PersonalData() {
     useEffect(() => {
@@ -11,6 +12,7 @@ function PersonalData() {
         setUserData();
         setUserProperties();
     }, []);
+    const navigate = useNavigate();
 
     // ------------------------------- USER DATA -------------------------------
     const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
@@ -33,7 +35,7 @@ function PersonalData() {
     const userId = localStorage.getItem("user_id");
 
     //Get User Data
-    const setUserData = () => {
+    function setUserData () {
         if (!userId) return console.error("No User retrieved");
         axios.get(`http://localhost:3001/UserManager/userUpdate/${userId}`)
             .then((response) => {
@@ -49,7 +51,7 @@ function PersonalData() {
         });
     };
 
-    const handleSubmit = (e) => {
+    function handleSubmit (e) {
         e.preventDefault();
         axios.put(`http://localhost:3001/UserManager/userUpdate/${userId}`, {
             name: NewName,
@@ -74,7 +76,7 @@ function PersonalData() {
         });
     };
 
-    const handleCancel = () => {
+    function handleCancel () {
         setIsEditing(false);
         setUserData(); 
         setError("");
@@ -92,7 +94,7 @@ function PersonalData() {
     const [NewRooms, setNewRooms] = useState("");
     const [NewFloors, setNewFloors] = useState("");
 
-    const setUserProperties = () => {
+    function setUserProperties () {
         if (!userId) return console.error("No User retrieved");
         axios.get(`http://localhost:3001/UserManager/properties/${userId}`)
             .then((response) => {
@@ -104,7 +106,7 @@ function PersonalData() {
     };
 
     //Add Property
-    const addProperty = (e) => {
+    function addProperty (e) {
         e.preventDefault();
         axios.post('http://localhost:3001/UserManager/properties', {
             userId,
@@ -124,7 +126,7 @@ function PersonalData() {
     };
 
     //Edit Property
-    const editProperty = (property) => {
+    function editProperty (property) {
         setEditingProperty(property.property_id);
         setNewAddress(property.address);
         setNewZipcode(property.zipcode);
@@ -134,7 +136,7 @@ function PersonalData() {
         setNewFloors(property.floors);
     };
 
-    const updateProperty = (e) => {
+    function updateProperty (e) {
         e.preventDefault();
         if (!editingProperty) return console.error("No Property retrieved");;
         axios.put(`http://localhost:3001/UserManager/properties/${editingProperty}`, {
@@ -155,7 +157,7 @@ function PersonalData() {
     };
 
     //Delete property
-    const deleteProperty = (propertyId) => {
+    function deleteProperty (propertyId) {
         if (!window.confirm("Are you sure you want to delete this property?")) return;
         axios.delete(`http://localhost:3001/UserManager/properties/${propertyId}`)
             .then(() => {
@@ -179,11 +181,7 @@ function PersonalData() {
                     <div className="row">
                         <div className="input">
                             <label htmlFor="name">Name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                value={NewName}
+                            <input type="text" id="name" name="name" value={NewName}
                                 onInvalid={(e) => e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -197,11 +195,7 @@ function PersonalData() {
                         </div>
                         <div className="input"> 
                             <label htmlFor="surname">Surname</label>
-                            <input 
-                                type="text" 
-                                id="surname" 
-                                name="surname" 
-                                value={NewSurname}
+                            <input type="text" id="surname" name="surname" value={NewSurname}
                                 onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -218,12 +212,7 @@ function PersonalData() {
                     <div className="row">
                         <div className="input">            
                             <label htmlFor="username">Username</label>
-                            <input 
-                                type="text" 
-                                id="username" 
-                                name="username" 
-                                value={NewUsername}
-                                placeholder="Enter username (3-10 characters)"  
+                            <input type="text" id="username" name="username" value={NewUsername}  
                                 onInvalid={(e) => e.target.setCustomValidity("Username must be between 3 and 10 characters")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -237,12 +226,7 @@ function PersonalData() {
                         </div>
                         <div className="input"> 
                             <label htmlFor="DNI">DNI</label>
-                            <input 
-                                type="text" 
-                                id="DNI" 
-                                name="DNI" 
-                                value={NewDNI}
-                                placeholder="Enter DNI (8 digits + 1 uppercase letter)" 
+                            <input type="text" id="DNI" name="DNI" value={NewDNI}
                                 onInvalid={(e) => e.target.setCustomValidity("DNI must contain 8 digits and a capital letter")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -259,12 +243,7 @@ function PersonalData() {
                     <div className="row">
                         <div className="input"> 
                             <label htmlFor="email">Email</label>
-                            <input 
-                                type="text" 
-                                id="email" 
-                                name="email" 
-                                value={NewEmail}
-                                placeholder="Enter email" 
+                            <input type="text" id="email" name="email" value={NewEmail}  
                                 onInvalid={(e) => e.target.setCustomValidity("Not a valid email address")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -278,12 +257,7 @@ function PersonalData() {
                         </div>
                         <div className="input">
                             <label htmlFor="password">Password</label>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                name="password" 
-                                value={NewPassword}
-                                placeholder="Enter password (min. 6 chars, at least 1 uppercase, 1 number, 1 special char)" 
+                            <input type="password" id="password" name="password" value={NewPassword}
                                 onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -300,10 +274,7 @@ function PersonalData() {
                     <div className="row">
                         <div className="input"> 
                             <label htmlFor="type">User Type</label>
-                            <select 
-                                id="type" 
-                                name="type" 
-                                value={NewType}
+                            <select id="type" name="type" value={NewType}
                                 onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
                                 onInput={(e) => e.target.setCustomValidity("")}
                                 onChange={(e) => setNewType(e.target.value)}
@@ -328,143 +299,8 @@ function PersonalData() {
                     )}
                 </form>
             </div>
-        </div>
-    )
-    }
 
-    {/*return (
-        <div>
-            <Navbar />
-            <Navbar2 />
-            <div className="user-data">
-                <h1>Edit Your Personal Data</h1>
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="name">Name</label>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        value={NewName}
-                        placeholder="Enter name (must start with capital letter)" 
-                        onInvalid={(e) => e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters")}
-                        onInput={(e) => {
-                            e.target.setCustomValidity("");
-                            if (!name_surnamePattern.test(e.target.value)) {
-                                e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters");
-                            }
-                        }}
-                        onChange={(e) => setNewName(e.target.value)}
-                    />
-
-                    <label htmlFor="surname">Surname</label>
-                    <input 
-                        type="text" 
-                        id="surname" 
-                        name="surname" 
-                        value={NewSurname}
-                        placeholder="Enter surname (must start with capital letter)" 
-                        onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters")}
-                        onInput={(e) => {
-                            e.target.setCustomValidity("");
-                            if (!name_surnamePattern.test(e.target.value)) {
-                                e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters");
-                            }
-                        }}
-                        onChange={(e) => setNewSurname(e.target.value)}
-                    />
-
-                    <label htmlFor="username">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        value={NewUsername}
-                        placeholder="Enter username (3-10 characters)"  
-                        onInvalid={(e) => e.target.setCustomValidity("Username must be between 3 and 10 characters")}
-                        onInput={(e) => {
-                            e.target.setCustomValidity("");
-                            if (!usernamePattern.test(e.target.value)) {
-                                e.target.setCustomValidity("Username must be between 3 and 10 characters");
-                            }
-                        }}
-                        onChange={(e) => setNewUsername(e.target.value)}
-                    />
-
-                    <label htmlFor="DNI">DNI</label>
-                    <input 
-                        type="text" 
-                        id="DNI" 
-                        name="DNI" 
-                        value={NewDNI}
-                        placeholder="Enter DNI (8 digits + 1 uppercase letter)" 
-                        onInvalid={(e) => e.target.setCustomValidity("DNI must contain 8 digits and a capital letter")}
-                        onInput={(e) => {
-                            e.target.setCustomValidity("");
-                            if (!DNIPattern.test(e.target.value)) {
-                                e.target.setCustomValidity("DNI must contain 8 digits and a capital letter");
-                            }
-                        }}
-                        onChange={(e) => setNewDNI(e.target.value)}
-                    />
-
-                    <label htmlFor="email">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        value={NewEmail}
-                        placeholder="Enter email" 
-                        onInvalid={(e) => e.target.setCustomValidity("Not a valid email address")}
-                        onInput={(e) => {
-                            e.target.setCustomValidity("");
-                            if (!emailPattern.test(e.target.value)) {
-                                e.target.setCustomValidity("Not a valid email address");
-                            }
-                        }}
-                        onChange={(e) => setNewEmail(e.target.value)}
-                    />
-
-                    <label htmlFor="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        value={NewPassword}
-                        placeholder="Enter password (min. 6 chars, at least 1 uppercase, 1 number, 1 special char)" 
-                        onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
-                        onInput={(e) => {
-                            e.target.setCustomValidity("");
-                            if (!passwordPattern.test(e.target.value)) {
-                                e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character");
-                            }
-                        }}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                    />
-
-                    <label htmlFor="type">User Type</label>
-                    <select 
-                        id="type" 
-                        name="type" 
-                        value={NewType}
-                        onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
-                        onInput={(e) => e.target.setCustomValidity("")}
-                        onChange={(e) => setNewType(e.target.value)}
-                        required>
-                        <option value="">Select a type</option>
-                        <option value="Donor">Donor</option>
-                        <option value="Research">Research</option>
-                        <option value="Government">Government</option>
-                        <option value="Education">Education</option>
-                        <option value="Transport">Transport</option>
-                    </select>
-
-                    <div className="error-message">{error}</div>
-
-                    <button type="submit">Update Profile</button>
-                </form>
-            </div>
-
-            <div className="property">
+            {/*<div className="property">
                 <h1>{editingProperty ? "Edit Property" : "Add New Property"}</h1>
                 <form onSubmit={editingProperty ? updateProperty : addProperty}>
                     <label>Address</label>
@@ -487,7 +323,7 @@ function PersonalData() {
 
                     <button type="submit">{editingProperty ? "Update Property" : "Add Property"}</button>
                 </form>
-            </div>
+            </div>*/}
 
             <div className="existing-properties">
                 <h1>Your Properties</h1>
@@ -505,11 +341,12 @@ function PersonalData() {
             ))}
             </div>
 
-            <Footer />
+            <button onClick={() => navigate('/addproperty')}>Add New Property</button>
+
+            <Footer/>
         </div>
     );
-}*/}
-
+}
 export default PersonalData;
 
    

@@ -11,6 +11,7 @@ import DataDonation from './pages/DataDonation';
 import Campaigns from './pages/Campaigns';
 import Instructions from './pages/Instructions';
 import Faq from './pages/Faq';
+import AddProperty from './pages/AddProperty';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/campaigns" element={<Campaigns />} />
         <Route path="/instructions" element={<Instructions />} />
         <Route path="/faq" element={<Faq/>} />
+        <Route path="/addproperty" element={<AddProperty/>} />
       </Routes>
     </Router>
   )

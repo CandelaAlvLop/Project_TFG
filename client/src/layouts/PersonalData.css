@@ -97,27 +97,6 @@ select {
     }
 }
 
-/*
-.property-card {
-    background: #f9f9f9;
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
 
-.property-card p {
-    margin: 5px 0;
-    font-size: 14px;
-}
 
-.property-card strong {
-    color: #000000;
-}*/
 
-/* Responsive Design */
-/*@media (max-width: 768px) {
-    .user-data, .property, .existing-properties {
-        width: 90%;
-    }
-}*/
