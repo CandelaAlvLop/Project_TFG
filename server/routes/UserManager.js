@@ -169,16 +169,11 @@ router.put("/userUpdate/:id", (req, res) => {
 // ------------- PROPERTY DATA -------------
 //Register Property
 router.post("/properties", (req, res) => {
-    const {userId, address, zipcode, numpeople, squaremeters, rooms, floors} = req.body;
+    const {userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption} = req.body;
     
-    //Check no parameter is empty
-    if (!address || !zipcode || !numpeople || !squaremeters || !rooms || !floors) {
-        return res.status(400).send({message: "All parameters are required"});
-    }
-
     db.query(
-        "INSERT INTO property (user_id, address, zipcode, numpeople, squaremeters, rooms, floors) VALUES (?,?,?,?,?,?,?)", 
-        [userId, address, zipcode, numpeople, squaremeters, rooms, floors], 
+        "INSERT INTO property (user_id, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+        [userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption], 
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -211,9 +206,9 @@ router.get("/properties/:userId", (req, res) => {
 //Update User Property
 router.put("/properties/:id", (req, res) => {
     const propertyId = req.params.id;
-    const {address, zipcode, numpeople, squaremeters, rooms, floors} = req.body;
-    db.query("UPDATE property SET address = ?, zipcode = ?, numpeople = ?, squaremeters = ?, rooms = ?, floors = ? WHERE property_id = ?",
-        [address, zipcode, numpeople, squaremeters, rooms, floors, propertyId],
+    const {userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption} = req.body;
+    db.query("UPDATE property SET propertyName = ?, size = ?, buildingAge = ?, district = ?, quantity = ?, ages = ?, income = ?, remoteWorkers = ?, workingSchedules = ?, description = ?, appliances = ?, electricConsumption = ?, gasConsumption = ?, waterConsumption = ? WHERE property_id = ?",
+        [userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption], 
         (err) => {
             if (err) {
                 return res.status(500).send({ message: "Error updating property" });

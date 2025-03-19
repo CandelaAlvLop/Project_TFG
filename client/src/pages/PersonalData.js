@@ -29,7 +29,7 @@ function PersonalData() {
     const [NewPassword, setNewPassword] = useState("");
     const [NewType, setNewType] = useState("");
 
-    const [isEditing, setIsEditing] = useState(false);
+    const [edit, setEdit] = useState(false);
     const [error, setError] = useState("");
 
     const userId = localStorage.getItem("user_id");
@@ -51,7 +51,7 @@ function PersonalData() {
         });
     };
 
-    function handleSubmit (e) {
+    function editUserData (e) {
         e.preventDefault();
         axios.put(`http://localhost:3001/UserManager/userUpdate/${userId}`, {
             name: NewName,
@@ -63,9 +63,9 @@ function PersonalData() {
             type: NewType
         }).then((response) => {
             console.log("User ID updated:", response.data.userId);
-            setIsEditing(false);
+            setEdit(false);
             setUserData();
-            setError("");
+            setError(""); //Clean Errors
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -76,23 +76,35 @@ function PersonalData() {
         });
     };
 
-    function handleCancel () {
-        setIsEditing(false);
+    function cancelEditUserData () {
+        setEdit(false);
         setUserData(); 
         setError("");
     }
 
-
     // ------------------------------- PROPERTY DATA -------------------------------   
     const [properties, setProperties] = useState([]);
-    const [editingProperty, setEditingProperty] = useState(null);
+    const [editProperty, setEditProperty] = useState(false);
 
-    const [NewAddress, setNewAddress] = useState("");
-    const [NewZipcode, setNewZipcode] = useState("");
-    const [NewNumPeople, setNewNumPeople] = useState("");
-    const [NewSquareMeters, setNewSquareMeters] = useState("");
-    const [NewRooms, setNewRooms] = useState("");
-    const [NewFloors, setNewFloors] = useState("");
+    const [propertyName, setPropertyName] = useState("");
+    const [size, setSize] = useState();
+    const [buildingAge, setBuildingAge] = useState();
+    const [district, setDistrict] = useState();
+    const [quantity, setQuantity] = useState();
+    const [ages, setAges] = useState([]);
+    const [income, setIncome] = useState();
+    const [remoteWorkers, setRemoteWorkers] = useState("");
+    const [workingSchedule, setWorkingSchedule] = useState([]);
+    const [description, setDescription] = useState("");
+    const [appliances, setAppliances] = useState({
+        electric: {fridge: false, dishWasher: false, washingMachine: false, dryer: false, microwave: false, tv: false, computer: false, 
+                    lamps: false, airConditioning: false, centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false},
+        gas: {centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false },
+        water: {swimmingPool: false, garden: false, bathrooms: false, halfBathrooms: false, terraceWithPlants: false}
+    });
+    const [electricConsumption, setElectricConsumption] = useState();
+    const [gasConsumption, setGasConsumption] = useState();
+    const [waterConsumption, setWaterConsumption] = useState();
 
     function setUserProperties () {
         if (!userId) return console.error("No User retrieved");
@@ -105,63 +117,69 @@ function PersonalData() {
             });
     };
 
-    //Add Property
-    function addProperty (e) {
-        e.preventDefault();
-        axios.post('http://localhost:3001/UserManager/properties', {
-            userId,
-            address: NewAddress,
-            zipcode: NewZipcode,
-            numpeople: NewNumPeople,
-            squaremeters: NewSquareMeters,
-            rooms: NewRooms,
-            floors: NewFloors
-        }).then(() => {
-            setUserProperties();
-            console.log("Property added successfully");
-        }).catch((error) => {
-            setError("Unexpected error adding Property");
-            console.error("Error adding Property:", error);
-        });
-    };
-
     //Edit Property
-    function editProperty (property) {
-        setEditingProperty(property.property_id);
-        setNewAddress(property.address);
-        setNewZipcode(property.zipcode);
-        setNewNumPeople(property.numpeople);
-        setNewSquareMeters(property.squaremeters);
-        setNewRooms(property.rooms);
-        setNewFloors(property.floors);
+    function editingProperty (property) {
+        setEditProperty(property.property_id);
+        setPropertyName(property.propertyName);
+        setSize(property.size);
+        setBuildingAge(property.buildingAge);
+        setDistrict(property.district);
+        setQuantity(property.quantity);
+        setAges((property.ages || "").split(","));
+        setIncome(property.income);
+        setRemoteWorkers(property.remoteWorkers);
+        setWorkingSchedule((property.WorkingSchedule||"").split(","));
+        setDescription(property.description);
+        setAppliances((property.appliances||"").split(","));
+        setElectricConsumption(property.electricConsumption);
+        setGasConsumption(property.gasConsumption);
+        setWaterConsumption(property.waterConsumption);
     };
 
-    function updateProperty (e) {
+    function saveEditPropertyData (e) {
         e.preventDefault();
-        if (!editingProperty) return console.error("No Property retrieved");;
-        axios.put(`http://localhost:3001/UserManager/properties/${editingProperty}`, {
-            address: NewAddress,
-            zipcode: NewZipcode,
-            numpeople: NewNumPeople,
-            squaremeters: NewSquareMeters,
-            rooms: NewRooms,
-            floors: NewFloors
-        }).then(() => {
-            alert("Property updated successfully");
-            setEditingProperty(null);
+        axios.put(`http://localhost:3001/UserManager/userUpdate/${userId}`, {
+            userId,
+            propertyName: propertyName,
+            size: size,
+            buildingAge: buildingAge,
+            district: district,
+            quantity: quantity,
+            ages: ages.join(','),
+            income: income,
+            remoteWorkers: remoteWorkers,
+            workingSchedules: workingSchedule.join(','),
+            description: description,
+            appliances: appliances.join(','),
+            electricConsumption: electricConsumption,
+            gasConsumption: gasConsumption,
+            waterConsumption: waterConsumption
+        }).then((response) => {
+            console.log("User ID updated:", response.data.userId);
+            setEditProperty(false);
             setUserProperties();
+            setError(""); //Clean Errors
         }).catch((error) => {
-            setError("Unexpected error updating Property");
-            console.error("Error updating Property data:", error);
+            if (error.response) {
+                setError(error.response.data.message);
+            } else {
+                setError("Unexpected error during User data update");
+            }
+            console.error("Error updating user data:", error);
         });
     };
+
+    function cancelEditPropertyData () {
+        setEditProperty(false);
+        setUserProperties(); 
+        setError("");
+    }
+
 
     //Delete property
     function deleteProperty (propertyId) {
-        if (!window.confirm("Are you sure you want to delete this property?")) return;
         axios.delete(`http://localhost:3001/UserManager/properties/${propertyId}`)
             .then(() => {
-                alert("Property deleted successfully");
                 setUserProperties();
             })
             .catch((error) => {
@@ -169,14 +187,13 @@ function PersonalData() {
             });
     };
 
-
     return (
         <div>
             <Navbar />
             <Navbar2 />
             <div className="user-data">
                 <h1>Personal Information</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={editUserData}>
                     
                     <div className="row">
                         <div className="input">
@@ -190,7 +207,7 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewName(e.target.value)}
-                                disabled={!isEditing} 
+                                disabled={!edit} 
                             />
                         </div>
                         <div className="input"> 
@@ -204,7 +221,7 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewSurname(e.target.value)}
-                                disabled={!isEditing}
+                                disabled={!edit}
                             />
                         </div>
                     </div>
@@ -221,7 +238,7 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewUsername(e.target.value)}
-                                disabled={!isEditing}
+                                disabled={!edit}
                             />
                         </div>
                         <div className="input"> 
@@ -235,7 +252,7 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewDNI(e.target.value)}
-                                disabled={!isEditing}
+                                disabled={!edit}
                             />
                         </div>
                     </div>
@@ -252,7 +269,7 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewEmail(e.target.value)}
-                                disabled={!isEditing}
+                                disabled={!edit}
                             />
                         </div>
                         <div className="input">
@@ -266,7 +283,7 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewPassword(e.target.value)}
-                                disabled={!isEditing}
+                                disabled={!edit}
                             />
                         </div>
                     </div>
@@ -278,7 +295,7 @@ function PersonalData() {
                                 onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
                                 onInput={(e) => e.target.setCustomValidity("")}
                                 onChange={(e) => setNewType(e.target.value)}
-                                disabled={!isEditing}
+                                disabled={!edit}
                                 required>
                                 <option value="">Select a type</option>
                                 <option value="Donor">Donor</option>
@@ -292,56 +309,36 @@ function PersonalData() {
 
                     <div className="error-upload">{error}</div>
 
-                    {isEditing === false && (<button type="button" className="edit" onClick={() => setIsEditing(true)}>Edit</button>)}
-                    {isEditing === true && (
+                    {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}>Edit</button>)}
+                    {edit === true && (
                         <><button type="submit" className="save">Save</button>
-                        <button type="button" className="cancel" onClick={handleCancel}>Cancel</button></>
+                        <button type="button" className="cancel" onClick={cancelEditUserData}>Cancel</button></>
                     )}
                 </form>
             </div>
 
-            {/*<div className="property">
-                <h1>{editingProperty ? "Edit Property" : "Add New Property"}</h1>
-                <form onSubmit={editingProperty ? updateProperty : addProperty}>
-                    <label>Address</label>
-                    <input type="text" value={NewAddress} onChange={(e) => setNewAddress(e.target.value)} required />
-
-                    <label>Zipcode</label>
-                    <input type="number" value={NewZipcode} onChange={(e) => setNewZipcode(e.target.value)} required />
-
-                    <label>People Living</label>
-                    <input type="number" value={NewNumPeople} onChange={(e) => setNewNumPeople(e.target.value)} required />
-
-                    <label>Square Meters</label>
-                    <input type="number" value={NewSquareMeters} onChange={(e) => setNewSquareMeters(e.target.value)} required />
-
-                    <label>Rooms</label>
-                    <input type="number" value={NewRooms} onChange={(e) => setNewRooms(e.target.value)} required />
-
-                    <label>Floors</label>
-                    <input type="number" value={NewFloors} onChange={(e) => setNewFloors(e.target.value)} required />
-
-                    <button type="submit">{editingProperty ? "Update Property" : "Add Property"}</button>
-                </form>
-            </div>*/}
-
-            <div className="existing-properties">
+            <div className="properties-data">
                 <h1>Your Properties</h1>
-                {properties.map((property) => (
-                <div key={property.property_id} className="property-card">
-                    <p><strong>Address:</strong> {property.address}</p>
-                    <p><strong>Zipcode:</strong> {property.zipcode}</p>
-                    <p><strong>People Living:</strong> {property.numpeople}</p>
-                    <p><strong>Square Meters:</strong> {property.squaremeters}</p>
-                    <p><strong>Rooms:</strong> {property.rooms}</p>
-                    <p><strong>Floors:</strong> {property.floors}</p>
-                    <button onClick={() => editProperty(property)}>Edit</button>
-                    <button onClick={() => deleteProperty(property.property_id)} style={{ backgroundColor: "red" }}>Delete</button>
+                <div className="property-list">
+                    {properties.length > 0 && properties.map((property) => (
+                        <div key={property.property_id} className="property-item">
+                            <div className="property-name">{property.propertyName}</div>
+                            <div className="property-details">
+                                <p><strong>Size:</strong> {property.size} m²</p>
+                                <p><strong>Building Age:</strong> {property.buildingAge} years</p>
+                                <p><strong>District:</strong> {property.district}</p>
+                            </div>
+                            <div className="button-group">
+                                <button onClick={() => navigate('/editproperty')}>Edit</button>
+                                <button onClick={() => deleteProperty(property.property_id)}>Delete</button>
+                            </div>
+                        </div>
+                    ))}
+                    {properties.length === 0 && <p className="no-properties">No properties found</p>}
                 </div>
-            ))}
-            </div>
 
-            <button onClick={() => navigate('/addproperty')}>Add New Property</button>
+                <button className="add-property-button" onClick={() => navigate('/addproperty')}>Add New Property</button>            
+            </div>
 
             <Footer/>
         </div>

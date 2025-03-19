@@ -86,6 +86,184 @@ select {
     font-weight: 300;
 }
 
+
+
+
+
+
+
+/* General Properties Section Styling */
+.properties-data {
+    width: 70%; /* Adjust width for a more spacious layout */
+    padding: 30px;
+    background-color: #ffffff;
+    margin: 40px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading for Properties Section */
+.properties-data h1 {
+    text-align: center;
+    font-size: 28px;
+    color: rgb(3, 133, 122);
+    margin-bottom: 30px;
+}
+
+/* Box for All Properties - Container */
+.property-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Center properties in the container */
+}
+
+/* Box 2 - Individual Property Box */
+.property-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 250px; /* Set a max width for each property box */
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Hover Effect for Property Boxes */
+.property-item:hover {
+    background-color: #e9f4f2;
+}
+
+/* Property Name Styling (highlighted) */
+.property-item .property-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(3, 133, 122);
+    margin-bottom: 15px;
+}
+
+/* Property Details (Size, Building Age, District) */
+.property-item .property-details {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Buttons for Edit and Delete inside each Property Box */
+.property-item .button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.property-item button {
+    background-color: rgb(3, 133, 122);
+    color: white;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.property-item button:hover {
+    background-color: rgb(1, 92, 84);
+}
+
+.property-item button:active {
+    background-color: rgb(0, 72, 64);
+}
+
+/* Styling for the message when no properties are found */
+.no-properties {
+    font-size: 16px;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Add New Property Button (Full Width, Across Box 1) */
+.add-property-button {
+    background-color: rgb(3, 133, 122);
+    color: white;
+    padding: 12px 0; /* Increase the vertical padding for a bigger button */
+    font-size: 16px; /* Larger font size */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    display: block;
+    width: 100%; /* Full width to take up the entire container */
+    max-width: none; /* Ensure no max width constraint */
+    margin-left: 0;
+    margin-right: 0;
+    transition: background-color 0.3s ease;
+}
+
+.add-property-button:hover {
+    background-color: rgb(1, 92, 84);
+}
+
+.add-property-button:active {
+    background-color: rgb(0, 72, 64);
+}
+
+.add-property-button {
+    background-color: rgb(3, 133, 122);
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s ease;
+}
+
+.add-property-button:hover {
+    background-color: rgb(1, 92, 84);
+}
+
+.add-property-button:active {
+    background-color: rgb(0, 72, 64);
+}
+
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .properties-data {
+        width: 90%;
+    }
+
+    /* Stack Property Items Vertically on Small Screens */
+    .property-item {
+        width: 100%;
+    }
+
+    /* Adjust Button Group and Layout for Small Screens */
+    .property-item .button-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .add-property-button {
+        max-width: 100%;
+    }
+}
+
+
+
+
+
+
 /* Responsive */
 @media (max-width: 768px) {
     .user-data {

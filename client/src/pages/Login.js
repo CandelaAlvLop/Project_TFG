@@ -15,20 +15,19 @@ function Login() {
     const usernamePattern = /^.{2,10}$/;
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$/;
 
-
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    function handleSubmit (e) {
+    function loginUser (e) {
         e.preventDefault(); //Prevent refreshing
         axios.post('http://localhost:3001/UserManager/login', {
             username: Username, 
             password: Password 
         }).then((response) => {
-            localStorage.setItem("user_id", response.data.userId); // Store user ID
-            localStorage.setItem("username", response.data.username); // Store username
+            localStorage.setItem("user_id", response.data.userId);
+            localStorage.setItem("username", response.data.username);
             console.log("User ID stored:", response.data.userId);
             navigate('/dashboard');  
         }).catch((error) => {
@@ -65,10 +64,10 @@ function Login() {
                         <div className="title-login">
                             <h1>Login to your account</h1>
                         </div>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={loginUser}>
                             <div className="subtitle-login">
                                 <label htmlFor="username">Username</label>
-                                <input type="text" id="username" name="username" value={Username} placeholder="Enter username" 
+                                <input type="text" id="username" name="username" value={Username} placeholder="Enter username" required
                                     onInvalid={(e) => e.target.setCustomValidity("Username must be between 2 and 10 characters")}
                                     onInput={(e) => {
                                         e.target.setCustomValidity("");
@@ -79,7 +78,7 @@ function Login() {
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
                                 <label htmlFor="password">Password</label>
-                                <input type="password" id="password" name="password" value={Password}placeholder="Enter password"
+                                <input type="password" id="password" name="password" value={Password}placeholder="Enter password" required
                                     //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
                                     onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
                                     onInput={(e) => {

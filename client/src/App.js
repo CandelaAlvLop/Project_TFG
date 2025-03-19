@@ -12,6 +12,7 @@ import Campaigns from './pages/Campaigns';
 import Instructions from './pages/Instructions';
 import Faq from './pages/Faq';
 import AddProperty from './pages/AddProperty';
+import EditProperty from './pages/EditProperty';
 
 function App() {
   return (
@@ -29,31 +30,10 @@ function App() {
         <Route path="/instructions" element={<Instructions />} />
         <Route path="/faq" element={<Faq/>} />
         <Route path="/addproperty" element={<AddProperty/>} />
+        <Route path="/editproperty" element={<EditProperty/>} />
       </Routes>
     </Router>
   )
 }
 
 export default App;
-
-/*
-function App() {
-  return (
-    <Router>
-      <div className="App">
-        <nav>
-            <ul>
-              <li>
-                <Link to="/users">Users</Link> 
-              </li>
-            </ul>
-        </nav>
-        <Routes>
-          <Route path="/users" element={<Home />} />
-        </Routes>
-      </div>
-    </Router>
-  )
-}
-
-export default App;*/

@@ -1,4 +1,3 @@
-
 .add-property {
     width: 90%;
     max-width: 1200px;
@@ -110,11 +109,12 @@ textarea {
 }
 
 
-.error-addproperty {
+.error-property {
     color: red;
     font-size: 14px;
     margin-top: 10px;
 }
+
 
 @media (max-width: 768px) {
     .container, .energy-grid {
