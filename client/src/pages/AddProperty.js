@@ -125,7 +125,7 @@ function PersonalData() {
                 <form onSubmit={addProperty}>
 
                     <h2>Place</h2>
-                    <div className="container">
+                    <div className="section">
                         <label htmlFor="propertyName">Name of the Property</label>
                         <input type="text" id="propertyName" name="propertyName" value={NewPropertyName} placeholder="Name of the property" required
                             //Property name must start with a capital letter and be followed by small letters, max 10 letters
@@ -177,7 +177,7 @@ function PersonalData() {
                     </div>
 
                     <h2>People</h2>
-                    <div className="container">
+                    <div className="section">
                         <label htmlFor="quantity">Quantity</label>
                         <input type="number" id="quantity" name="quantity" value={NewQuantity} placeholder="Number of people living in the property" required
                             //Quantity must not start with a 0, no decimals, and up to 3 digits
@@ -191,7 +191,7 @@ function PersonalData() {
                             onChange={(e) => setNewQuantity(e.target.value)}
                         />
                         <label htmlFor="ages">Ages</label>
-                        <div className="checkbox-group">
+                        <div className="checkboxes">
                             <label><input type="checkbox" value="0-20" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 0-20</label>
                             <label><input type="checkbox" value="21-35" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 21-35</label>
                             <label><input type="checkbox" value="36-50" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 36-50</label>
@@ -223,7 +223,7 @@ function PersonalData() {
                             <option value="no">No</option>   
                         </select>
                         <label htmlFor="workingSchedule">Working Schedules</label>
-                        <div className="checkbox-group" required>
+                        <div className="checkboxes" required>
                             <label><input type="checkbox" value="morning" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Morning</label>
                             <label><input type="checkbox" value="afternoon" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Afternoon</label>
                             <label><input type="checkbox" value="fullDay" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Full Day</label>
@@ -238,9 +238,9 @@ function PersonalData() {
                     </div>
 
                     <h2>Appliances</h2>
-                    <div className="appliance-category">
-                        <div className="category-header">Electric</div>
-                        <div className="appliance-grid">
+                    <div className="appliances">
+                        <div className="appliance-type">Electric</div>
+                        <div className="appliance-checkboxes">
                             <label><input type="checkbox" checked={NewAppliances.electric.fridge} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, fridge: !NewAppliances.electric.fridge}})}/> Fridge</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.dishWasher} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, dishWasher: !NewAppliances.electric.dishWasher}})}/> Dish Washer</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.washingMachine} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, washingMachine: !NewAppliances.electric.washingMachine}})}/> Washing Machine</label>
@@ -258,9 +258,9 @@ function PersonalData() {
                         </div>
                     </div>
 
-                    <div className="appliance-category">
-                        <div className="category-header">Gas</div>
-                        <div className="appliance-grid">
+                    <div className="appliances">
+                        <div className="appliance-type">Gas</div>
+                        <div className="appliance-checkboxes">
                             <label><input type="checkbox" checked={NewAppliances.gas.centralHeating} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, centralHeating: !NewAppliances.gas.centralHeating}})}/> Central Heating</label>
                             <label><input type="checkbox" checked={NewAppliances.gas.heatingRadiators} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, heatingRadiators: !NewAppliances.gas.heatingRadiators}})}/> Heating Radiators</label>
                             <label><input type="checkbox" checked={NewAppliances.gas.hotWater} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, hotWater: !NewAppliances.gas.hotWater}})}/> Hot Water</label>
@@ -269,9 +269,9 @@ function PersonalData() {
                         </div>
                     </div>
 
-                    <div className="appliance-category">
-                        <div className="category-header">Water</div>
-                        <div className="appliance-grid">
+                    <div className="appliances">
+                        <div className="appliance-type">Water</div>
+                        <div className="appliance-checkboxes">
                             <label><input type="checkbox" checked={NewAppliances.water.swimmingPool} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, swimmingPool: !NewAppliances.water.swimmingPool}})}/> Swimming Pool</label>
                             <label><input type="checkbox" checked={NewAppliances.water.garden} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, garden: !NewAppliances.water.garden}})}/> Garden</label>
                             <label><input type="checkbox" checked={NewAppliances.water.bathrooms} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, bathrooms: !NewAppliances.water.bathrooms}})}/> Bathrooms</label>
@@ -281,7 +281,7 @@ function PersonalData() {
                     </div>
 
                     <h2>Energy Consumption</h2>
-                    <div className="container">
+                    <div className="section">
                         <label htmlFor="electricConsumption">Electric Consumption</label>
                         <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of electric consumption" required
                             //Electric Consumption must not start with a 0, no decimals, and up to 5 digits
@@ -321,7 +321,7 @@ function PersonalData() {
                     </div>
                 
                     <div className="error-property">{error}</div>
-                    <button className="button-addproperty" type="submit">Add Property</button>
+                    <button className="add-property-button" type="submit">Add Property</button>
                 </form>
             </div>
             <Footer/>

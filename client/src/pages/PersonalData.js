@@ -84,27 +84,6 @@ function PersonalData() {
 
     // ------------------------------- PROPERTY DATA -------------------------------   
     const [properties, setProperties] = useState([]);
-    const [editProperty, setEditProperty] = useState(false);
-
-    const [propertyName, setPropertyName] = useState("");
-    const [size, setSize] = useState();
-    const [buildingAge, setBuildingAge] = useState();
-    const [district, setDistrict] = useState();
-    const [quantity, setQuantity] = useState();
-    const [ages, setAges] = useState([]);
-    const [income, setIncome] = useState();
-    const [remoteWorkers, setRemoteWorkers] = useState("");
-    const [workingSchedule, setWorkingSchedule] = useState([]);
-    const [description, setDescription] = useState("");
-    const [appliances, setAppliances] = useState({
-        electric: {fridge: false, dishWasher: false, washingMachine: false, dryer: false, microwave: false, tv: false, computer: false, 
-                    lamps: false, airConditioning: false, centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false},
-        gas: {centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false },
-        water: {swimmingPool: false, garden: false, bathrooms: false, halfBathrooms: false, terraceWithPlants: false}
-    });
-    const [electricConsumption, setElectricConsumption] = useState();
-    const [gasConsumption, setGasConsumption] = useState();
-    const [waterConsumption, setWaterConsumption] = useState();
 
     function setUserProperties () {
         if (!userId) return console.error("No User retrieved");
@@ -116,65 +95,6 @@ function PersonalData() {
                 console.error("Error retrieving User Property data:", error);
             });
     };
-
-    //Edit Property
-    function editingProperty (property) {
-        setEditProperty(property.property_id);
-        setPropertyName(property.propertyName);
-        setSize(property.size);
-        setBuildingAge(property.buildingAge);
-        setDistrict(property.district);
-        setQuantity(property.quantity);
-        setAges((property.ages || "").split(","));
-        setIncome(property.income);
-        setRemoteWorkers(property.remoteWorkers);
-        setWorkingSchedule((property.WorkingSchedule||"").split(","));
-        setDescription(property.description);
-        setAppliances((property.appliances||"").split(","));
-        setElectricConsumption(property.electricConsumption);
-        setGasConsumption(property.gasConsumption);
-        setWaterConsumption(property.waterConsumption);
-    };
-
-    function saveEditPropertyData (e) {
-        e.preventDefault();
-        axios.put(`http://localhost:3001/UserManager/userUpdate/${userId}`, {
-            userId,
-            propertyName: propertyName,
-            size: size,
-            buildingAge: buildingAge,
-            district: district,
-            quantity: quantity,
-            ages: ages.join(','),
-            income: income,
-            remoteWorkers: remoteWorkers,
-            workingSchedules: workingSchedule.join(','),
-            description: description,
-            appliances: appliances.join(','),
-            electricConsumption: electricConsumption,
-            gasConsumption: gasConsumption,
-            waterConsumption: waterConsumption
-        }).then((response) => {
-            console.log("User ID updated:", response.data.userId);
-            setEditProperty(false);
-            setUserProperties();
-            setError(""); //Clean Errors
-        }).catch((error) => {
-            if (error.response) {
-                setError(error.response.data.message);
-            } else {
-                setError("Unexpected error during User data update");
-            }
-            console.error("Error updating user data:", error);
-        });
-    };
-
-    function cancelEditPropertyData () {
-        setEditProperty(false);
-        setUserProperties(); 
-        setError("");
-    }
-
 
     //Delete property
     function deleteProperty (propertyId) {
@@ -319,22 +239,22 @@ function PersonalData() {
 
             <div className="properties-data">
                 <h1>Your Properties</h1>
-                <div className="property-list">
+                <div className="properties">
                     {properties.length > 0 && properties.map((property) => (
-                        <div key={property.property_id} className="property-item">
+                        <div key={property.property_id} className="property-input">
                             <div className="property-name">{property.propertyName}</div>
-                            <div className="property-details">
+                            <div className="property-information">
                                 <p><strong>Size:</strong> {property.size} m²</p>
                                 <p><strong>Building Age:</strong> {property.buildingAge} years</p>
                                 <p><strong>District:</strong> {property.district}</p>
                             </div>
-                            <div className="button-group">
-                                <button onClick={() => navigate('/editproperty')}>Edit</button>
-                                <button onClick={() => deleteProperty(property.property_id)}>Delete</button>
+                            <div className="property-buttons">
+                                <button type="button" className="edit" onClick={() => navigate('/editproperty')}>Edit</button>
+                                <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}>Delete</button>
                             </div>
                         </div>
                     ))}
-                    {properties.length === 0 && <p className="no-properties">No properties found</p>}
+                    {properties.length === 0 && <p className="no-properties">No properties added</p>}
                 </div>
 
                 <button className="add-property-button" onClick={() => navigate('/addproperty')}>Add New Property</button>            

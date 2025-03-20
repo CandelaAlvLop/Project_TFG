@@ -4,13 +4,20 @@ import Navbar2 from './Navbar2';
 import Footer from "./Footer";
 import '../layouts/AddProperty.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function PersonalData() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    const numericalPattern = /^[0-9]*$/;
+    const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
+    const size_Pattern = /^[1-9][0-9]{0,5}$/;
+    const buildingAge_Pattern = /^[1-9][0-9]{0,3}$/;
+    const district_Pattern = /^[0-9]{5}$/;
+    const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
+    const income_Pattern = /^[1-9][0-9]{0,6}$/;
+    const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
     
     const [properties, setProperties] = useState([]);
     const [NewPropertyName, setNewPropertyName] = useState("");
@@ -33,6 +40,7 @@ function PersonalData() {
     const [NewGasConsumption, setNewGasConsumption] = useState();
     const [NewWaterConsumption, setNewWaterConsumption] = useState();
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const userId = localStorage.getItem("user_id");
 
@@ -101,6 +109,7 @@ function PersonalData() {
         }).then(() => {
             setUserProperty();
             console.log("Property added successfully");
+            navigate('/personaldata');
         }).catch((error) => {
             setError("Unexpected error adding Property");
             console.error("Error adding Property:", error);
@@ -114,68 +123,113 @@ function PersonalData() {
             <div className="add-property">
                 <h1>Property Information</h1>
                 <form onSubmit={addProperty}>
-                    {/* Place */}
+
                     <h2>Place</h2>
-                    <div className="container">
-                    <label htmlFor="propertyName">Name of the Property</label>
-                        <input type="text" id="propertyName" name="propertyName" value={NewPropertyName} placeholder="Name of the property"
+                    <div className="section">
+                        <label htmlFor="propertyName">Name of the Property</label>
+                        <input type="text" id="propertyName" name="propertyName" value={NewPropertyName} placeholder="Name of the property" required
+                            //Property name must start with a capital letter and be followed by small letters, max 10 letters
+                            onInvalid={(e) => e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!propertyName_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters");
+                                }
+                            }}
                             onChange={(e) => setNewPropertyName(e.target.value)}
                         />
                         <label htmlFor="size">Size (m²)</label>
-                        <input type="number" id="size" name="size" value={NewSize} placeholder="Square meters of the property"
-                            /*onInvalid={(e) => e.target.setCustomValidity("Must insert a numerical value")}
+                        <input type="number" id="size" name="size" value={NewSize} placeholder="Square meters of the property" required
+                            //Size must not start with a 0, no decimals, and up to 6 digits
+                            onInvalid={(e) => e.target.setCustomValidity("Size must not start by zero, cannot contain decimals and it must be up to 6 digits")}
                             onInput={(e) => {
-                                 e.target.setCustomValidity("");
-                                if (!numericalPattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Must insert a numerical value");
+                                e.target.setCustomValidity("");
+                                if (!size_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Size must not start by zero, cannot contain decimals and it must be up to 6 digits");
                                 }
-                            }}*/
+                            }}
                             onChange={(e) => setNewSize(e.target.value)}
                         />
                         <label htmlFor="buildingAge">Building age (years)</label>
-                        <input type="number" id="buildingAge" name="buildingAge" value={NewBuildingAge} placeholder="Age of the building in years"
+                        <input type="number" id="buildingAge" name="buildingAge" value={NewBuildingAge} placeholder="Age of the building in years" required
+                            //Age of the Building must not start with a 0, no decimals, and up to 4 digits
+                            onInvalid={(e) => e.target.setCustomValidity("The age must not start by zero, cannot contain decimals and it must be up to 4 digits")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!buildingAge_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("The age must not start by zero, cannot contain decimals and it must be up to 4 digits");
+                                }
+                            }}
                             onChange={(e) => setNewBuildingAge(e.target.value)}
                         />
-                        <label htmlFor="district">District</label>
-                        <input type="number" id="district" name="district" value={NewDistrict} placeholder="District code"
+                        <label htmlFor="district">District (Postal Code)</label>
+                        <input type="number" id="district" name="district" value={NewDistrict} placeholder="District code" required
+                            //District (Postal code) follows Spanish regulations, that is a 5 digit number, where the first two digits are the province and the last three are specific to the district
+                            onInvalid={(e) => e.target.setCustomValidity("Postal code is 5 digits")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!district_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Postal code is 5 digits");
+                                }
+                            }}
                             onChange={(e) => setNewDistrict(e.target.value)}
                         />
                     </div>
 
-                    {/* People */}
                     <h2>People</h2>
-                    <div className="container">
+                    <div className="section">
                         <label htmlFor="quantity">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" value={NewQuantity} placeholder="Number of people living in the property"
+                        <input type="number" id="quantity" name="quantity" value={NewQuantity} placeholder="Number of people living in the property" required
+                            //Quantity must not start with a 0, no decimals, and up to 3 digits
+                            onInvalid={(e) => e.target.setCustomValidity("Quantity must not start by zero, cannot contain decimals and it must be up to 3 digits")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!quantity_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Quantity must not start by zero, cannot contain decimals and it must be up to 3 digits");
+                                }
+                            }}
                             onChange={(e) => setNewQuantity(e.target.value)}
                         />
                         <label htmlFor="ages">Ages</label>
-                        <div className="checkbox-group">
+                        <div className="checkboxes">
                             <label><input type="checkbox" value="0-20" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 0-20</label>
                             <label><input type="checkbox" value="21-35" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 21-35</label>
                             <label><input type="checkbox" value="36-50" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 36-50</label>
                             <label><input type="checkbox" value="50-65" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 50-65</label>
                             <label><input type="checkbox" value="66-80" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 66-80</label>
                             <label><input type="checkbox" value="80+" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 80+</label>
+                            <div className="error-property">{!NewAges.length && "Please select at least one Age Range"}</div>
                         </div>
+                        
                         <label htmlFor="income">Income</label>
-                        <input type="number" id="income" name="income" value={NewIncome} placeholder="Approximate total income"
+                        <input type="number" id="income" name="income" value={NewIncome} placeholder="Approximate total income" required
+                            //Income must not start with a 0, no decimals, and up to 7 digits
+                            onInvalid={(e) => e.target.setCustomValidity("Income must not start by zero, cannot contain decimals and it must be up to 7 digits")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!income_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Income must not start by zero, cannot contain decimals and it must be up to 7 digits");
+                                }
+                            }}  
                             onChange={(e) => setNewIncome(e.target.value)}
                         />
                         <label htmlFor="remoteWorkers">Remote Workers</label>
-                        <select id="remoteWorkers" name="remoteWorkers" value={NewRemoteWorkers}
+                        <select id="remoteWorkers" name="remoteWorkers" value={NewRemoteWorkers} required
+                            onInvalid={(e) => e.target.setCustomValidity("Select if there are or not Remote Workers")}
+                            onInput={(e) => e.target.setCustomValidity("")}
                             onChange={(e) => setNewRemoteWorkers(e.target.value)}>
                             <option value="">Select if there are Remote Workers</option>
                             <option value="yes">Yes</option>
                             <option value="no">No</option>   
                         </select>
                         <label htmlFor="workingSchedule">Working Schedules</label>
-                        <div className="checkbox-group">
+                        <div className="checkboxes" required>
                             <label><input type="checkbox" value="morning" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Morning</label>
                             <label><input type="checkbox" value="afternoon" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Afternoon</label>
                             <label><input type="checkbox" value="fullDay" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Full Day</label>
                             <label><input type="checkbox" value="night" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Night</label>
                             <label><input type="checkbox" value="noWork" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> No Work</label>
+                            <div className="error-property">{!NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
                         </div>
                         <label htmlFor="description">Description</label>
                         <input type="text" id="description" name="description" value={NewDescription} placeholder="Extra information about the people living in the property"
@@ -183,12 +237,10 @@ function PersonalData() {
                         />
                     </div>
 
-                    {/* Appliances */}
                     <h2>Appliances</h2>
-
-                    <div className="appliance-category">
-                        <div className="category-header">Electric</div>
-                        <div className="appliance-grid">
+                    <div className="appliances">
+                        <div className="appliance-type">Electric</div>
+                        <div className="appliance-checkboxes">
                             <label><input type="checkbox" checked={NewAppliances.electric.fridge} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, fridge: !NewAppliances.electric.fridge}})}/> Fridge</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.dishWasher} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, dishWasher: !NewAppliances.electric.dishWasher}})}/> Dish Washer</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.washingMachine} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, washingMachine: !NewAppliances.electric.washingMachine}})}/> Washing Machine</label>
@@ -206,9 +258,9 @@ function PersonalData() {
                         </div>
                     </div>
 
-                    <div className="appliance-category">
-                        <div className="category-header">Gas</div>
-                        <div className="appliance-grid">
+                    <div className="appliances">
+                        <div className="appliance-type">Gas</div>
+                        <div className="appliance-checkboxes">
                             <label><input type="checkbox" checked={NewAppliances.gas.centralHeating} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, centralHeating: !NewAppliances.gas.centralHeating}})}/> Central Heating</label>
                             <label><input type="checkbox" checked={NewAppliances.gas.heatingRadiators} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, heatingRadiators: !NewAppliances.gas.heatingRadiators}})}/> Heating Radiators</label>
                             <label><input type="checkbox" checked={NewAppliances.gas.hotWater} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, hotWater: !NewAppliances.gas.hotWater}})}/> Hot Water</label>
@@ -217,9 +269,9 @@ function PersonalData() {
                         </div>
                     </div>
 
-                    <div className="appliance-category">
-                        <div className="category-header">Water</div>
-                        <div className="appliance-grid">
+                    <div className="appliances">
+                        <div className="appliance-type">Water</div>
+                        <div className="appliance-checkboxes">
                             <label><input type="checkbox" checked={NewAppliances.water.swimmingPool} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, swimmingPool: !NewAppliances.water.swimmingPool}})}/> Swimming Pool</label>
                             <label><input type="checkbox" checked={NewAppliances.water.garden} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, garden: !NewAppliances.water.garden}})}/> Garden</label>
                             <label><input type="checkbox" checked={NewAppliances.water.bathrooms} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, bathrooms: !NewAppliances.water.bathrooms}})}/> Bathrooms</label>
@@ -228,25 +280,48 @@ function PersonalData() {
                         </div>
                     </div>
 
-                    {/* Energy Consumption */}
                     <h2>Energy Consumption</h2>
-                    <div className="container">
+                    <div className="section">
                         <label htmlFor="electricConsumption">Electric Consumption</label>
-                        <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of electric consumption"
+                        <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of electric consumption" required
+                            //Electric Consumption must not start with a 0, no decimals, and up to 5 digits
+                            onInvalid={(e) => e.target.setCustomValidity("Electrical Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!consumption_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Electrical Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                }
+                            }}
                             onChange={(e) => setNewElectricConsumption(e.target.value)}
                         />
                         <label htmlFor="gasConsumption">Gas Consumption</label>
-                        <input type="number" id="gasConsumption" name="gascConsumption" value={NewGasConsumption} placeholder="Estimation of gas consumption"
+                        <input type="number" id="gasConsumption" name="gascConsumption" value={NewGasConsumption} placeholder="Estimation of gas consumption" required
+                            //Gas Consumption must not start with a 0, no decimals, and up to 5 digits
+                            onInvalid={(e) => e.target.setCustomValidity("Gas Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!consumption_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Gas Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                }
+                            }}
                             onChange={(e) => setNewGasConsumption(e.target.value)}
                         />
                         <label htmlFor="waterConsumption">Water Consumption</label>
-                        <input type="number" id="waterConsumption" name="waterConsumption" value={NewWaterConsumption} placeholder="Estimation of water consumption"
+                        <input type="number" id="waterConsumption" name="waterConsumption" value={NewWaterConsumption} placeholder="Estimation of water consumption" required
+                            //Water Consumption must not start with a 0, no decimals, and up to 5 digits
+                            onInvalid={(e) => e.target.setCustomValidity("Water Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInput={(e) => {
+                                e.target.setCustomValidity("");
+                                if (!consumption_Pattern.test(e.target.value)) {
+                                    e.target.setCustomValidity("Water Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                }
+                            }}
                             onChange={(e) => setNewWaterConsumption(e.target.value)}
                         />
                     </div>
                 
-                    <div className="error-addproperty">{error}</div>
-                    <button className="button-addproperty" type="submit">Add Property</button>
+                    <div className="error-property">{error}</div>
+                    <button className="add-property-button" type="submit">Add Property</button>
                 </form>
             </div>
             <Footer/>
