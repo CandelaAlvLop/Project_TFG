@@ -248,7 +248,11 @@ function PersonalData() {
                                 <p><strong>District:</strong> {property.district}</p>
                             </div>
                             <div className="property-buttons">
-                                <button type="button" className="edit" onClick={() => navigate('/editproperty')}>Edit</button>
+                                <button type="button" className="edit" 
+                                    onClick={() => {
+                                        localStorage.setItem("property_id", property.property_id);
+                                        navigate('/editproperty');}
+                                    }>Edit</button>
                                 <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}>Delete</button>
                             </div>
                         </div>

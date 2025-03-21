@@ -6,20 +6,20 @@ import '../layouts/AddProperty.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function PersonalData() {
+function EditProperty() {
     useEffect(() => {
         window.scrollTo(0, 0);
+        setUserProperty();
     }, []);
 
     const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
     const size_Pattern = /^[1-9][0-9]{0,5}$/;
-    const buildingAge_Pattern = /^[1-9][0-9]{0,3}$/;
+    const buildingAge_Pattern = /^[0-9]{0,4}$/;
     const district_Pattern = /^[0-9]{5}$/;
     const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
     const income_Pattern = /^[1-9][0-9]{0,6}$/;
     const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
     
-    const [properties, setProperties] = useState([]);
     const [NewPropertyName, setNewPropertyName] = useState("");
     const [NewSize, setNewSize] = useState();
     const [NewBuildingAge, setNewBuildingAge] = useState();
@@ -40,24 +40,71 @@ function PersonalData() {
     const [NewGasConsumption, setNewGasConsumption] = useState();
     const [NewWaterConsumption, setNewWaterConsumption] = useState();
     const [error, setError] = useState("");
+    const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
 
+    const propertyId = localStorage.getItem("property_id");
     const userId = localStorage.getItem("user_id");
 
     function setUserProperty () {
-        if (!userId) return console.error("No User retrieved");
-        axios.get(`http://localhost:3001/UserManager/properties/${userId}`)
+        if (!propertyId) return console.error("No Property retrieved");
+        axios.get(`http://localhost:3001/UserManager/propertiesUpdate/${propertyId}`)
             .then((response) => {
-                setProperties(response.data);
+                let propertyAppliances_string = [];
+                if (response.data.appliances) propertyAppliances_string = response.data.appliances.split(',');
+            
+                const propertyAppliances = {electric: {}, gas: {}, water: {}};
+            
+                propertyAppliances.electric.fridge = propertyAppliances_string.includes("Fridge");
+                propertyAppliances.electric.dishWasher = propertyAppliances_string.includes("Dish Washer");
+                propertyAppliances.electric.washingMachine = propertyAppliances_string.includes("Washing Machine");
+                propertyAppliances.electric.dryer = propertyAppliances_string.includes("Dryer");
+                propertyAppliances.electric.microwave = propertyAppliances_string.includes("Microwave");
+                propertyAppliances.electric.tv = propertyAppliances_string.includes("TV");
+                propertyAppliances.electric.computer = propertyAppliances_string.includes("Computer");
+                propertyAppliances.electric.lamps = propertyAppliances_string.includes("Lamps");
+                propertyAppliances.electric.airConditioning = propertyAppliances_string.includes("Air Conditioning");
+                propertyAppliances.electric.centralHeating = propertyAppliances_string.includes("Electric Central Heating");
+                propertyAppliances.electric.heatingRadiators = propertyAppliances_string.includes("Electric Heating Radiators");
+                propertyAppliances.electric.hotWater = propertyAppliances_string.includes("Electric Hot Water");
+                propertyAppliances.electric.stove = propertyAppliances_string.includes("Electric Stove");
+                propertyAppliances.electric.oven = propertyAppliances_string.includes("Electric Oven");
+            
+                propertyAppliances.gas.centralHeating = propertyAppliances_string.includes("Gas Central Heating");
+                propertyAppliances.gas.heatingRadiators = propertyAppliances_string.includes("Gas Heating Radiators");
+                propertyAppliances.gas.hotWater = propertyAppliances_string.includes("Gas Hot Water");
+                propertyAppliances.gas.stove = propertyAppliances_string.includes("Gas Stove");
+                propertyAppliances.gas.oven = propertyAppliances_string.includes("Gas Oven");
+            
+                propertyAppliances.water.swimmingPool = propertyAppliances_string.includes("Swimming Pool");
+                propertyAppliances.water.garden = propertyAppliances_string.includes("Garden");
+                propertyAppliances.water.bathrooms = propertyAppliances_string.includes("Bathrooms");
+                propertyAppliances.water.halfBathrooms = propertyAppliances_string.includes("Half Bathrooms");
+                propertyAppliances.water.terraceWithPlants = propertyAppliances_string.includes("Terrace with Plants");
+
+                setNewPropertyName(response.data.propertyName);
+                setNewSize(response.data.size);
+                setNewBuildingAge(response.data.buildingAge);
+                setNewDistrict(response.data.district);
+                setNewQuantity(response.data.quantity);
+                setNewAges(response.data.ages.split(','));
+                setNewIncome(response.data.income);
+                setNewRemoteWorkers(response.data.remoteWorkers);
+                setNewWorkingSchedule(response.data.workingSchedules.split(','));
+                setNewDescription(response.data.description);
+                setNewAppliances(propertyAppliances);
+                setNewElectricConsumption(response.data.electricConsumption);
+                setNewGasConsumption(response.data.gasConsumption);
+                setNewWaterConsumption(response.data.waterConsumption);
             })
             .catch((error) => {
                 console.error("Error retrieving User Property data:", error);
             });
     };
 
-    //Add Property
-    function addProperty (e) {
+    function editPropertyData (e) {
         e.preventDefault();
+        setSubmitted(true);
 
         const propertyAppliances = [];
 
@@ -70,17 +117,17 @@ function PersonalData() {
         if (NewAppliances.electric.computer) propertyAppliances.push("Computer");
         if (NewAppliances.electric.lamps) propertyAppliances.push("Lamps");
         if (NewAppliances.electric.airConditioning) propertyAppliances.push("Air Conditioning");
-        if (NewAppliances.electric.centralHeating) propertyAppliances.push("Central Heating");
-        if (NewAppliances.electric.heatingRadiators) propertyAppliances.push("Heating Radiators");
-        if (NewAppliances.electric.hotWater) propertyAppliances.push("Hot Water");
-        if (NewAppliances.electric.stove) propertyAppliances.push("Stove");
-        if (NewAppliances.electric.oven) propertyAppliances.push("Oven");
+        if (NewAppliances.electric.centralHeating) propertyAppliances.push("Electric Central Heating");
+        if (NewAppliances.electric.heatingRadiators) propertyAppliances.push("Electric Heating Radiators");
+        if (NewAppliances.electric.hotWater) propertyAppliances.push("Electric Hot Water");
+        if (NewAppliances.electric.stove) propertyAppliances.push("Electric Stove");
+        if (NewAppliances.electric.oven) propertyAppliances.push("Electric Oven");
 
-        if (NewAppliances.gas.centralHeating) propertyAppliances.push("Central Heating");
-        if (NewAppliances.gas.heatingRadiators) propertyAppliances.push("Heating Radiators");
-        if (NewAppliances.gas.hotWater) propertyAppliances.push("Hot Water");
-        if (NewAppliances.gas.stove) propertyAppliances.push("Stove");
-        if (NewAppliances.gas.oven) propertyAppliances.push("Oven");
+        if (NewAppliances.gas.centralHeating) propertyAppliances.push("Gas Central Heating");
+        if (NewAppliances.gas.heatingRadiators) propertyAppliances.push("Gas Heating Radiators");
+        if (NewAppliances.gas.hotWater) propertyAppliances.push("Gas Hot Water");
+        if (NewAppliances.gas.stove) propertyAppliances.push("Gas Stove");
+        if (NewAppliances.gas.oven) propertyAppliances.push("Gas Oven");
 
         if (NewAppliances.water.swimmingPool) propertyAppliances.push("Swimming Pool");
         if (NewAppliances.water.garden) propertyAppliances.push("Garden");
@@ -90,7 +137,7 @@ function PersonalData() {
 
         const propertyAppliances_string = propertyAppliances.join(',');
 
-        axios.post('http://localhost:3001/UserManager/properties', {
+        axios.put(`http://localhost:3001/UserManager/propertiesUpdate/${propertyId}`, {
             userId,
             propertyName: NewPropertyName,
             size: NewSize,
@@ -106,15 +153,34 @@ function PersonalData() {
             electricConsumption: NewElectricConsumption,
             gasConsumption: NewGasConsumption,
             waterConsumption: NewWaterConsumption
-        }).then(() => {
+        }).then((response) => {
+            console.log("Property ID updated:", response.data.propertyId);
             setUserProperty();
-            console.log("Property added successfully");
             navigate('/personaldata');
         }).catch((error) => {
-            setError("Unexpected error adding Property");
-            console.error("Error adding Property:", error);
+            if (error.response) {
+                setError(error.response.data.message);
+            } else {
+                setError("Unexpected error during Property data update");
+            }
         });
     };
+
+    function cancelEditPropertyData () {
+        localStorage.removeItem("property_id");
+        navigate('/personaldata');
+    }
+
+
+    function ageUpdate(value) {
+        if (NewAges.includes(value)) {setNewAges(NewAges.filter(age => age !== value));} 
+        else {setNewAges([...NewAges, value]);}
+    }
+
+    function workingScheduleUpdate(value) {
+        if (NewWorkingSchedule.includes(value)) {setNewWorkingSchedule(NewWorkingSchedule.filter(age => age !== value));} 
+        else {setNewWorkingSchedule([...NewWorkingSchedule, value]);}
+    }
 
     return (
         <div>
@@ -122,7 +188,7 @@ function PersonalData() {
             <Navbar2 />
             <div className="add-property">
                 <h1>Property Information</h1>
-                <form onSubmit={addProperty}>
+                <form onSubmit={editPropertyData}>
 
                     <h2>Place</h2>
                     <div className="section">
@@ -152,24 +218,24 @@ function PersonalData() {
                         />
                         <label htmlFor="buildingAge">Building age (years)</label>
                         <input type="number" id="buildingAge" name="buildingAge" value={NewBuildingAge} placeholder="Age of the building in years" required
-                            //Age of the Building must not start with a 0, no decimals, and up to 4 digits
-                            onInvalid={(e) => e.target.setCustomValidity("The age must not start by zero, cannot contain decimals and it must be up to 4 digits")}
+                            //Age of the Building no decimals, and up to 4 digits
+                            onInvalid={(e) => e.target.setCustomValidity("The age cannot contain decimals and it must be up to 4 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!buildingAge_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("The age must not start by zero, cannot contain decimals and it must be up to 4 digits");
+                                    e.target.setCustomValidity("The age cannot contain decimals and it must be up to 4 digits");
                                 }
                             }}
                             onChange={(e) => setNewBuildingAge(e.target.value)}
                         />
                         <label htmlFor="district">District (Postal Code)</label>
-                        <input type="number" id="district" name="district" value={NewDistrict} placeholder="District code" required
+                        <input type="text" id="district" name="district" value={NewDistrict} placeholder="District code" required
                             //District (Postal code) follows Spanish regulations, that is a 5 digit number, where the first two digits are the province and the last three are specific to the district
-                            onInvalid={(e) => e.target.setCustomValidity("Postal code is 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("District (Postal code) is 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!district_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Postal code is 5 digits");
+                                    e.target.setCustomValidity("District (Postal code) is 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewDistrict(e.target.value)}
@@ -192,13 +258,13 @@ function PersonalData() {
                         />
                         <label htmlFor="ages">Ages</label>
                         <div className="checkboxes">
-                            <label><input type="checkbox" value="0-20" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 0-20</label>
-                            <label><input type="checkbox" value="21-35" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 21-35</label>
-                            <label><input type="checkbox" value="36-50" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 36-50</label>
-                            <label><input type="checkbox" value="50-65" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 50-65</label>
-                            <label><input type="checkbox" value="66-80" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 66-80</label>
-                            <label><input type="checkbox" value="80+" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 80+</label>
-                            <div className="error-property">{!NewAges.length && "Please select at least one Age Range"}</div>
+                            <label><input type="checkbox" value="0-20" checked={NewAges.includes("0-20")} onChange={() => ageUpdate("0-20")}/>0-20</label>
+                            <label><input type="checkbox" value="21-35" checked={NewAges.includes("21-35")} onChange={(e) => ageUpdate("21-35")}/> 21-35</label>
+                            <label><input type="checkbox" value="36-50" checked={NewAges.includes("36-50")} onChange={(e) => ageUpdate("36-50")}/> 36-50</label>
+                            <label><input type="checkbox" value="50-65" checked={NewAges.includes("50-65")} onChange={(e) => ageUpdate("50-65")}/> 50-65</label>
+                            <label><input type="checkbox" value="66-80" checked={NewAges.includes("66-80")} onChange={(e) => ageUpdate("66-80")}/> 66-80</label>
+                            <label><input type="checkbox" value="80+" checked={NewAges.includes("80+")} onChange={(e) => ageUpdate("80+")}/> 80+</label>
+                            <div className="error-property">{submitted && !NewAges.length && "Please select at least one Age Range"}</div>
                         </div>
                         
                         <label htmlFor="income">Income</label>
@@ -224,15 +290,15 @@ function PersonalData() {
                         </select>
                         <label htmlFor="workingSchedule">Working Schedules</label>
                         <div className="checkboxes" required>
-                            <label><input type="checkbox" value="morning" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Morning</label>
-                            <label><input type="checkbox" value="afternoon" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Afternoon</label>
-                            <label><input type="checkbox" value="fullDay" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Full Day</label>
-                            <label><input type="checkbox" value="night" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Night</label>
-                            <label><input type="checkbox" value="noWork" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> No Work</label>
-                            <div className="error-property">{!NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
+                            <label><input type="checkbox" value="Morning" checked={NewWorkingSchedule.includes("Morning")} onChange={(e) => workingScheduleUpdate("Morning")}/> Morning</label>
+                            <label><input type="checkbox" value="Afternoon" checked={NewWorkingSchedule.includes("Afternoon")} onChange={(e) => workingScheduleUpdate("Afternoon")}/> Afternoon</label>
+                            <label><input type="checkbox" value="Full Day" checked={NewWorkingSchedule.includes("Full Day")} onChange={(e) => workingScheduleUpdate("Full Day")}/> Full Day</label>
+                            <label><input type="checkbox" value="Night" checked={NewWorkingSchedule.includes("Night")} onChange={(e) => workingScheduleUpdate("Night")}/> Night</label>
+                            <label><input type="checkbox" value="No Work" checked={NewWorkingSchedule.includes("No Work")} onChange={(e) => workingScheduleUpdate("No Work")}/> No Work</label>
+                            <div className="error-property">{submitted && !NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
                         </div>
                         <label htmlFor="description">Description</label>
-                        <input type="text" id="description" name="description" value={NewDescription} placeholder="Extra information about the people living in the property"
+                        <input type="text" id="description" name="description" value={NewDescription} placeholder="Small description about the people living in the property"
                             onChange={(e) => setNewDescription(e.target.value)}
                         />
                     </div>
@@ -285,11 +351,11 @@ function PersonalData() {
                         <label htmlFor="electricConsumption">Electric Consumption</label>
                         <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of electric consumption" required
                             //Electric Consumption must not start with a 0, no decimals, and up to 5 digits
-                            onInvalid={(e) => e.target.setCustomValidity("Electrical Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("Electrical Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!consumption_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Electrical Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                    e.target.setCustomValidity("Electrical Consumption not start nor be zero, cannot contain decimals and it must be up to 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewElectricConsumption(e.target.value)}
@@ -297,11 +363,11 @@ function PersonalData() {
                         <label htmlFor="gasConsumption">Gas Consumption</label>
                         <input type="number" id="gasConsumption" name="gascConsumption" value={NewGasConsumption} placeholder="Estimation of gas consumption" required
                             //Gas Consumption must not start with a 0, no decimals, and up to 5 digits
-                            onInvalid={(e) => e.target.setCustomValidity("Gas Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("Gas Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!consumption_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Gas Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                    e.target.setCustomValidity("Gas Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewGasConsumption(e.target.value)}
@@ -309,11 +375,11 @@ function PersonalData() {
                         <label htmlFor="waterConsumption">Water Consumption</label>
                         <input type="number" id="waterConsumption" name="waterConsumption" value={NewWaterConsumption} placeholder="Estimation of water consumption" required
                             //Water Consumption must not start with a 0, no decimals, and up to 5 digits
-                            onInvalid={(e) => e.target.setCustomValidity("Water Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("Water Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!consumption_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Water Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                    e.target.setCustomValidity("Water Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewWaterConsumption(e.target.value)}
@@ -321,11 +387,14 @@ function PersonalData() {
                     </div>
                 
                     <div className="error-property">{error}</div>
-                    <button className="add-property-button" type="submit">Add Property</button>
+                    <div>
+                        <button type="submit" className="save">Save</button>
+                        <button type="button" className="cancel" onClick={cancelEditPropertyData}>Cancel</button>
+                    </div>
                 </form>
             </div>
             <Footer/>
         </div>
     );
 }
-export default PersonalData;
+export default EditProperty;

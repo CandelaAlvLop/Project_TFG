@@ -6,20 +6,20 @@ import '../layouts/AddProperty.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function PersonalData() {
+function AddProperty() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
     const size_Pattern = /^[1-9][0-9]{0,5}$/;
-    const buildingAge_Pattern = /^[1-9][0-9]{0,3}$/;
+    const buildingAge_Pattern = /^[0-9]{0,4}$/;
     const district_Pattern = /^[0-9]{5}$/;
     const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
     const income_Pattern = /^[1-9][0-9]{0,6}$/;
     const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
     
-    const [properties, setProperties] = useState([]);
+    const [setProperties] = useState([]);
     const [NewPropertyName, setNewPropertyName] = useState("");
     const [NewSize, setNewSize] = useState();
     const [NewBuildingAge, setNewBuildingAge] = useState();
@@ -108,7 +108,7 @@ function PersonalData() {
             electricConsumption: NewElectricConsumption,
             gasConsumption: NewGasConsumption,
             waterConsumption: NewWaterConsumption
-        }).then(() => {
+        }).then((response) => {
             setUserProperty();
             console.log("Property added successfully");
             navigate('/personaldata');
@@ -167,18 +167,18 @@ function PersonalData() {
                         />
                         <label htmlFor="buildingAge">Building age (years)</label>
                         <input type="number" id="buildingAge" name="buildingAge" value={NewBuildingAge} placeholder="Age of the building in years" required
-                            //Age of the Building must not start with a 0, no decimals, and up to 4 digits
-                            onInvalid={(e) => e.target.setCustomValidity("The age must not start by zero, cannot contain decimals and it must be up to 4 digits")}
+                            //Age of the Building no decimals, and up to 4 digits
+                            onInvalid={(e) => e.target.setCustomValidity("The age cannot contain decimals and it must be up to 4 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!buildingAge_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("The age must not start by zero, cannot contain decimals and it must be up to 4 digits");
+                                    e.target.setCustomValidity("The age cannot contain decimals and it must be up to 4 digits");
                                 }
                             }}
                             onChange={(e) => setNewBuildingAge(e.target.value)}
                         />
                         <label htmlFor="district">District (Postal Code)</label>
-                        <input type="number" id="district" name="district" value={NewDistrict} placeholder="District code" required
+                        <input type="text" id="district" name="district" value={NewDistrict} placeholder="District code" required
                             //District (Postal code) follows Spanish regulations, that is a 5 digit number, where the first two digits are the province and the last three are specific to the district
                             onInvalid={(e) => e.target.setCustomValidity("District (Postal code) is 5 digits")}
                             onInput={(e) => {
@@ -239,11 +239,11 @@ function PersonalData() {
                         </select>
                         <label htmlFor="workingSchedule">Working Schedules</label>
                         <div className="checkboxes" required>
-                            <label><input type="checkbox" value="morning" onChange={(e) => workingScheduleUpdate("Morning")}/> Morning</label>
-                            <label><input type="checkbox" value="afternoon" onChange={(e) => workingScheduleUpdate("Afternoon")}/> Afternoon</label>
-                            <label><input type="checkbox" value="fullDay" onChange={(e) => workingScheduleUpdate("Full Day")}/> Full Day</label>
-                            <label><input type="checkbox" value="night" onChange={(e) => workingScheduleUpdate("Night")}/> Night</label>
-                            <label><input type="checkbox" value="noWork" onChange={(e) => workingScheduleUpdate("No Work")}/> No Work</label>
+                            <label><input type="checkbox" value="Morning" onChange={(e) => workingScheduleUpdate("Morning")}/> Morning</label>
+                            <label><input type="checkbox" value="Afternoon" onChange={(e) => workingScheduleUpdate("Afternoon")}/> Afternoon</label>
+                            <label><input type="checkbox" value="Full Day" onChange={(e) => workingScheduleUpdate("Full Day")}/> Full Day</label>
+                            <label><input type="checkbox" value="Night" onChange={(e) => workingScheduleUpdate("Night")}/> Night</label>
+                            <label><input type="checkbox" value="No Work" onChange={(e) => workingScheduleUpdate("No Work")}/> No Work</label>
                             <div className="error-property">{submitted && !NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
                         </div>
                         <label htmlFor="description">Description</label>
@@ -300,11 +300,11 @@ function PersonalData() {
                         <label htmlFor="electricConsumption">Electric Consumption</label>
                         <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of electric consumption" required
                             //Electric Consumption must not start with a 0, no decimals, and up to 5 digits
-                            onInvalid={(e) => e.target.setCustomValidity("Electrical Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("Electrical Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!consumption_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Electrical Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                    e.target.setCustomValidity("Electrical Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewElectricConsumption(e.target.value)}
@@ -312,11 +312,11 @@ function PersonalData() {
                         <label htmlFor="gasConsumption">Gas Consumption</label>
                         <input type="number" id="gasConsumption" name="gascConsumption" value={NewGasConsumption} placeholder="Estimation of gas consumption" required
                             //Gas Consumption must not start with a 0, no decimals, and up to 5 digits
-                            onInvalid={(e) => e.target.setCustomValidity("Gas Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("Gas Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!consumption_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Gas Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                    e.target.setCustomValidity("Gas Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewGasConsumption(e.target.value)}
@@ -324,11 +324,11 @@ function PersonalData() {
                         <label htmlFor="waterConsumption">Water Consumption</label>
                         <input type="number" id="waterConsumption" name="waterConsumption" value={NewWaterConsumption} placeholder="Estimation of water consumption" required
                             //Water Consumption must not start with a 0, no decimals, and up to 5 digits
-                            onInvalid={(e) => e.target.setCustomValidity("Water Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("Water Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!consumption_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Water Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits");
+                                    e.target.setCustomValidity("Water Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewWaterConsumption(e.target.value)}
@@ -343,4 +343,4 @@ function PersonalData() {
         </div>
     );
 }
-export default PersonalData;
+export default AddProperty;
