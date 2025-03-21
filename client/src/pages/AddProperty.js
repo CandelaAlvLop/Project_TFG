@@ -40,6 +40,7 @@ function PersonalData() {
     const [NewGasConsumption, setNewGasConsumption] = useState();
     const [NewWaterConsumption, setNewWaterConsumption] = useState();
     const [error, setError] = useState("");
+    const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
 
     const userId = localStorage.getItem("user_id");
@@ -58,6 +59,7 @@ function PersonalData() {
     //Add Property
     function addProperty (e) {
         e.preventDefault();
+        setSubmitted(true);
 
         const propertyAppliances = [];
 
@@ -70,17 +72,17 @@ function PersonalData() {
         if (NewAppliances.electric.computer) propertyAppliances.push("Computer");
         if (NewAppliances.electric.lamps) propertyAppliances.push("Lamps");
         if (NewAppliances.electric.airConditioning) propertyAppliances.push("Air Conditioning");
-        if (NewAppliances.electric.centralHeating) propertyAppliances.push("Central Heating");
-        if (NewAppliances.electric.heatingRadiators) propertyAppliances.push("Heating Radiators");
-        if (NewAppliances.electric.hotWater) propertyAppliances.push("Hot Water");
-        if (NewAppliances.electric.stove) propertyAppliances.push("Stove");
-        if (NewAppliances.electric.oven) propertyAppliances.push("Oven");
+        if (NewAppliances.electric.centralHeating) propertyAppliances.push("Electric Central Heating");
+        if (NewAppliances.electric.heatingRadiators) propertyAppliances.push("Electric Heating Radiators");
+        if (NewAppliances.electric.hotWater) propertyAppliances.push("Electric Hot Water");
+        if (NewAppliances.electric.stove) propertyAppliances.push("Electric Stove");
+        if (NewAppliances.electric.oven) propertyAppliances.push("Electric Oven");
 
-        if (NewAppliances.gas.centralHeating) propertyAppliances.push("Central Heating");
-        if (NewAppliances.gas.heatingRadiators) propertyAppliances.push("Heating Radiators");
-        if (NewAppliances.gas.hotWater) propertyAppliances.push("Hot Water");
-        if (NewAppliances.gas.stove) propertyAppliances.push("Stove");
-        if (NewAppliances.gas.oven) propertyAppliances.push("Oven");
+        if (NewAppliances.gas.centralHeating) propertyAppliances.push("Gas Central Heating");
+        if (NewAppliances.gas.heatingRadiators) propertyAppliances.push("Gas Heating Radiators");
+        if (NewAppliances.gas.hotWater) propertyAppliances.push("Gas Hot Water");
+        if (NewAppliances.gas.stove) propertyAppliances.push("Gas Stove");
+        if (NewAppliances.gas.oven) propertyAppliances.push("Gas Oven");
 
         if (NewAppliances.water.swimmingPool) propertyAppliances.push("Swimming Pool");
         if (NewAppliances.water.garden) propertyAppliances.push("Garden");
@@ -111,10 +113,23 @@ function PersonalData() {
             console.log("Property added successfully");
             navigate('/personaldata');
         }).catch((error) => {
-            setError("Unexpected error adding Property");
-            console.error("Error adding Property:", error);
+            if (error.response) {
+                setError(error.response.data.message);
+            } else {
+                setError("Unexpected error adding Property");
+            }
         });
     };
+
+    function ageUpdate(value) {
+        if (NewAges.includes(value)) {setNewAges(NewAges.filter(age => age !== value));} 
+        else {setNewAges([...NewAges, value]);}
+    }
+
+    function workingScheduleUpdate(value) {
+        if (NewWorkingSchedule.includes(value)) {setNewWorkingSchedule(NewWorkingSchedule.filter(age => age !== value));} 
+        else {setNewWorkingSchedule([...NewWorkingSchedule, value]);}
+    }
 
     return (
         <div>
@@ -165,11 +180,11 @@ function PersonalData() {
                         <label htmlFor="district">District (Postal Code)</label>
                         <input type="number" id="district" name="district" value={NewDistrict} placeholder="District code" required
                             //District (Postal code) follows Spanish regulations, that is a 5 digit number, where the first two digits are the province and the last three are specific to the district
-                            onInvalid={(e) => e.target.setCustomValidity("Postal code is 5 digits")}
+                            onInvalid={(e) => e.target.setCustomValidity("District (Postal code) is 5 digits")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!district_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Postal code is 5 digits");
+                                    e.target.setCustomValidity("District (Postal code) is 5 digits");
                                 }
                             }}
                             onChange={(e) => setNewDistrict(e.target.value)}
@@ -192,13 +207,13 @@ function PersonalData() {
                         />
                         <label htmlFor="ages">Ages</label>
                         <div className="checkboxes">
-                            <label><input type="checkbox" value="0-20" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 0-20</label>
-                            <label><input type="checkbox" value="21-35" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 21-35</label>
-                            <label><input type="checkbox" value="36-50" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 36-50</label>
-                            <label><input type="checkbox" value="50-65" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 50-65</label>
-                            <label><input type="checkbox" value="66-80" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 66-80</label>
-                            <label><input type="checkbox" value="80+" onChange={(e) => setNewAges([...NewAges, e.target.value])}/> 80+</label>
-                            <div className="error-property">{!NewAges.length && "Please select at least one Age Range"}</div>
+                            <label><input type="checkbox" value="0-20" onChange={() => ageUpdate("0-20")}/>0-20</label>
+                            <label><input type="checkbox" value="21-35" onChange={(e) => ageUpdate("21-25")}/> 21-35</label>
+                            <label><input type="checkbox" value="36-50" onChange={(e) => ageUpdate("36-50")}/> 36-50</label>
+                            <label><input type="checkbox" value="50-65" onChange={(e) => ageUpdate("50-65")}/> 50-65</label>
+                            <label><input type="checkbox" value="66-80" onChange={(e) => ageUpdate("66-80")}/> 66-80</label>
+                            <label><input type="checkbox" value="80+" onChange={(e) => ageUpdate("80+")}/> 80+</label>
+                            <div className="error-property">{submitted && !NewAges.length && "Please select at least one Age Range"}</div>
                         </div>
                         
                         <label htmlFor="income">Income</label>
@@ -224,15 +239,15 @@ function PersonalData() {
                         </select>
                         <label htmlFor="workingSchedule">Working Schedules</label>
                         <div className="checkboxes" required>
-                            <label><input type="checkbox" value="morning" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Morning</label>
-                            <label><input type="checkbox" value="afternoon" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Afternoon</label>
-                            <label><input type="checkbox" value="fullDay" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Full Day</label>
-                            <label><input type="checkbox" value="night" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> Night</label>
-                            <label><input type="checkbox" value="noWork" onChange={(e) => setNewWorkingSchedule([...NewWorkingSchedule, e.target.value])}/> No Work</label>
-                            <div className="error-property">{!NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
+                            <label><input type="checkbox" value="morning" onChange={(e) => workingScheduleUpdate("Morning")}/> Morning</label>
+                            <label><input type="checkbox" value="afternoon" onChange={(e) => workingScheduleUpdate("Afternoon")}/> Afternoon</label>
+                            <label><input type="checkbox" value="fullDay" onChange={(e) => workingScheduleUpdate("Full Day")}/> Full Day</label>
+                            <label><input type="checkbox" value="night" onChange={(e) => workingScheduleUpdate("Night")}/> Night</label>
+                            <label><input type="checkbox" value="noWork" onChange={(e) => workingScheduleUpdate("No Work")}/> No Work</label>
+                            <div className="error-property">{submitted && !NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
                         </div>
                         <label htmlFor="description">Description</label>
-                        <input type="text" id="description" name="description" value={NewDescription} placeholder="Extra information about the people living in the property"
+                        <input type="text" id="description" name="description" value={NewDescription} placeholder="Small description about the people living in the property"
                             onChange={(e) => setNewDescription(e.target.value)}
                         />
                     </div>

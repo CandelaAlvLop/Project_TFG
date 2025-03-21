@@ -72,7 +72,6 @@ function PersonalData() {
             } else {
                 setError("Unexpected error during User data update");
             }
-            console.error("Error updating user data:", error);
         });
     };
 
@@ -100,7 +99,7 @@ function PersonalData() {
     function deleteProperty (propertyId) {
         axios.delete(`http://localhost:3001/UserManager/properties/${propertyId}`)
             .then(() => {
-                setUserProperties();
+                setProperties(properties.filter(property => property.property_id !== propertyId));
             })
             .catch((error) => {
                 console.error("Unexpected error deleting Property", error);

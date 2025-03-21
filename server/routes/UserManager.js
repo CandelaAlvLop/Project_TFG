@@ -8,6 +8,14 @@ const DNIPattern = /^[0-9]{8}[A-Z]$/;
 const emailPattern = /^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$/;
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$/;
 
+const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
+const size_Pattern = /^[1-9][0-9]{0,5}$/;
+const buildingAge_Pattern = /^[1-9][0-9]{0,3}$/;
+const district_Pattern = /^[0-9]{5}$/;
+const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
+const income_Pattern = /^[1-9][0-9]{0,6}$/;
+const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
+
 // ------------------------------- REGISTER -------------------------------
 //Register User
 router.post("/register", (req, res) => {
@@ -171,19 +179,53 @@ router.put("/userUpdate/:id", (req, res) => {
 router.post("/properties", (req, res) => {
     const {userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption} = req.body;
     
+    //Check no parameter is empty
+    if (!propertyName || !size || !buildingAge || !district || !quantity || !ages || !income || !remoteWorkers || !workingSchedules || !electricConsumption || !gasConsumption || !waterConsumption ) {
+        return res.status(400).send({message: "There are missing parameters"});
+    }
+
+    //Check correctness of patterns
+    else if (!propertyName_Pattern.test(propertyName)) return res.status(400).send({message:"Property name must start with a capital letter and be followed by small letters, max 15 letters"});
+    else if (!size_Pattern.test(size)) return res.status(400).send({message:"Size must not start by zero, cannot contain decimals and it must be up to 6 digits"});
+    else if (!buildingAge_Pattern.test(buildingAge)) return res.status(400).send({message:"The age must not start by zero, cannot contain decimals and it must be up to 4 digits"});
+    else if (!district_Pattern.test(district)) return res.status(400).send({message:"District (Postal code) is 5 digits"});
+    else if (!quantity_Pattern.test(quantity)) return res.status(400).send({message:"Quantity must not start by zero, cannot contain decimals and it must be up to 3 digits"});
+    else if (!income_Pattern.test(income)) return res.status(400).send({message:"Income must not start by zero, cannot contain decimals and it must be up to 7 digits"});
+    else if (!consumption_Pattern.test(electricConsumption)) return res.status(400).send({message:"Electrical Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits"});
+    else if (!consumption_Pattern.test(gasConsumption)) return res.status(400).send({message:"Gas Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits"});
+    else if (!consumption_Pattern.test(waterConsumption)) return res.status(400).send({message:"Water Consumption must not start by zero, cannot contain decimals and it must be up to 5 digits"});
+    
+
+    //Check uniqueness of property names of the user
     db.query(
-        "INSERT INTO property (user_id, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-        [userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption], 
+        "SELECT * FROM property WHERE user_id = ? and propertyName = ?",
+        [userId, propertyName],
         (err, result) => {
             if (err) {
-                console.log(err);
-                return res.status(500).send({message: "Registration of Property failed", error: err});
-            } else {
-                console.log("Property registered succesfully:", result.insertId);
-                res.status(200).send({message: "Registration of Property successful", propertyId: result.insertId});
+                console.log("Database error:", err);
+                return res.status(500).send({message: "Database error", error: err});
             }
+
+            if (result.length > 0) { //Check uniqueness
+                return res.status(400).send({message: "There is already a property with this name"});
+            }
+            
+            db.query(
+                "INSERT INTO property (user_id, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+                [userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption], 
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).send({message: "Registration of Property failed", error: err});
+                    } else {
+                        console.log("Property registered succesfully:", result.insertId);
+                        res.status(200).send({message: "Registration of Property successful", propertyId: result.insertId});
+                    }
+                }
+            );
+        
         }
-    ); 
+    );
 });
 
 //Get User Property
