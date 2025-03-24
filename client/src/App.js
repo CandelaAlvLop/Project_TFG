@@ -13,6 +13,7 @@ import Instructions from './pages/Instructions';
 import Faq from './pages/Faq';
 import AddProperty from './pages/AddProperty';
 import EditProperty from './pages/EditProperty';
+import ModifyConsent from './pages/ModifyConsent';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/faq" element={<Faq/>} />
         <Route path="/addproperty" element={<AddProperty/>} />
         <Route path="/editproperty" element={<EditProperty/>} />
+        <Route path="/modifyconsent" element={<ModifyConsent/>} />
       </Routes>
     </Router>
   )
