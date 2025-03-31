@@ -1,0 +1,177 @@
+// ------------------------------- TRIAL DATA DONATION -------------------------------
+
+const multer = require('multer');
+const xlsx = require('xlsx');
+const fs = require('fs');
+const upload = multer({ dest: 'uploads/' });
+
+// Upload donation (Excel)
+router.post('/donation/upload', upload.single('file'), (req, res) => {
+  const { userId, propertyId, dataType } = req.body;
+  const filePath = req.file.path;
+
+  const workbook = xlsx.readFile(filePath);
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const data = xlsx.utils.sheet_to_json(sheet);
+
+  const contract = `User agrees to donate ${data.length} records of ${dataType} data.`;
+  const security = `Data is protected and anonymized.`;
+  const content = JSON.stringify(data);
+
+  db.query("INSERT INTO donations (user_id, property_id, data_type, contract, data, security) VALUES (?, ?, ?, ?, ?, ?)",
+    [userId, propertyId, dataType, contract, content, security],
+    (err) => {
+      fs.unlinkSync(filePath);
+      if (err) return res.status(500).send("Failed to store donation");
+      res.send({ message: "Donation uploaded" });
+    });
+});
+
+// Get donation info
+router.get("/donation/:userId/:propertyId/:dataType", (req, res) => {
+  const { userId, propertyId, dataType } = req.params;
+
+  db.query(
+    "SELECT * FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
+    [userId, propertyId, dataType],
+    (err, result) => {
+      if (err) return res.status(500).send(err);
+      if (!result.length) return res.status(404).send();
+
+      const donation = result[0];
+      res.send({
+        contract: donation.contract,
+        data: donation.data,
+        security: donation.security,
+      });
+    }
+  );
+});
+
+// Get consents
+router.get("/consents/:userId/:propertyId/:dataType", (req, res) => {
+  const { userId, propertyId, dataType } = req.params;
+
+  db.query("SELECT donation_id FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
+    [userId, propertyId, dataType],
+    (err, result) => {
+      if (err || !result.length) return res.status(404).send([]);
+      const donationId = result[0].donation_id;
+
+      db.query("SELECT category FROM consents WHERE donation_id = ?", [donationId], (err2, rows) => {
+        if (err2) return res.status(500).send([]);
+        const consents = rows.map(r => r.category);
+        res.send(consents);
+      });
+    });
+});
+
+// Update consents
+router.post("/consents/:userId/:propertyId/:dataType", (req, res) => {
+  const { userId, propertyId, dataType } = req.params;
+  const { consents } = req.body;
+
+  db.query("SELECT donation_id FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
+    [userId, propertyId, dataType],
+    (err, result) => {
+      if (err || !result.length) return res.status(404).send();
+      const donationId = result[0].donation_id;
+
+      db.query("DELETE FROM consents WHERE donation_id = ?", [donationId], () => {
+        if (!consents.length) return res.send({ message: "Consents cleared" });
+
+        const values = consents.map(c => [donationId, c]);
+        db.query("INSERT INTO consents (donation_id, category) VALUES ?", [values], (err2) => {
+          if (err2) return res.status(500).send(err2);
+          res.send({ message: "Consents updated" });
+        });
+      });
+    });
+});
+
+// Delete donation + consents
+router.delete("/donation/:userId/:propertyId/:dataType", (req, res) => {
+  const { userId, propertyId, dataType } = req.params;
+
+  db.query("SELECT donation_id FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
+    [userId, propertyId, dataType],
+    (err, result) => {
+      if (err || !result.length) return res.status(404).send();
+      const donationId = result[0].donation_id;
+
+      db.query("DELETE FROM consents WHERE donation_id = ?", [donationId], () => {
+        db.query("DELETE FROM donations WHERE donation_id = ?", [donationId], () => {
+          res.send({ message: "Donation and consents deleted" });
+        });
+      });
+    });
+});
+
+
+
+
+
+
+
+
+
+#CREATE TABLE IF NOT EXISTS donations (
+ # donation_id INT AUTO_INCREMENT PRIMARY KEY,
+  #user_id INT,
+  #property_id INT,
+  #data_type ENUM('Electric', 'Gas', 'Water'),
+  #contract TEXT,
+  #data TEXT,
+  #security TEXT,
+  #created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  #FOREIGN KEY (user_id) REFERENCES users(user_id),
+  #FOREIGN KEY (property_id) REFERENCES property(property_id)
+-- );
+
+-- CREATE TABLE IF NOT EXISTS consents (
+--   consent_id INT AUTO_INCREMENT PRIMARY KEY,
+--   donation_id INT,
+--   category VARCHAR(100),
+--   FOREIGN KEY (donation_id) REFERENCES donations(donation_id)
+-- );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- -- AUTHENTICATION KEY
+-- CREATE TABLE IF NOT EXISTS authentication_key(
+-- 	key_id INT PRIMARY KEY NOT NULL, 
+-- 	user_id INT,
+-- 	token INT, 
+-- 	expiration TIMESTAMP,
+-- 	CONSTRAINT fk_user_id_auth FOREIGN KEY (user_id) REFERENCES users(user_id)
+-- );
+
+-- -- DATASET
+-- CREATE TABLE IF NOT EXISTS dataset(
+-- 	data_id INT PRIMARY KEY NOT NULL, 
+-- 	property_id INT,
+-- 	type VARCHAR(200), 
+-- 	timestamp TIMESTAMP,
+-- 	CONSTRAINT fk_property_id FOREIGN KEY (property_id) REFERENCES property(property_id)
+-- );
+
+-- -- DATA CONSENT
+-- CREATE TABLE IF NOT EXISTS data_consent(
+-- 	consent_id INT PRIMARY KEY NOT NULL, 
+-- 	data_id INT,
+-- 	valid BOOLEAN, 
+-- 	timestamp TIMESTAMP,
+-- 	CONSTRAINT fk_data_id FOREIGN KEY (data_id) REFERENCES dataset(data_id)
+-- );

@@ -232,15 +232,16 @@ router.post("/properties", (req, res) => {
 //Get User Property (Adding)
 router.get("/properties/:userId", (req, res) => {
     const userId = req.params.userId;
+
     db.query("SELECT * FROM property WHERE user_id = ?", 
         [userId], 
         (err, result) => {
         if (err) {
             console.error("Error fetching properties:", err);
-            return res.status(500).send({ message: "Database error", error: err });
+            return res.status(500).send({message: "Database error", error: err});
         }
         if (result.length === 0) {
-            return res.status(404).send({ message: "No properties found" });
+            return res.status(404).send({message: "No properties found"});
         }
         res.status(200).send(result);
     });
@@ -254,9 +255,9 @@ router.delete("/properties/:id", (req, res) => {
         [propertyId], 
         (err) => {
         if (err) {
-            return res.status(500).send({ message: "Error deleting property" });
+            return res.status(500).send({message: "Error deleting property"});
         }
-        res.status(200).send({ message: "Property deleted successfully" });
+        res.status(200).send({message: "Property deleted successfully"});
     });
 });
 
@@ -330,112 +331,23 @@ router.put("/propertiesUpdate/:id", (req, res) => {
 });
 
 
-
-const multer = require('multer');
-const xlsx = require('xlsx');
-const fs = require('fs');
-const upload = multer({ dest: 'uploads/' });
-
-// Upload donation (Excel)
-router.post('/donation/upload', upload.single('file'), (req, res) => {
-  const { userId, propertyId, dataType } = req.body;
-  const filePath = req.file.path;
-
-  const workbook = xlsx.readFile(filePath);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const data = xlsx.utils.sheet_to_json(sheet);
-
-  const contract = `User agrees to donate ${data.length} records of ${dataType} data.`;
-  const security = `Data is protected and anonymized.`;
-  const content = JSON.stringify(data);
-
-  db.query("INSERT INTO donations (user_id, property_id, data_type, contract, data, security) VALUES (?, ?, ?, ?, ?, ?)",
-    [userId, propertyId, dataType, contract, content, security],
-    (err) => {
-      fs.unlinkSync(filePath);
-      if (err) return res.status(500).send("Failed to store donation");
-      res.send({ message: "Donation uploaded" });
+// ------------------------------- DATA DONATION -------------------------------
+router.get("/properties/:userId", (req, res) => {
+    const userId = req.params.userId;
+    
+    db.query("SELECT property_id, propertyName FROM property WHERE user_id = ?", 
+        [userId], 
+        (err, result) => {
+        if (err) {
+            console.error("Error fetching properties:", err);
+            return res.status(500).send({message: "Database error", error: err});
+        }
+        if (result.length === 0) {
+            return res.status(404).send({message: "No properties found"});
+        }
+        res.status(200).send(result);
     });
 });
-
-// Get donation info
-router.get("/donation/:userId/:propertyId/:dataType", (req, res) => {
-  const { userId, propertyId, dataType } = req.params;
-
-  db.query(
-    "SELECT * FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
-    [userId, propertyId, dataType],
-    (err, result) => {
-      if (err) return res.status(500).send(err);
-      if (!result.length) return res.status(404).send();
-
-      const donation = result[0];
-      res.send({
-        contract: donation.contract,
-        data: donation.data,
-        security: donation.security,
-      });
-    }
-  );
-});
-
-// Get consents
-router.get("/consents/:userId/:propertyId/:dataType", (req, res) => {
-  const { userId, propertyId, dataType } = req.params;
-
-  db.query("SELECT donation_id FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
-    [userId, propertyId, dataType],
-    (err, result) => {
-      if (err || !result.length) return res.status(404).send([]);
-      const donationId = result[0].donation_id;
-
-      db.query("SELECT category FROM consents WHERE donation_id = ?", [donationId], (err2, rows) => {
-        if (err2) return res.status(500).send([]);
-        const consents = rows.map(r => r.category);
-        res.send(consents);
-      });
-    });
-});
-
-// Update consents
-router.post("/consents/:userId/:propertyId/:dataType", (req, res) => {
-  const { userId, propertyId, dataType } = req.params;
-  const { consents } = req.body;
-
-  db.query("SELECT donation_id FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
-    [userId, propertyId, dataType],
-    (err, result) => {
-      if (err || !result.length) return res.status(404).send();
-      const donationId = result[0].donation_id;
-
-      db.query("DELETE FROM consents WHERE donation_id = ?", [donationId], () => {
-        if (!consents.length) return res.send({ message: "Consents cleared" });
-
-        const values = consents.map(c => [donationId, c]);
-        db.query("INSERT INTO consents (donation_id, category) VALUES ?", [values], (err2) => {
-          if (err2) return res.status(500).send(err2);
-          res.send({ message: "Consents updated" });
-        });
-      });
-    });
-});
-
-// Delete donation + consents
-router.delete("/donation/:userId/:propertyId/:dataType", (req, res) => {
-  const { userId, propertyId, dataType } = req.params;
-
-  db.query("SELECT donation_id FROM donations WHERE user_id = ? AND property_id = ? AND data_type = ?",
-    [userId, propertyId, dataType],
-    (err, result) => {
-      if (err || !result.length) return res.status(404).send();
-      const donationId = result[0].donation_id;
-
-      db.query("DELETE FROM consents WHERE donation_id = ?", [donationId], () => {
-        db.query("DELETE FROM donations WHERE donation_id = ?", [donationId], () => {
-          res.send({ message: "Donation and consents deleted" });
-        });
-      });
-    });
-});
+  
 
 module.exports = router;

@@ -2,8 +2,10 @@
 DROP TABLE IF EXISTS data_consent;
 DROP TABLE IF EXISTS dataset CASCADE;
 DROP TABLE IF EXISTS authentication_key;
+DROP TABLE IF EXISTS donations CASCADE;
 DROP TABLE IF EXISTS property CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+
 
 CREATE TABLE IF NOT EXISTS users(
 	user_id INT PRIMARY KEY AUTO_INCREMENT, 
@@ -65,54 +67,3 @@ VALUES
 
 SELECT * FROM users;
 SELECT * FROM property;
-SELECT * FROM donations;
-
-
-CREATE TABLE IF NOT EXISTS donations (
-  donation_id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
-  property_id INT,
-  data_type ENUM('Electric', 'Gas', 'Water'),
-  contract TEXT,
-  data TEXT,
-  security TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(user_id),
-  FOREIGN KEY (property_id) REFERENCES property(property_id)
-);
-CREATE TABLE IF NOT EXISTS consents (
-  consent_id INT AUTO_INCREMENT PRIMARY KEY,
-  donation_id INT,
-  category VARCHAR(100),
-  FOREIGN KEY (donation_id) REFERENCES donations(donation_id)
-);
-
-
-
-
--- AUTHENTICATION KEY
-CREATE TABLE IF NOT EXISTS authentication_key(
-	key_id INT PRIMARY KEY NOT NULL, 
-	user_id INT,
-	token INT, 
-	expiration TIMESTAMP,
-	CONSTRAINT fk_user_id_auth FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
--- DATASET
-CREATE TABLE IF NOT EXISTS dataset(
-	data_id INT PRIMARY KEY NOT NULL, 
-	property_id INT,
-	type VARCHAR(200), 
-	timestamp TIMESTAMP,
-	CONSTRAINT fk_property_id FOREIGN KEY (property_id) REFERENCES property(property_id)
-);
-
--- DATA CONSENT
-CREATE TABLE IF NOT EXISTS data_consent(
-	consent_id INT PRIMARY KEY NOT NULL, 
-	data_id INT,
-	valid BOOLEAN, 
-	timestamp TIMESTAMP,
-	CONSTRAINT fk_data_id FOREIGN KEY (data_id) REFERENCES dataset(data_id)
-);
