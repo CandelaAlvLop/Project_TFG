@@ -349,5 +349,66 @@ router.get("/properties/:userId", (req, res) => {
     });
 });
   
+const multer = require('multer');
+const path = require('path');
+
+//File Upload
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    const { userId, propertyId, type } = req.params;
+    const fileName = `${userId}_${propertyId}_${type}_${Date.now()}${path.extname(file.originalname)}`;
+    cb(null, fileName);
+  }
+});
+
+const upload = multer({ storage });
+
+router.post('/donation/:userId/:propertyId/:type', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ message: "No file uploaded" });
+  }
+
+  const {userId, propertyId, type} = req.params;
+  const filename = req.file.filename;
+
+  db.query(
+    "INSERT INTO donations (user_id, property_id, type, filename) VALUES (?, ?, ?, ?)",
+    [userId, propertyId, type, filename],
+    (err, result) => {
+      if (err) {
+        console.error("Error saving upload to DB:", err);
+        return res.status(500).send({ message: "File saved, but database insert failed" });
+      }
+      res.status(200).send({ message: "File uploaded and saved", filename });
+    }
+  );
+});
+ 
+  
+router.get("/donations/:userId/:propertyId/:type", (req, res) => {
+    const userId = req.params.userId;
+    const propertyId = req.params.propertyId;
+    const type = req.params.type;
+    
+    db.query(
+        "SELECT * FROM donations WHERE user_id = ? AND property_id = ? AND type = ?",
+        [userId, propertyId, type],
+        function (err, result) {
+            if (err) {
+                return res.status(500).send({ message: "Database error" });
+            }
+            if (result.length === 0) {
+                return res.status(404).send({ message: "No donation found" });
+            }
+            res.status(200).send(result[0]);
+        }
+    );
+});
+  
+  
+
 
 module.exports = router;

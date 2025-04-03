@@ -9,7 +9,15 @@ import { useNavigate } from 'react-router-dom';
 function DataDonation() {
   useEffect(() => {
       window.scrollTo(0, 0); 
-      setUserProperties();
+
+      if (!userId) return console.error("No User retrieved");
+      axios.get(`http://localhost:3001/UserManager/properties/${userId}`)
+          .then((response) => {
+              setProperties(response.data);
+          })
+          .catch((error) => {
+              console.error("Error retrieving User Property data:", error);
+          });
   }, []);
 
   const navigate = useNavigate();
@@ -18,20 +26,11 @@ function DataDonation() {
   const [selectedProperty, setSelectedProperty] = useState("");
   const [selectedConsume, setSelectedConsume] = useState("");
 
-  
+  const [upload, setUpload] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadedInfo, setUploadedInfo] = useState(null); 
 
   const userId = localStorage.getItem('user_id');
-
-  function setUserProperties () {
-    if (!userId) return console.error("No User retrieved");
-    axios.get(`http://localhost:3001/UserManager/properties/${userId}`)
-        .then((response) => {
-            setProperties(response.data);
-        })
-        .catch((error) => {
-            console.error("Error retrieving User Property data:", error);
-        });
-  };
 
   function selectionProperty (propertyId) {
     if (selectedProperty === propertyId) return "property-card selected";
@@ -43,15 +42,70 @@ function DataDonation() {
     else return "property-card";
   }
 
-  function UploadFile() {
+  useEffect(() => {
+    if (userId && selectedProperty && selectedConsume) {
+      axios.get("http://localhost:3001/UserManager/donations/" + userId + "/" + selectedProperty + "/" + selectedConsume)
+        .then((response) => {
+          setUploadedInfo(response.data);
+        })
+        .catch(() => {
+          setUploadedInfo(null);
+        });
+    }
+  }, [selectedProperty, selectedConsume]);
 
-  }
+  function UploadFile() {
+    if (!uploadedFile || !selectedProperty || !selectedConsume) {
+      return alert("Select file, property, and consumption type first");
+    }
   
+    const formData = new FormData();
+    formData.append("file", uploadedFile);
+  
+    axios.post(`http://localhost:3001/UserManager/donation/${userId}/${selectedProperty}/${selectedConsume}`, formData)
+      .then((response) => {
+        setUploadedInfo(response.data); //Show info
+        setUpload(false); //Close upload
+        setUploadedFile(null); //Clear after upload
+      })
+      .catch((error) => {
+        console.error("Upload error:", error);
+      });
+  }
 
   function donationManagement() {
-    
+    if (upload) {
+      return (
+        <div className="upload-button">
+          <p>Upload your file of consumption data:</p>
+          <input
+            type="file"
+            onChange={(e) => setUploadedFile(e.target.files[0])}
+          />
+          <button onClick={UploadFile}>Submit</button>
+          <button onClick={() => {setUpload(false); setUploadedFile(null)}}>Cancel</button>
+        </div>
+      );
+    }
+
+    if (uploadedInfo) {
+      return (
+        <div className="no-donation">
+          <p><strong>Uploaded file</strong>: {uploadedInfo.filename}</p>
+          <button className="add" onClick={() => setUpload(true)}>Add</button>
+        </div>
+      );
+    }
+  
+    return (
+      <div className="no-donation">
+        <p>No donation yet for this property and data type.</p>
+        <button className="add" onClick={() => setUpload(true)}> Add</button>
+      </div>
+    );
   }
   
+
   function modifyConsume() {
     localStorage.setItem("consume", selectedConsume);
     localStorage.setItem("property_id", selectedProperty);
@@ -83,6 +137,7 @@ function DataDonation() {
       </div>
       )}
 
+      {selectedConsume && donationManagement()}
 
       <Footer/>
     </div>

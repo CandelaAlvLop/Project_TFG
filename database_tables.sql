@@ -67,3 +67,15 @@ VALUES
 
 SELECT * FROM users;
 SELECT * FROM property;
+
+CREATE TABLE IF NOT EXISTS donations (
+  donation_id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  property_id INT,
+  type VARCHAR(200),
+  filename VARCHAR(255),
+  uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_user_id_donations  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  CONSTRAINT fk_property_id_donations FOREIGN KEY (property_id) REFERENCES property(property_id)
+);
+SELECT * FROM donations;
