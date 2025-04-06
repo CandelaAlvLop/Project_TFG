@@ -102,16 +102,27 @@ function DataDonation() {
     if (uploadedInfos.length > 0) {
       return (
         <div className="no-donation">
+          <h3>Thank you for contributing your data</h3>
           <p><strong>Uploaded file:</strong>
             <ul>
               {uploadedInfos.map((file, i) => (
                 <li key={i}>
-                  {file.filename}
-                  – Reading: <strong>{file.meter_reading}</strong> on {file.timer_day}/{file.timer_month}/{file.timer_year} at {file.timer_hours}:00
+                  {file.filename} – Uploaded on: <strong>{file.upload_time}</strong>
                 </li>
               ))}
             </ul>
           </p>
+
+          <h4>Privacy & Security</h4>
+          <ul>
+            <li>Who is responsible for your data</li>
+            <li>Why we collect it</li>
+            <li>The legal basis for processing</li>
+            <li>How long we store it</li>
+            <li>Who it may be shared with</li>
+            <li>Your rights</li>
+          </ul>
+          
           <button className="add" onClick={() => setUpload(true)}>Add</button>
         </div>
       );

@@ -2,8 +2,8 @@
 DROP TABLE IF EXISTS data_consent;
 DROP TABLE IF EXISTS dataset CASCADE;
 DROP TABLE IF EXISTS authentication_key;
-DROP TABLE IF EXISTS readings CASCADE;
-DROP TABLE IF EXISTS donations CASCADE;
+DROP TABLE IF EXISTS donations_readings CASCADE;
+DROP TABLE IF EXISTS donations_metadata CASCADE;
 DROP TABLE IF EXISTS property CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
@@ -69,37 +69,29 @@ VALUES
 SELECT * FROM users;
 SELECT * FROM property;
 
-CREATE TABLE IF NOT EXISTS donations (
+CREATE TABLE IF NOT EXISTS donations_metadata (
   donation_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
   property_id INT,
-  filename VARCHAR(255),
-  timer_hours INT,
-  timer_day INT,
-  timer_month INT,
-  timer_year INT,
   consume_type VARCHAR(200),
-  meter_reading DECIMAL(10,2),
-  uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  filename VARCHAR(200),
+  upload_time DATETIME DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_user_id_donations FOREIGN KEY (user_id) REFERENCES users(user_id),
   CONSTRAINT fk_property_id_donations FOREIGN KEY (property_id) REFERENCES property(property_id)
 );
 
-CREATE TABLE IF NOT EXISTS readings (
+CREATE TABLE IF NOT EXISTS donations_readings (
   reading_id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT,
-  property_id INT,
-  consume_type VARCHAR(255),
+  donation_id INT,
   timer_hours INT,
   timer_day INT,
   timer_month INT,
   timer_year INT,
-  meter_reading DECIMAL(10,2),
-  CONSTRAINT fk_user_id_readings FOREIGN KEY (user_id) REFERENCES users(user_id),
-  CONSTRAINT fk_property_id_readings FOREIGN KEY (property_id) REFERENCES property(property_id)
+  meter_reading DECIMAL,
+  CONSTRAINT fk_donations_id_readings FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
 );
-SELECT * FROM donations;
-SELECT * FROM readings;
+SELECT * FROM donations_metadata;
+SELECT * FROM donations_readings;
 
 
 
