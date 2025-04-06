@@ -48,7 +48,7 @@ function EditProperty() {
 
     function setUserProperty () {
         if (!propertyId) return console.error("No Property retrieved");
-        axios.get(`http://localhost:3001/UserManager/propertiesUpdate/${propertyId}`)
+        axios.get(`http://localhost:3001/PropertyManager/propertiesUpdate/${propertyId}`)
             .then((response) => {
                 let propertyAppliances_string = [];
                 if (response.data.appliances) propertyAppliances_string = response.data.appliances.split(',');
@@ -137,7 +137,7 @@ function EditProperty() {
 
         const propertyAppliances_string = propertyAppliances.join(',');
 
-        axios.put(`http://localhost:3001/UserManager/propertiesUpdate/${propertyId}`, {
+        axios.put(`http://localhost:3001/PropertyManager/propertiesUpdate/${propertyId}`, {
             userId,
             propertyName: NewPropertyName,
             size: NewSize,

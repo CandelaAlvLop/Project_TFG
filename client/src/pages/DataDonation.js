@@ -11,7 +11,7 @@ function DataDonation() {
       window.scrollTo(0, 0); 
 
       if (!userId) return console.error("No User retrieved");
-      axios.get(`http://localhost:3001/UserManager/properties/${userId}`)
+      axios.get(`http://localhost:3001/DataDonationManager/properties/${userId}`)
           .then((response) => {
               setProperties(response.data);
           })
@@ -44,7 +44,7 @@ function DataDonation() {
 
   useEffect(() => {
     if (userId && selectedProperty && selectedConsume) {
-      axios.get("http://localhost:3001/UserManager/donations/" + userId + "/" + selectedProperty + "/" + selectedConsume)
+      axios.get("http://localhost:3001/DataDonationManager/donations/" + userId + "/" + selectedProperty + "/" + selectedConsume)
         .then((response) => {
           setUploadedInfos(response.data);
           setUpload(false);
@@ -69,11 +69,11 @@ function DataDonation() {
     const formData = new FormData();
     formData.append("file", uploadedFile);
   
-    axios.post(`http://localhost:3001/UserManager/donation/${userId}/${selectedProperty}/${selectedConsume}`, formData)
+    axios.post(`http://localhost:3001/DataDonationManager/donation/${userId}/${selectedProperty}/${selectedConsume}`, formData)
       .then((response) => {
         setUpload(false); //Close upload
         setUploadedFile(null); //Clear after upload
-        return axios.get(`http://localhost:3001/UserManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
+        return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
       })
       .then((response) => {
         setUploadedInfos(response.data);
@@ -102,7 +102,16 @@ function DataDonation() {
     if (uploadedInfos.length > 0) {
       return (
         <div className="no-donation">
-          <p><strong>Uploaded file:</strong> <ul>{uploadedInfos.map((file, i) => (<li key={i}>{file.filename}</li>))}</ul></p>
+          <p><strong>Uploaded file:</strong>
+            <ul>
+              {uploadedInfos.map((file, i) => (
+                <li key={i}>
+                  {file.filename}
+                  – Reading: <strong>{file.meter_reading}</strong> on {file.timer_day}/{file.timer_month}/{file.timer_year} at {file.timer_hours}:00
+                </li>
+              ))}
+            </ul>
+          </p>
           <button className="add" onClick={() => setUpload(true)}>Add</button>
         </div>
       );

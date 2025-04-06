@@ -86,7 +86,7 @@ function PersonalData() {
 
     function setUserProperties () {
         if (!userId) return console.error("No User retrieved");
-        axios.get(`http://localhost:3001/UserManager/properties/${userId}`)
+        axios.get(`http://localhost:3001/PropertyManager/properties/${userId}`)
             .then((response) => {
                 setProperties(response.data);
             })
@@ -97,7 +97,7 @@ function PersonalData() {
 
     //Delete property
     function deleteProperty (propertyId) {
-        axios.delete(`http://localhost:3001/UserManager/properties/${propertyId}`)
+        axios.delete(`http://localhost:3001/PropertyManager/properties/${propertyId}`)
             .then(() => {
                 setProperties(properties.filter(property => property.property_id !== propertyId));
             })

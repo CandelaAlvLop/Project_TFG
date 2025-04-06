@@ -9,6 +9,12 @@ app.use(cors());
 const userRoute = require("./routes/UserManager");
 app.use("/UserManager", userRoute);
 
+const propertyRoute = require("./routes/PropertyManager");
+app.use("/PropertyManager", propertyRoute);
+
+const dataRoute = require("./routes/DataDonationManager");
+app.use("/DataDonationManager", dataRoute);
+
 
 //Start API, you can use any port but it must be different than our react application
 app.listen(3001, () => {

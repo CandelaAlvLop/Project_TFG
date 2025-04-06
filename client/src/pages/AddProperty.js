@@ -47,7 +47,7 @@ function AddProperty() {
 
     function setUserProperty () {
         if (!userId) return console.error("No User retrieved");
-        axios.get(`http://localhost:3001/UserManager/properties/${userId}`)
+        axios.get(`http://localhost:3001/PropertyManager/properties/${userId}`)
             .then((response) => {
                 setProperties(response.data);
             })
@@ -92,7 +92,7 @@ function AddProperty() {
 
         const propertyAppliances_string = propertyAppliances.join(',');
 
-        axios.post('http://localhost:3001/UserManager/properties', {
+        axios.post('http://localhost:3001/PropertyManager/properties', {
             userId,
             propertyName: NewPropertyName,
             size: NewSize,
