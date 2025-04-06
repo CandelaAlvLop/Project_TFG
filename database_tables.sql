@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS donations (
   donation_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
   property_id INT,
-  type VARCHAR(200),
+  consume_type VARCHAR(200),
   filename VARCHAR(255),
   uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_user_id_donations  FOREIGN KEY (user_id) REFERENCES users(user_id),

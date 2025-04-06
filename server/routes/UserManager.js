@@ -111,7 +111,7 @@ router.get("/userUpdate/:id", (req, res) => {
         (err, result) => {
             if (err) {
                 console.log(err);
-                return res.status(500).send({message: "Error retrieving User data"});
+                return res.status(500).send({message: "Error getting User Data"});
             }
             console.log("User data retrieved succesfully:", result);
             res.status(200).send(result[0]);
@@ -237,7 +237,7 @@ router.get("/properties/:userId", (req, res) => {
         [userId], 
         (err, result) => {
         if (err) {
-            console.error("Error fetching properties:", err);
+            console.error("Error getting properties:", err);
             return res.status(500).send({message: "Database error", error: err});
         }
         if (result.length === 0) {
@@ -269,7 +269,7 @@ router.get("/propertiesUpdate/:id", (req, res) => {
         [propertyId], 
         (err, result) => {
         if (err) {
-            console.log("Error fetching property:", err);
+            console.log("Error getting property:", err);
             return res.status(500).send({message: "Error getting property"});
         }
         if (!result.length) {
@@ -339,7 +339,7 @@ router.get("/properties/:userId", (req, res) => {
         [userId], 
         (err, result) => {
         if (err) {
-            console.error("Error fetching properties:", err);
+            console.error("Error getting properties:", err);
             return res.status(500).send({message: "Database error", error: err});
         }
         if (result.length === 0) {
@@ -349,66 +349,62 @@ router.get("/properties/:userId", (req, res) => {
     });
 });
   
+//Upload data file
 const multer = require('multer');
-const path = require('path');
-
-//File Upload
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    const { userId, propertyId, type } = req.params;
-    const fileName = `${userId}_${propertyId}_${type}_${Date.now()}${path.extname(file.originalname)}`;
+  destination: (req, file, cb) => {cb(null, 'uploads/');},
+  filename: (req, file, cb) => {
+    const consumeType = req.params.consumeType;
+    const fileName = `${consumeType}(${Date.now()})_${file.originalname}`;
     cb(null, fileName);
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({storage});
 
-router.post('/donation/:userId/:propertyId/:type', upload.single('file'), (req, res) => {
+//Insert data file into Database
+router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'), (req, res) => {
   if (!req.file) {
-    return res.status(400).send({ message: "No file uploaded" });
+    return res.status(400).send({message: "No file uploaded"});
   }
 
-  const {userId, propertyId, type} = req.params;
+  const {userId, propertyId, consumeType} = req.params;
   const filename = req.file.filename;
 
   db.query(
-    "INSERT INTO donations (user_id, property_id, type, filename) VALUES (?, ?, ?, ?)",
-    [userId, propertyId, type, filename],
-    (err, result) => {
+    "INSERT INTO donations (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",
+    [userId, propertyId, consumeType, filename],
+    (err) => {
       if (err) {
         console.error("Error saving upload to DB:", err);
         return res.status(500).send({ message: "File saved, but database insert failed" });
       }
-      res.status(200).send({ message: "File uploaded and saved", filename });
+      console.log("File uploaded and saved the file", filename);
+      res.status(200).send({message: "File uploaded and saved the file", filename});
     }
   );
 });
  
-  
-router.get("/donations/:userId/:propertyId/:type", (req, res) => {
+//Get data file
+router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
     const userId = req.params.userId;
     const propertyId = req.params.propertyId;
-    const type = req.params.type;
+    const consumeType = req.params.consumeType;
     
     db.query(
-        "SELECT * FROM donations WHERE user_id = ? AND property_id = ? AND type = ?",
-        [userId, propertyId, type],
-        function (err, result) {
+        "SELECT * FROM donations WHERE user_id = ? AND property_id = ? AND consume_type = ?",
+        [userId, propertyId, consumeType],
+        (err, result) => {
             if (err) {
-                return res.status(500).send({ message: "Database error" });
+                console.error("Error getting donations:", err);
+                return res.status(500).send({message: "Database error", error: err});
             }
             if (result.length === 0) {
-                return res.status(404).send({ message: "No donation found" });
+                return res.status(404).send({message: "No donations found"});
             }
-            res.status(200).send(result[0]);
+            res.status(200).send(result);
         }
     );
 });
   
-  
-
-
 module.exports = router;

@@ -3,3 +3,10 @@
     color: white;
 }
 
+.error-upload-file {
+    color: red;
+    font-size: 14px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-weight: 300;
+}

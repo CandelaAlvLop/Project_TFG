@@ -25,10 +25,10 @@ function DataDonation() {
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState("");
   const [selectedConsume, setSelectedConsume] = useState("");
-
-  const [upload, setUpload] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [uploadedInfo, setUploadedInfo] = useState(null); 
+  const [upload, setUpload] = useState(false); //Upload form
+  const [uploadedFile, setUploadedFile] = useState(null); //Before upload
+  const [uploadedInfos, setUploadedInfos] = useState([]); //After upload
+  const [error, setError] = useState("");
 
   const userId = localStorage.getItem('user_id');
 
@@ -46,27 +46,37 @@ function DataDonation() {
     if (userId && selectedProperty && selectedConsume) {
       axios.get("http://localhost:3001/UserManager/donations/" + userId + "/" + selectedProperty + "/" + selectedConsume)
         .then((response) => {
-          setUploadedInfo(response.data);
+          setUploadedInfos(response.data);
+          setUpload(false);
+          setUploadedFile(null);
+          setError("");
         })
         .catch(() => {
-          setUploadedInfo(null);
+          setUploadedInfos([]);
+          setUpload(false);
+          setUploadedFile(null);
+          setError("");
         });
     }
   }, [selectedProperty, selectedConsume]);
 
   function UploadFile() {
     if (!uploadedFile || !selectedProperty || !selectedConsume) {
-      return alert("Select file, property, and consumption type first");
+      setError("Select file, property, and consumption type before submitting");
+      return;
     }
-  
+    
     const formData = new FormData();
     formData.append("file", uploadedFile);
   
     axios.post(`http://localhost:3001/UserManager/donation/${userId}/${selectedProperty}/${selectedConsume}`, formData)
       .then((response) => {
-        setUploadedInfo(response.data); //Show info
         setUpload(false); //Close upload
         setUploadedFile(null); //Clear after upload
+        return axios.get(`http://localhost:3001/UserManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
+      })
+      .then((response) => {
+        setUploadedInfos(response.data);
       })
       .catch((error) => {
         console.error("Upload error:", error);
@@ -80,18 +90,19 @@ function DataDonation() {
           <p>Upload your file of consumption data:</p>
           <input
             type="file"
-            onChange={(e) => setUploadedFile(e.target.files[0])}
+            onChange={(e) => {setUploadedFile(e.target.files[0]); setError("");}}
           />
           <button onClick={UploadFile}>Submit</button>
-          <button onClick={() => {setUpload(false); setUploadedFile(null)}}>Cancel</button>
+          <button onClick={() => {setUpload(false); setUploadedFile(null); setError("");}}>Cancel</button>
+          {error && (<div className="error-upload-file">{error}</div>)}
         </div>
       );
     }
 
-    if (uploadedInfo) {
+    if (uploadedInfos.length > 0) {
       return (
         <div className="no-donation">
-          <p><strong>Uploaded file</strong>: {uploadedInfo.filename}</p>
+          <p><strong>Uploaded file:</strong> <ul>{uploadedInfos.map((file, i) => (<li key={i}>{file.filename}</li>))}</ul></p>
           <button className="add" onClick={() => setUpload(true)}>Add</button>
         </div>
       );
