@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS donations_metadata (
   property_id INT,
   consume_type VARCHAR(200),
   filename VARCHAR(200),
-  upload_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  upload_time DATE DEFAULT (CURRENT_DATE),
   CONSTRAINT fk_user_id_donations FOREIGN KEY (user_id) REFERENCES users(user_id),
   CONSTRAINT fk_property_id_donations FOREIGN KEY (property_id) REFERENCES property(property_id)
 );

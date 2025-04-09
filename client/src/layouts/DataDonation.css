@@ -1,12 +1,186 @@
-.property-card.selected {
-    background-color: #4CAF50;
-    color: white;
+/*Property and Consume boxes*/
+.property-title {
+  text-align: center;
+  font-size: 32px;
+  color: rgb(3, 133, 122);
+  margin-top: 70px;
+  margin-bottom: 40px;
+
+}
+
+.property-data,
+.property-consume-type {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.property-consume-type {
+  gap: 10px;
+  margin-bottom: 50px;
+}
+
+.property-select {
+  min-width: 180px;
+  min-height: 70px;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 14px;
+  background: white;
+  border: 2px solid rgba(128, 128, 128, 0.356);
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  color: rgb(63, 63, 63);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.property-select:hover {
+  background: rgb(225, 252, 252);
+  border-color: rgb(3, 133, 122);
+}
+
+.property-select.selected {
+  background: rgb(0, 168, 154);
+  border-color: rgb(3, 133, 122);
+  color: white;
+}
+
+.property-consume-select {
+  padding: 14px;
+  background: rgba(17, 196, 181, 0.027);
+  border: 2px solid rgba(1, 168, 154, 0.685);
+  border-radius: 25px;
+  color: rgb(3, 133, 122);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.property-consume-select:hover {
+  background: rgb(225, 252, 252);
+  border-color: rgb(1, 168, 154);
+}
+
+.property-consume-select.selected {
+  background: rgb(17, 196, 181);
+  border-color: rgb(1, 168, 154);
+  color: white;
+}
+
+
+/*Donations*/
+.donation {
+  width: 60%;
+  padding: 40px;
+  background: white;
+  margin: 60px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.donation-txt {
+  font-size: 17px;
+}
+
+.donation h2 {
+  color: rgb(3, 133, 122);
+  font-size: 22px;
+  margin-top: 40px;
+  border-bottom: 2px solid rgb(204, 204, 204);
+  padding-bottom: 8px;
+}
+
+.security-policies-txt {
+  font-size: 17px;
+  background: rgba(241, 241, 241, 0.438);
+  color: rgb(63, 63, 63);
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid rgb(3, 133, 122);
+  border-right: 4px solid rgb(3, 133, 122);
+}
+
+.donation li {
+  font-size: 15px;
+}
+
+.upload-data {
+  width: 500px;
+  padding: 40px;
+  background: white;
+  margin: 60px auto;
+  text-align: center;
+  border: 1px dashed rgb(165, 165, 165);
+  border-radius: 10px;
+}
+
+.upload-data p {
+  margin-bottom: 40px;
 }
 
 .error-upload-file {
-    color: red;
+  color: red;
+  font-size: 14px;
+  margin-top: 12px;
+  margin-bottom: 15px;
+}
+
+.add-data, .modify-data, .upload-data button {
+  background: rgb(3, 133, 122);
+  color: white;
+  padding: 12px 22px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 35px;
+  margin-right: 15px;
+  transition: 0.3s;
+  margin-left: 30px;
+}
+
+.modify-data {
+  margin-left: 50px;
+}
+
+.add-data:hover, .modify-data:hover, .upload-data button:hover {
+  background-color: rgb(1, 92, 84);
+}
+
+.show-hide-files-uploaded, .show-hide-answer {
+  font-weight: bold;
+  color: rgb(2, 167, 153);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.show-hide-files-uploaded:hover, .show-hide-answer:hover {
+  color: rgb(1, 92, 84);
+}
+
+
+/*Responsiveness */
+@media (max-width: 768px) {
+  .donation {
+    width: 95%;
+    padding: 25px;
+  }
+
+  .property-card {
+    padding: 10px 16px;
     font-size: 14px;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    font-weight: 300;
+  }
+
+  button.add,
+  button.modify {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .upload-data {
+    width: 90%;
+  }
 }

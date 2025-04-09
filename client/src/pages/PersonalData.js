@@ -5,6 +5,9 @@ import Footer from "./Footer";
 import '../layouts/PersonalData.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MdAddCircle } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 
 function PersonalData() {
     useEffect(() => {
@@ -228,7 +231,7 @@ function PersonalData() {
 
                     <div className="error-upload">{error}</div>
 
-                    {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}>Edit</button>)}
+                    {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}><FaEdit /> Edit</button>)}
                     {edit === true && (
                         <><button type="submit" className="save">Save</button>
                         <button type="button" className="cancel" onClick={cancelEditUserData}>Cancel</button></>
@@ -252,15 +255,15 @@ function PersonalData() {
                                     onClick={() => {
                                         localStorage.setItem("property_id", property.property_id);
                                         navigate('/editproperty');}
-                                    }>Edit</button>
-                                <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}>Delete</button>
+                                    }><FaEdit /> Edit</button>
+                                <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}><RiDeleteBin5Fill /> Delete</button>
                             </div>
                         </div>
                     ))}
                     {properties.length === 0 && <p className="no-properties">No properties added</p>}
                 </div>
 
-                <button className="add-property-button" onClick={() => navigate('/addproperty')}>Add New Property</button>            
+                <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>            
             </div>
 
             <Footer/>

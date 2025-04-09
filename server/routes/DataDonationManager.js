@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => {cb(null, 'uploads/');},
     filename: (req, file, cb) => {
         const consumeType = req.params.consumeType;
-        const fileName = `${consumeType}(${Date.now()})_${file.originalname}`;
+        const fileName = `${consumeType}_${file.originalname}`;
         cb(null, fileName);
     }
 });
@@ -54,10 +54,6 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
                 console.error("Error inserting file information to the database:", err);
                 return res.status(500).send({message: "Error inserting file information to the database"}); 
             }   
-            /*console.log("File uploaded and saved the file", filename);
-            res.status(200).send({message: "File uploaded and saved the file", filename});
-            }
-            );*/
 
             const donationId = result.insertId;
             const readings = [];
@@ -72,7 +68,7 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
 
                     const reading = parseFloat(row[columnName]); ////////////
 
-                    if (!isNaN(reading)) { /////////////
+                    if (!isNaN(reading)) { ///////////// Revise, only stores valid files and some are not even processed if they do not follow that structure
                         readings.push([donationId, parseInt(row.TimerHours), parseInt(row.TimerDay), parseInt(row.TimerMonth), parseInt(row.TimerYear), reading]);
                     }
                 })
@@ -102,7 +98,7 @@ router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
     const { userId, propertyId, consumeType } = req.params;
     
     db.query(
-        "SELECT * FROM donations_metadata WHERE user_id = ? AND property_id = ? AND consume_type = ?",
+        "SELECT * FROM donations_metadata WHERE user_id = ? AND property_id = ? AND consume_type = ? ORDER BY upload_time ASC",
         [userId, propertyId, consumeType],
         (err, result) => {
             if (err) {
@@ -112,7 +108,10 @@ router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
             if (result.length === 0) {
                 return res.status(404).send({message: "No donations found"});
             }
-            res.status(200).send(result);
+            const firstUpload = result[0];
+            const lastUpload = result[result.length - 1];
+            res.status(200).send({files: result, firstUpload, lastUpload});
+            //res.status(200).send(result);
         }
     );
 });

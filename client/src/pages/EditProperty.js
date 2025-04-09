@@ -5,6 +5,8 @@ import Footer from "./Footer";
 import '../layouts/AddProperty.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MdCancel } from "react-icons/md";
+import { CiSaveDown2 } from "react-icons/ci";
 
 function EditProperty() {
     useEffect(() => {
@@ -388,8 +390,8 @@ function EditProperty() {
                 
                     <div className="error-property">{error}</div>
                     <div>
-                        <button type="submit" className="save">Save</button>
-                        <button type="button" className="cancel" onClick={cancelEditPropertyData}>Cancel</button>
+                        <button type="submit" className="save"><CiSaveDown2 /> Save</button>
+                        <button type="button" className="cancel" onClick={cancelEditPropertyData}><MdCancel /> Cancel</button>
                     </div>
                 </form>
             </div>

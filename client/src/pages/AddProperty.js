@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import '../layouts/AddProperty.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MdAddCircle } from "react-icons/md";
 
 function AddProperty() {
     useEffect(() => {
@@ -336,7 +337,7 @@ function AddProperty() {
                     </div>
                 
                     <div className="error-property">{error}</div>
-                    <button className="add-property-button" type="submit">Add Property</button>
+                    <button className="add-property-button" type="submit"><MdAddCircle /> Add Property</button>
                 </form>
             </div>
             <Footer/>
