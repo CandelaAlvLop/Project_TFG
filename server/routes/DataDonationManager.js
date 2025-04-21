@@ -66,15 +66,14 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
             readings.push([parseInt(row.TimerHours), parseInt(row.TimerDay), parseInt(row.TimerMonth), parseInt(row.TimerYear), parseFloat(row[headerType])]); 
         })
         .on('end', () => { //After all file is read
-            if (readings.length === 0 || !format) return res.status(400).send({message: `The uploaded file must include the following columns:
-
-• TimerHours
-• TimerDay
-• TimerMonth
-• TimerYear
-• WaterMeterReading
-• ElectricityMeterReading
-• GasMeterReading`});
+            if (readings.length === 0 || !format) return res.status(400).send({message: `The uploaded file must include the following columns: 
+                • TimerHours 
+                • TimerDay 
+                • TimerMonth 
+                • TimerYear 
+                • WaterMeterReading
+                • ElectricityMeterReading
+                • GasMeterReading`});
                         
             db.query(
                 "INSERT INTO donations_metadata (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",

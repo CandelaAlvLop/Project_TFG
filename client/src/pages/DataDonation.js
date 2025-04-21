@@ -156,7 +156,7 @@ function DataDonation() {
           {showFiles && (
             <ul>
               {uploadedInfos.map((file, i) => (
-                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()}</strong></li>
+                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="modify-data" onClick={() => {window.scrollTo(0, 0); modifyConsume()}}><FaEdit /> Modify</button> </li>
               ))}
             </ul>
           )}          
@@ -195,7 +195,6 @@ function DataDonation() {
           {showAnswer6 && <p>Answer 6</p>}
 
           <button className="add-data" onClick={() => {window.scrollTo(0, 0); setUpload(true)}}><MdAddCircle /> Add</button>
-          <button className="modify-data" onClick={() => {window.scrollTo(0, 0); modifyConsume()}}><FaEdit /> Modify</button>
         </div>
       );
     }
