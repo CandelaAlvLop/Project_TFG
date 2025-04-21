@@ -95,10 +95,27 @@
 }
 
 .error-property {
-    color: red;
+    color: rgb(196, 30, 52);
+    background: rgb(255, 237, 240);
     font-size: 14px;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    padding: 15px;
+    margin: 10px auto 15px auto;
+    border-radius: 8px;
+    border: 1px solid rgb(230, 168, 179);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.error-property-missing {
+    color: rgb(196, 30, 52);
+    background: rgb(255, 237, 240);
+    font-size: 14px;
+    padding: 15px;
+    margin: 30px auto;
+    max-width: 400px;
+    border-radius: 8px;
+    border: 1px solid rgb(230, 168, 179);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 

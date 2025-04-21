@@ -152,7 +152,7 @@ function Register() {
                             <option value="Transport">Transport</option>
 			  	        </select>
 
-                        <div className="error-register">{error}</div>
+                        {error && <div className="error-register">{error}</div>}
                     </div>
                     <button className="button-register" type="submit">Register</button>
                </form>

@@ -95,7 +95,7 @@ function DataDonation() {
 
   function UploadFile() {
     if (!uploadedFile || !selectedProperty || !selectedConsume) {
-      setError("Select file, property, and consumption type before submitting");
+      setError("Select a valid file before submitting");
       return;
     }
     
@@ -112,7 +112,11 @@ function DataDonation() {
         setUploadedInfos(response.data.files);
       })
       .catch((error) => {
-        console.error("Upload error:", error);
+        if (error.response) {
+          setError(error.response.data.message);
+        } else {
+          setError("Unexpected error during File Upload");
+        }
       });
   }
 

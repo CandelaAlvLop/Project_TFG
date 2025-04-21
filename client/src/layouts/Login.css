@@ -56,13 +56,6 @@ body, html {
     margin-bottom: 30px;
 }
 
-.error-login {
-    color: red;
-    font-size: 14px;
-    margin-bottom: 10px;
-    font-weight: 300;
-}
-
 .subtitle-login {
     font-size: 16px;
     font-weight: bold;
@@ -100,6 +93,18 @@ body, html {
     background-color: rgb(1, 92, 84);
 }
 
+.error-login {
+    color: rgb(196, 30, 52);
+    background: rgb(255, 237, 240);
+    font-size: 14px;
+    font-weight: 300;
+    padding: 12px;
+    margin: 40px auto auto auto;
+    max-width: 300px;
+    border-radius: 8px;
+    border: 1px solid rgb(230, 168, 179);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 /* Responsive */
 @media (max-width: 700px) {

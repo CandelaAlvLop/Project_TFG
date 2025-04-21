@@ -266,7 +266,7 @@ function EditProperty() {
                             <label><input type="checkbox" value="50-65" checked={NewAges.includes("50-65")} onChange={(e) => ageUpdate("50-65")}/> 50-65</label>
                             <label><input type="checkbox" value="66-80" checked={NewAges.includes("66-80")} onChange={(e) => ageUpdate("66-80")}/> 66-80</label>
                             <label><input type="checkbox" value="80+" checked={NewAges.includes("80+")} onChange={(e) => ageUpdate("80+")}/> 80+</label>
-                            <div className="error-property">{submitted && !NewAges.length && "Please select at least one Age Range"}</div>
+                            {submitted && !NewAges.length && <div className="error-property">"Please select at least one Age Range"</div>}
                         </div>
                         
                         <label htmlFor="income">Income</label>
@@ -297,7 +297,7 @@ function EditProperty() {
                             <label><input type="checkbox" value="Full Day" checked={NewWorkingSchedule.includes("Full Day")} onChange={(e) => workingScheduleUpdate("Full Day")}/> Full Day</label>
                             <label><input type="checkbox" value="Night" checked={NewWorkingSchedule.includes("Night")} onChange={(e) => workingScheduleUpdate("Night")}/> Night</label>
                             <label><input type="checkbox" value="No Work" checked={NewWorkingSchedule.includes("No Work")} onChange={(e) => workingScheduleUpdate("No Work")}/> No Work</label>
-                            <div className="error-property">{submitted && !NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
+                            {submitted && !NewWorkingSchedule.length && <div className="error-property">"Please select at least one Working Schedule"</div>}
                         </div>
                         <label htmlFor="description">Description</label>
                         <input type="text" id="description" name="description" value={NewDescription} placeholder="Small description about the people living in the property"
@@ -388,7 +388,7 @@ function EditProperty() {
                         />
                     </div>
                 
-                    <div className="error-property">{error}</div>
+                    {error && <div className="error-property-missing">{error}</div>}                    
                     <div>
                         <button type="submit" className="save"><CiSaveDown2 /> Save</button>
                         <button type="button" className="cancel" onClick={cancelEditPropertyData}><MdCancel /> Cancel</button>

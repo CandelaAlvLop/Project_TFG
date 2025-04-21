@@ -89,7 +89,7 @@ function Login() {
                                     }}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-                                <div className="error-login">{error}</div>
+                                {error && <div className="error-login">{error}</div>}
                             </div>
                             <button className="button-login" type="submit">Login</button>
                         </form>

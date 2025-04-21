@@ -45,52 +45,64 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
     const {userId, propertyId, consumeType} = req.params;
     const filename = req.file.filename;
     const filepath = req.file.path;
+    const readings = [];
+    let format = true;
 
-    db.query(
-        "INSERT INTO donations_metadata (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",
-        [userId, propertyId, consumeType, filename],
-        (err, result) => {
-            if (err) {
-                console.error("Error inserting file information to the database:", err);
-                return res.status(500).send({message: "Error inserting file information to the database"}); 
-            }   
+    fs.createReadStream(filepath) //Read line by line
+        //FILE FORMAT
+        .pipe(csv({separator: ',', headers: ['TimerHours','TimerDay','TimerMonth','TimerYear','WaterMeterReading','ElectricityMeterReading','GasMeterReading']})) //Map to headers
+        .on('data', (row) => { //For each row check column type
+            let headerType = "";
+            if (consumeType === 'Water') headerType = 'WaterMeterReading';
+            else if (consumeType === 'Electric') headerType = 'ElectricityMeterReading';
+            else if (consumeType === 'Gas') headerType = 'GasMeterReading';
 
-            const donationId = result.insertId;
-            const readings = [];
+            if (isNaN(row.TimerHours) || isNaN(row.TimerDay) || isNaN(row.TimerMonth) || isNaN(row.TimerYear) || isNaN(row[headerType])) {
+                format = false;
+                return;
+            }
 
-            fs.createReadStream(filepath)
-                .pipe(csv({separator: ',', headers: ['TimerHours','TimerDay','TimerMonth','TimerYear','WaterMeterReading','ElectricityMeterReading','GasMeterReading']}))
-                .on('data', (row) => {
-                    let columnName = "";
-                    if (consumeType === 'Water') columnName = 'WaterMeterReading';
-                    else if (consumeType === 'Electric') columnName = 'ElectricityMeterReading';
-                    else if (consumeType === 'Gas') columnName = 'GasMeterReading';
+            //Parse reading (string) for each row into a int/float and push into readings
+            readings.push([parseInt(row.TimerHours), parseInt(row.TimerDay), parseInt(row.TimerMonth), parseInt(row.TimerYear), parseFloat(row[headerType])]); 
+        })
+        .on('end', () => { //After all file is read
+            if (readings.length === 0 || !format) return res.status(400).send({message: `The uploaded file must include the following columns:
 
-                    const reading = parseFloat(row[columnName]); ////////////
+• TimerHours
+• TimerDay
+• TimerMonth
+• TimerYear
+• WaterMeterReading
+• ElectricityMeterReading
+• GasMeterReading`});
+                        
+            db.query(
+                "INSERT INTO donations_metadata (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",
+                [userId, propertyId, consumeType, filename],
+                (err, result) => {
+                    if (err) {
+                        console.error("Error inserting file information to the database:", err);
+                        return res.status(500).send({message: "Error inserting file information to the database"}); 
+                    }   
 
-                    if (!isNaN(reading)) { ///////////// Revise, only stores valid files and some are not even processed if they do not follow that structure
-                        readings.push([donationId, parseInt(row.TimerHours), parseInt(row.TimerDay), parseInt(row.TimerMonth), parseInt(row.TimerYear), reading]);
-                    }
-                })
-                .on('end', () => {
-                    if (readings.length === 0) {
-                        return res.status(200).send({message: "File metadata is saved but readings are not stored", filename});
-                      }
+                    const donationId = result.insertId;
+                    const finalReadings = readings.map(read => [donationId, ...read]); //Insert donationId
+
                     db.query(
                         "INSERT INTO donations_readings (donation_id, timer_hours, timer_day, timer_month, timer_year, meter_reading) VALUES ?",
-                        [readings],
+                        [finalReadings],
                         (err) => {
                             if (err) {
-                                console.error("Error inserting data readings to the database:", err);
-                                return res.status(500).send({message: "Error inserting data readings to the database:"});
+                                console.error("Error inserting data read into to the database:", err);
+                                return res.status(500).send({message: "Error inserting data read into the database"});
                             }
-                            console.log(`File ${filename} uploaded and saved, whith ${readings.length} readings inserted`);
+                            console.log(`File ${filename} uploaded and saved, whith ${finalReadings.length} readings inserted`);
                             res.status(200).send({message: "File uploaded and saved:", filename});
                         }
                     );
-                });
-        }
-    );
+                }
+            );
+        })
 });
  
 //Get data file
@@ -111,7 +123,6 @@ router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
             const firstUpload = result[0];
             const lastUpload = result[result.length - 1];
             res.status(200).send({files: result, firstUpload, lastUpload});
-            //res.status(200).send(result);
         }
     );
 });

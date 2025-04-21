@@ -229,7 +229,7 @@ function PersonalData() {
                         </div>
                     </div>
 
-                    <div className="error-upload">{error}</div>
+                    {error && <div className="error-upload">{error}</div>}
 
                     {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}><FaEdit /> Edit</button>)}
                     {edit === true && (

@@ -214,7 +214,7 @@ function AddProperty() {
                             <label><input type="checkbox" value="50-65" onChange={(e) => ageUpdate("50-65")}/> 50-65</label>
                             <label><input type="checkbox" value="66-80" onChange={(e) => ageUpdate("66-80")}/> 66-80</label>
                             <label><input type="checkbox" value="80+" onChange={(e) => ageUpdate("80+")}/> 80+</label>
-                            <div className="error-property">{submitted && !NewAges.length && "Please select at least one Age Range"}</div>
+                            {submitted && !NewAges.length && <div className="error-property"> "Please select at least one Age Range"</div>}
                         </div>
                         
                         <label htmlFor="income">Income</label>
@@ -245,7 +245,7 @@ function AddProperty() {
                             <label><input type="checkbox" value="Full Day" onChange={(e) => workingScheduleUpdate("Full Day")}/> Full Day</label>
                             <label><input type="checkbox" value="Night" onChange={(e) => workingScheduleUpdate("Night")}/> Night</label>
                             <label><input type="checkbox" value="No Work" onChange={(e) => workingScheduleUpdate("No Work")}/> No Work</label>
-                            <div className="error-property">{submitted && !NewWorkingSchedule.length && "Please select at least one Working Schedule"}</div>
+                            {submitted && !NewWorkingSchedule.length && <div className="error-property"> "Please select at least one Working Schedule"</div>}
                         </div>
                         <label htmlFor="description">Description</label>
                         <input type="text" id="description" name="description" value={NewDescription} placeholder="Small description about the people living in the property"
@@ -336,8 +336,8 @@ function AddProperty() {
                         />
                     </div>
                 
-                    <div className="error-property">{error}</div>
                     <button className="add-property-button" type="submit"><MdAddCircle /> Add Property</button>
+                    {error && <div className="error-property-missing">{error}</div>}
                 </form>
             </div>
             <Footer/>

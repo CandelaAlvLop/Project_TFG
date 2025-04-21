@@ -58,7 +58,7 @@ select {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 0;
+    margin-top: 10px;
     margin-right: 15px;
     font-size: 14px;
 }
@@ -82,10 +82,16 @@ select {
 }
 
 .error-upload {
-    color: red;
+    color: rgb(196, 30, 52);
+    background: rgb(255, 237, 240);
     font-size: 14px;
-    margin-bottom: 30px;
-    font-weight: 300;
+    padding: 12px;
+    margin: 25px auto 40px auto;
+    max-width: 450px;
+    border-radius: 8px;
+    border: 1px solid rgb(230, 168, 179);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 

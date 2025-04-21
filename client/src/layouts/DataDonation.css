@@ -122,10 +122,17 @@
 }
 
 .error-upload-file {
-  color: red;
+  color: rgb(196, 30, 52);
+  background: rgb(255, 237, 240);
   font-size: 14px;
-  margin-top: 12px;
-  margin-bottom: 15px;
+  padding: 18px;
+  margin: 30px 35px 15px 35px;
+  white-space: pre-line;
+  border-radius: 8px;
+  border: 1px solid rgb(230, 168, 179);
+  line-height: 1.5;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .add-data, .modify-data, .upload-data button {
