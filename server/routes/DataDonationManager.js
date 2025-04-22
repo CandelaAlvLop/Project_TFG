@@ -96,7 +96,7 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
                                 return res.status(500).send({message: "Error inserting data read into the database"});
                             }
                             console.log(`File ${filename} uploaded and saved, whith ${finalReadings.length} readings inserted`);
-                            res.status(200).send({message: "File uploaded and saved:", filename});
+                            res.status(200).send({message: "File uploaded and saved:", filename, donationId});
                         }
                     );
                 }
@@ -106,7 +106,7 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
  
 //Get data file
 router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
-    const { userId, propertyId, consumeType } = req.params;
+    const {userId, propertyId, consumeType} = req.params;
     
     db.query(
         "SELECT * FROM donations_metadata WHERE user_id = ? AND property_id = ? AND consume_type = ? ORDER BY upload_time ASC",
@@ -122,6 +122,23 @@ router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
             const firstUpload = result[0];
             const lastUpload = result[result.length - 1];
             res.status(200).send({files: result, firstUpload, lastUpload});
+        }
+    );
+});
+
+//Save Consents
+router.post("/consent", (req, res) => {
+    const {donationId, consents} = req.body;
+  
+    db.query(
+        "INSERT INTO donations_consent (donation_id, consents) VALUES (?, ?)",
+        [donationId, consents],
+        (err) => {
+            if (err) {
+                console.error("Error storing consents:", err);
+                return res.status(500).send({message: "Error storing consents"});
+            }
+            res.status(200).send({message: "Consents saved into the database"});
         }
     );
 });

@@ -5,11 +5,9 @@
   color: rgb(3, 133, 122);
   margin-top: 70px;
   margin-bottom: 40px;
-
 }
 
-.property-data,
-.property-consume-type {
+.property-data, .property-consume-type {
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
@@ -147,18 +145,19 @@
   transition: 0.3s;
 }
 
-.modify-data {
+.edit-consent {
   background: rgb(3, 133, 122);
   color: white;
   padding: 4px;
   font-size: 14px;
   border-radius: 8px;
   cursor: pointer;
-  margin: 0px auto 12px 20px;
+  margin: 0px auto 10px 20px;
+  width: 150px;
   transition: 0.3s;
 }
 
-.add-data:hover, .modify-data:hover, .upload-data button:hover {
+.add-data:hover, .edit-consent:hover, .upload-data button:hover {
   background-color: rgb(1, 92, 84);
 }
 
@@ -173,26 +172,53 @@
   color: rgb(1, 92, 84);
 }
 
+/*Consents*/
+.consent-popup {
+  background: rgba(0, 0, 0, 0.637);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-/*Responsiveness */
-@media (max-width: 768px) {
-  .donation {
-    width: 95%;
-    padding: 25px;
-  }
+.consent-popup-content h2 {
+  text-align: center;
+  font-size: 32px;
+  color: rgb(3, 133, 122);
+  margin-bottom: 40px;
+}
 
-  .property-card {
-    padding: 10px 16px;
-    font-size: 14px;
-  }
+.consent-popup-content{
+  background: white;
+  padding: 30px;
+  max-width: 900px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
-  button.add,
-  button.modify {
-    width: 100%;
-    margin-top: 16px;
-  }
+.error-consent {
+  color: rgb(196, 30, 52);
+  background: rgb(255, 237, 240);
+  font-size: 14px;
+  padding: 18px;
+  margin: 20px auto auto auto;
+  border-radius: 8px;
+  border: 1px solid rgb(230, 168, 179);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-  .upload-data {
-    width: 90%;
-  }
+.save-consent {
+  background-color: rgb(3, 133, 122);
+  color: white;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  width: 350px;
+  margin: 40px auto auto auto;
 }

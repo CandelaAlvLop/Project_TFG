@@ -29,9 +29,11 @@ function DataDonation() {
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState("");
   const [selectedConsume, setSelectedConsume] = useState("");
+
   const [upload, setUpload] = useState(false); //Upload form
   const [uploadedFile, setUploadedFile] = useState(null); //Before upload
   const [uploadedInfos, setUploadedInfos] = useState([]); //After upload
+
   const [firstUpload, setFirstUpload] = useState(null);
   const [lastUpload, setLastUpload] = useState(null);
   const [showFiles, setShowFiles] = useState(false);
@@ -41,6 +43,12 @@ function DataDonation() {
   const [showAnswer4, setShowAnswer4] = useState(false);
   const [showAnswer5, setShowAnswer5] = useState(false);
   const [showAnswer6, setShowAnswer6] = useState(false);
+
+  const [donationId, setDonationId] = useState(null);
+  const [consent, setConsent] = useState(false); //Display Consent section
+  const [selectedConsents, setSelectedConsents] = useState([]); 
+  const [savedConsent, setSavedConsent] = useState(false);
+
   const [error, setError] = useState("");
 
   const consumeIcons = [{icon:<IoWaterOutline />, consume:'Water'},{icon:<FaRegLightbulb />, consume:'Electric'},{icon:<FaFire />, consume:'Gas'}];
@@ -91,11 +99,10 @@ function DataDonation() {
     }
   }, [selectedProperty, selectedConsume]);
 
-  
 
   function UploadFile() {
     if (!uploadedFile || !selectedProperty || !selectedConsume) {
-      setError("Select a valid file before submitting");
+      setError("Select a valid file before saving");
       return;
     }
     
@@ -103,13 +110,17 @@ function DataDonation() {
     formData.append("file", uploadedFile);
   
     axios.post(`http://localhost:3001/DataDonationManager/donation/${userId}/${selectedProperty}/${selectedConsume}`, formData)
-      .then(() => {
+      .then((response) => {
+        setDonationId(response.data.donationId);
         setUpload(false); //Close upload
         setUploadedFile(null); //Clear after upload
+        setConsent(true);
         return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
       })
       .then((response) => {
         setUploadedInfos(response.data.files);
+        setFirstUpload(response.data.firstUpload);
+        setLastUpload(response.data.lastUpload);
       })
       .catch((error) => {
         if (error.response) {
@@ -120,11 +131,33 @@ function DataDonation() {
       });
   }
 
-  function modifyConsume() {
+  function editConsume() {
     localStorage.setItem("consume", selectedConsume);
     localStorage.setItem("property_id", selectedProperty);
-    navigate("/modifyconsent");
+    navigate("/editconsent");
   } 
+
+  function consentSelection(value) {
+    if (selectedConsents.includes(value)) {setSelectedConsents(selectedConsents.filter(consent => consent !== value));} //Remove element from the new array
+    else {setSelectedConsents([...selectedConsents, value]);} //Add element to the new array
+  }
+
+  function saveConsent() {
+    setSavedConsent(true);    
+    if (selectedConsents.length === 0) return;
+    axios.post("http://localhost:3001/DataDonationManager/consent", {
+      donationId: donationId,
+      consents: selectedConsents.join(",")
+    })
+    .then(() => {
+      setConsent(false);
+      setSavedConsent(false);
+      setSelectedConsents([]);
+    })
+    .catch((err) => {
+      console.error("Error storing consents:", err);
+    });
+  }
 
   function donationManagement() {
     if (upload) {
@@ -156,7 +189,7 @@ function DataDonation() {
           {showFiles && (
             <ul>
               {uploadedInfos.map((file, i) => (
-                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="modify-data" onClick={() => {window.scrollTo(0, 0); modifyConsume()}}><FaEdit /> Modify</button> </li>
+                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => {window.scrollTo(0, 0); editConsume()}}><FaEdit /> Edit Consent</button> </li>
               ))}
             </ul>
           )}          
@@ -198,7 +231,7 @@ function DataDonation() {
         </div>
       );
     }
-  
+ 
     return (
       <div className="donation">
         <p>No donation yet for this property. Provide it below.</p>
@@ -236,10 +269,43 @@ function DataDonation() {
 
       {selectedConsume && donationManagement()}
 
-      <Footer/>
-    </div>
-  )
-    
+      {consent && (
+        <div className="consent-popup">
+          <div className="consent-popup-content">
+            <h2>Consent Selection</h2>
+            <div className="checkboxes">
+              <label><input type="checkbox" onChange={() => consentSelection("sabadad")}/>
+                I consent to the analysis of my data for general insights and usage trends.
+              </label>
+              <label><input type="checkbox" onChange={() => consentSelection("research")}/>
+                I allow my data to be used for research-oriented campaigns (e.g., academic, non-profit studies).
+              </label>
+              <label> <input type="checkbox" onChange={() => consentSelection("business")}/>
+                I allow my data to be used in business-driven campaigns (e.g., smart home products, utilities optimization).
+              </label>
+              <label> <input type="checkbox" onChange={() => consentSelection("education")}/>
+                I allow my data to be used in educational initiatives (e.g., school programs, public awareness).
+              </label>
+              <label> <input type="checkbox" onChange={() => consentSelection("contact")}/>
+                I consent to being contacted about campaigns using my data.
+              </label>
+              <label> <input type="checkbox" onChange={() => consentSelection("comparison")}/>
+                I consent to my consumption data being compared with metadata (e.g., climate, mobility, tourism).
+              </label>
+              {savedConsent && selectedConsents.length === 0 && (
+                <div className="error-consent">Please select at least one consent option.</div>
+              )}
+            </div>
+
+          <button className="save-consent" onClick={saveConsent}><MdAddCircle /> Save</button>
+          {/*<button className="cancel-consents" onClick={() => setConsent(false)}><MdCancel /> Cancel</button>*/}
+        </div>
+      </div>
+    )}
+
+    <Footer/>
+  </div>
+  ) 
 }
 
 export default DataDonation;

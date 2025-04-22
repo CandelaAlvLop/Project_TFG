@@ -209,11 +209,11 @@ function AddProperty() {
                         <label htmlFor="ages">Ages</label>
                         <div className="checkboxes">
                             <label><input type="checkbox" value="0-20" onChange={() => ageUpdate("0-20")}/>0-20</label>
-                            <label><input type="checkbox" value="21-35" onChange={(e) => ageUpdate("21-25")}/> 21-35</label>
-                            <label><input type="checkbox" value="36-50" onChange={(e) => ageUpdate("36-50")}/> 36-50</label>
-                            <label><input type="checkbox" value="50-65" onChange={(e) => ageUpdate("50-65")}/> 50-65</label>
-                            <label><input type="checkbox" value="66-80" onChange={(e) => ageUpdate("66-80")}/> 66-80</label>
-                            <label><input type="checkbox" value="80+" onChange={(e) => ageUpdate("80+")}/> 80+</label>
+                            <label><input type="checkbox" value="21-35" onChange={() => ageUpdate("21-25")}/> 21-35</label>
+                            <label><input type="checkbox" value="36-50" onChange={() => ageUpdate("36-50")}/> 36-50</label>
+                            <label><input type="checkbox" value="50-65" onChange={() => ageUpdate("50-65")}/> 50-65</label>
+                            <label><input type="checkbox" value="66-80" onChange={() => ageUpdate("66-80")}/> 66-80</label>
+                            <label><input type="checkbox" value="80+" onChange={() => ageUpdate("80+")}/> 80+</label>
                             {submitted && !NewAges.length && <div className="error-property"> "Please select at least one Age Range"</div>}
                         </div>
                         

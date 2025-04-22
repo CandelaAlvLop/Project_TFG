@@ -1,7 +1,5 @@
 -- USER
-DROP TABLE IF EXISTS data_consent;
-DROP TABLE IF EXISTS dataset CASCADE;
-DROP TABLE IF EXISTS authentication_key;
+DROP TABLE IF EXISTS donations_consent CASCADE;
 DROP TABLE IF EXISTS donations_readings CASCADE;
 DROP TABLE IF EXISTS donations_metadata CASCADE;
 DROP TABLE IF EXISTS property CASCADE;
@@ -90,8 +88,19 @@ CREATE TABLE IF NOT EXISTS donations_readings (
   meter_reading DECIMAL(10,6),
   CONSTRAINT fk_donations_id_readings FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
 );
+
+CREATE TABLE IF NOT EXISTS donations_consent (
+  consent_id INT PRIMARY KEY AUTO_INCREMENT,
+  donation_id INT,
+  consents TEXT,
+  consent_date DATE DEFAULT (CURRENT_DATE),
+  CONSTRAINT fk_donations_id_consents FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
+);
+
+
 SELECT * FROM donations_metadata;
 SELECT * FROM donations_readings;
+SELECT * FROM donations_consent;
 
 
 

@@ -4,7 +4,7 @@ import Navbar2 from './Navbar2';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function ModifyConsent() {
+function EditConsent() {
   const userId = localStorage.getItem('user_id');
   const propertyId = localStorage.getItem('property_id');
   const dataType = localStorage.getItem('data_type');
@@ -73,4 +73,4 @@ function ModifyConsent() {
   );
 }
 
-export default ModifyConsent;
+export default EditConsent;
