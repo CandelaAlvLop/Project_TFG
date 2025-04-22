@@ -117,7 +117,7 @@ router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
                 return res.status(500).send({message: "Database error", error: err});
             }
             if (result.length === 0) {
-                return res.status(404).send({message: "No donations found"});
+                return res.status(400).send({message: "No donations found"});
             }
             const firstUpload = result[0];
             const lastUpload = result[result.length - 1];
@@ -137,31 +137,30 @@ router.post("/consent", (req, res) => {
         (err, result) => {
             if (err) {
                 console.error("Error checking existing consents:", err);
-                return res.status(500).send({ message: "Database error during lookup" });
+                return res.status(500).send({ message: "Error checking existing consents" });
             }
-
             if (result.length > 0) {
                 db.query(
                     "UPDATE donations_consent SET consents = ? WHERE donation_id = ?",
                     [consents, donationId],
-                    (updateErr) => {
-                        if (updateErr) {
-                            console.error("Error updating consents:", updateErr);
-                            return res.status(500).send({ message: "Error updating consents" });
+                    (update_err) => {
+                        if (update_err) {
+                            console.error("Error updating consents:", update_err);
+                            return res.status(500).send({message: "Error updating consents"});
                         }
-                        return res.status(200).send({ message: "Consents updated successfully" });
+                        return res.status(200).send({message: "Consents updated successfully"});
                     }
                 );
             } else {
                 db.query(
                     "INSERT INTO donations_consent (donation_id, consents) VALUES (?, ?)",
                     [donationId, consents],
-                    (insertErr) => {
-                        if (insertErr) {
-                            console.error("Error inserting consents:", insertErr);
-                            return res.status(500).send({ message: "Error inserting consents" });
+                    (insert_err) => {
+                        if (insert_err) {
+                            console.error("Error inserting consents:", insert_err);
+                            return res.status(500).send({message: "Error inserting consents"});
                         }
-                        return res.status(200).send({ message: "Consents inserted successfully" });
+                        return res.status(200).send({message: "Consents inserted successfully"});
                     }
                 );
             }
@@ -180,9 +179,6 @@ router.get("/consent/:donationId", (req, res) => {
             if (err) {
                 console.error("Error getting consents:", err);
                 return res.status(500).send({message: "Error getting consents"});
-            }
-            if (result.length === 0) {
-                return res.status(404).send({message: "No consents found for this donation"});
             }
             res.status(200).send({consents: result[0].consents.split(",")});
         }
