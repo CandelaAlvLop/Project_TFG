@@ -4,7 +4,6 @@ import Navbar2 from "./Navbar2";
 import Footer from './Footer';
 import "../layouts/DataDonation.css";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { MdAddCircle, MdCancel } from "react-icons/md";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
@@ -23,8 +22,6 @@ function DataDonation() {
               console.error("Error retrieving User Property data:", error);
           });
   }, []);
-
-  const navigate = useNavigate();
 
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState("");
@@ -48,6 +45,7 @@ function DataDonation() {
   const [consent, setConsent] = useState(false); //Display Consent section
   const [selectedConsents, setSelectedConsents] = useState([]); 
   const [savedConsent, setSavedConsent] = useState(false);
+  const [editingConsent, setEditingConsent] = useState(null);
 
   const [error, setError] = useState("");
 
@@ -115,6 +113,7 @@ function DataDonation() {
         setUpload(false); //Close upload
         setUploadedFile(null); //Clear after upload
         setConsent(true);
+        setEditingConsent(null);
         return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
       })
       .then((response) => {
@@ -131,10 +130,16 @@ function DataDonation() {
       });
   }
 
-  function editConsume() {
-    localStorage.setItem("consume", selectedConsume);
-    localStorage.setItem("property_id", selectedProperty);
-    navigate("/editconsent");
+  function editConsent(donationId) {
+    axios.get(`http://localhost:3001/DataDonationManager/consent/${donationId}`)
+    .then((response) => {
+      setSelectedConsents(response.data.consents);
+      setEditingConsent(donationId);
+      setConsent(true);
+    })
+    .catch((err) => {
+      console.error("Error loading existing consents:", err);
+    });
   } 
 
   function consentSelection(value) {
@@ -146,7 +151,7 @@ function DataDonation() {
     setSavedConsent(true);    
     if (selectedConsents.length === 0) return;
     axios.post("http://localhost:3001/DataDonationManager/consent", {
-      donationId: donationId,
+      donationId: editingConsent || donationId,
       consents: selectedConsents.join(",")
     })
     .then(() => {
@@ -189,7 +194,7 @@ function DataDonation() {
           {showFiles && (
             <ul>
               {uploadedInfos.map((file, i) => (
-                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => {window.scrollTo(0, 0); editConsume()}}><FaEdit /> Edit Consent</button> </li>
+                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => {window.scrollTo(0, 0); editConsent(file.donation_id)}}><FaEdit /> Edit Consent</button> </li>
               ))}
             </ul>
           )}          
@@ -273,24 +278,30 @@ function DataDonation() {
         <div className="consent-popup">
           <div className="consent-popup-content">
             <h2>Consent Selection</h2>
-            <div className="checkboxes">
-              <label><input type="checkbox" onChange={() => consentSelection("sabadad")}/>
-                I consent to the analysis of my data for general insights and usage trends.
+            <div className="checkboxes-content">
+              <label><input type="checkbox" checked={selectedConsents.includes("General usage trends")} onChange={() => consentSelection("General usage trends")}/>
+                I consent to the analysis of my compsumtion data for general purposes and usage trends.
               </label>
-              <label><input type="checkbox" onChange={() => consentSelection("research")}/>
-                I allow my data to be used for research-oriented campaigns (e.g., academic, non-profit studies).
+              <label><input type="checkbox" checked={selectedConsents.includes("Campaign Contact")} onChange={() => consentSelection("Campaign Contact")}/>
+                I consent campaigns to contact me for further investigations.
               </label>
-              <label> <input type="checkbox" onChange={() => consentSelection("business")}/>
-                I allow my data to be used in business-driven campaigns (e.g., smart home products, utilities optimization).
+              <label><input type="checkbox" checked={selectedConsents.includes("Research Campaigns")} onChange={() => consentSelection("Research Campaigns")}/>
+                I allow my consumption data to be used for research oriented campaigns (e.g., academic, social and economic impact).
               </label>
-              <label> <input type="checkbox" onChange={() => consentSelection("education")}/>
-                I allow my data to be used in educational initiatives (e.g., school programs, public awareness).
+              <label><input type="checkbox" checked={selectedConsents.includes("Government Campaigns")} onChange={() => consentSelection("Government Campaigns")}/>
+                I allow my consumption data to be used for goverment driven campaigns (e.g., energy regulations monitorization, investment planning).
               </label>
-              <label> <input type="checkbox" onChange={() => consentSelection("contact")}/>
-                I consent to being contacted about campaigns using my data.
+              <label> <input type="checkbox" checked={selectedConsents.includes("Education Campaigns")} onChange={() => consentSelection("Education Campaigns")}/>
+                I allow my consumption data to be used in educational initiatives (e.g., school programs, awareness).
               </label>
-              <label> <input type="checkbox" onChange={() => consentSelection("comparison")}/>
-                I consent to my consumption data being compared with metadata (e.g., climate, mobility, tourism).
+              <label><input type="checkbox" checked={selectedConsents.includes("Transport Campaigns")} onChange={() => consentSelection("Transport Campaigns")}/>
+                I allow my consumption data to be used for transport oriented campaigns (e.g., infraestructure optimization, energy usage analysis).
+              </label>
+              <label> <input type="checkbox" checked={selectedConsents.includes("Business Campaigns")} onChange={() => consentSelection("Business Campaigns")}/>
+                I allow my consumption data to be used for business driven campaigns (e.g., energy saving solutions, services optimization).
+              </label>
+              <label> <input type="checkbox" checked={selectedConsents.includes("Compare with Metadata")} onChange={() => consentSelection("Compare with Metadata")}/>
+                I consent to the analysis of my consumption data with metadata (e.g., climate, mobility, tourism).
               </label>
               {savedConsent && selectedConsents.length === 0 && (
                 <div className="error-consent">Please select at least one consent option.</div>
@@ -298,7 +309,7 @@ function DataDonation() {
             </div>
 
           <button className="save-consent" onClick={saveConsent}><MdAddCircle /> Save</button>
-          {/*<button className="cancel-consents" onClick={() => setConsent(false)}><MdCancel /> Cancel</button>*/}
+          {editingConsent && <button className="cancel-consent" onClick={() => {setConsent(false); setSelectedConsents([]); setEditingConsent(null)}}><MdCancel /> Cancel</button>}
         </div>
       </div>
     )}

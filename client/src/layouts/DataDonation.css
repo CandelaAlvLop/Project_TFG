@@ -200,6 +200,22 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+.checkboxes-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.checkboxes-content label {
+  margin-left: 20px;
+  display: flex;
+  font-size: 14px;
+}
+
+.checkboxes-content input[type="checkbox"] {
+  margin-right: 8px;
+}
+
 .error-consent {
   color: rgb(196, 30, 52);
   background: rgb(255, 237, 240);
@@ -211,14 +227,28 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.save-consent, .cancel-consent {
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 40px;
+  margin-right: 15px;
+  font-size: 14px;
+}
+
 .save-consent {
   background-color: rgb(3, 133, 122);
   color: white;
-  padding: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  display: block;
-  width: 350px;
-  margin: 40px auto auto auto;
+}
+
+.save-consent:hover {
+  background-color: rgb(1, 92, 84);
+}
+
+.cancel-consent {
+  background-color: rgba(221, 38, 38, 0.904);
+  color: white;
+}
+
+.cancel-consent:hover {
+  background-color: rgb(180, 31, 31);
 }

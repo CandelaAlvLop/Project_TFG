@@ -129,18 +129,64 @@ router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
 //Save Consents
 router.post("/consent", (req, res) => {
     const {donationId, consents} = req.body;
-  
+    console.log("Stored:", req.body);
+
     db.query(
-        "INSERT INTO donations_consent (donation_id, consents) VALUES (?, ?)",
-        [donationId, consents],
-        (err) => {
+        "SELECT * FROM donations_consent WHERE donation_id = ?",
+        [donationId],
+        (err, result) => {
             if (err) {
-                console.error("Error storing consents:", err);
-                return res.status(500).send({message: "Error storing consents"});
+                console.error("Error checking existing consents:", err);
+                return res.status(500).send({ message: "Database error during lookup" });
             }
-            res.status(200).send({message: "Consents saved into the database"});
+
+            if (result.length > 0) {
+                db.query(
+                    "UPDATE donations_consent SET consents = ? WHERE donation_id = ?",
+                    [consents, donationId],
+                    (updateErr) => {
+                        if (updateErr) {
+                            console.error("Error updating consents:", updateErr);
+                            return res.status(500).send({ message: "Error updating consents" });
+                        }
+                        return res.status(200).send({ message: "Consents updated successfully" });
+                    }
+                );
+            } else {
+                db.query(
+                    "INSERT INTO donations_consent (donation_id, consents) VALUES (?, ?)",
+                    [donationId, consents],
+                    (insertErr) => {
+                        if (insertErr) {
+                            console.error("Error inserting consents:", insertErr);
+                            return res.status(500).send({ message: "Error inserting consents" });
+                        }
+                        return res.status(200).send({ message: "Consents inserted successfully" });
+                    }
+                );
+            }
         }
     );
 });
 
+//Edit Consents
+router.get("/consent/:donationId", (req, res) => {
+    const {donationId} = req.params;
+  
+    db.query(
+        "SELECT consents FROM donations_consent WHERE donation_id = ?",
+        [donationId],
+        (err, result) => {
+            if (err) {
+                console.error("Error getting consents:", err);
+                return res.status(500).send({message: "Error getting consents"});
+            }
+            if (result.length === 0) {
+                return res.status(404).send({message: "No consents found for this donation"});
+            }
+            res.status(200).send({consents: result[0].consents.split(",")});
+        }
+    );
+});
+  
 module.exports = router;
