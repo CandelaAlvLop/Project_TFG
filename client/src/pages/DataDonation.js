@@ -13,7 +13,6 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 function DataDonation() {
   useEffect(() => {
       window.scrollTo(0, 0); 
-
       if (!userId) return console.error("No User retrieved");
       axios.get(`http://localhost:3001/DataDonationManager/properties/${userId}`)
           .then((response) => {
@@ -47,6 +46,7 @@ function DataDonation() {
   const [selectedConsents, setSelectedConsents] = useState([]); 
   const [savedConsent, setSavedConsent] = useState(false);
   const [editingConsent, setEditingConsent] = useState(null); //Consents being edited (ID)
+  const [confirmDeleteConsent, setConfirmDeleteConsent] = useState(false); //Confirm Delete
 
   const [error, setError] = useState("");
 
@@ -213,7 +213,7 @@ function DataDonation() {
           {showFiles && (
             <ul>
               {uploadedInfos.map((file, i) => (
-                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => {window.scrollTo(0, 0); editConsent(file.donation_id)}}><FaEdit /> Edit Consent</button> </li>
+                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => { editConsent(file.donation_id)}}><FaEdit /> Edit Consent</button> </li>
               ))}
             </ul>
           )}          
@@ -296,7 +296,7 @@ function DataDonation() {
       {consent && (
         <div className="consent-popup">
           <div className="consent-popup-content">
-            {editingConsent && <button className="delete-consent" onClick={() => { deleteDonation(editingConsent)}}><RiDeleteBin5Fill /> Delete</button>}
+            {editingConsent && <button className="delete-consent" onClick={() => {window.scrollTo(0, 0); setConfirmDeleteConsent(true)}}><RiDeleteBin5Fill /> Delete</button>}
             <h2>Consent Selection</h2>
             <div className="checkboxes-content">
               <label><input type="checkbox" checked={selectedConsents.includes("General usage trends")} onChange={() => consentSelection("General usage trends")}/>
@@ -330,9 +330,21 @@ function DataDonation() {
 
           <button className="save-consent" onClick={saveConsent}><MdAddCircle /> Save</button>
           {editingConsent && <button className="cancel-consent" onClick={() => {setConsent(false); setSelectedConsents([]); setEditingConsent(null)}}><MdCancel /> Cancel</button>}
+          </div>
         </div>
-      </div>
-    )}
+      )}
+
+      {confirmDeleteConsent && (
+        <div className="delete-confirm-popup">
+          <div className="delete-confirm-popup-content">
+            <p>Are you sure you want to delete this data donation?</p>
+            <div className="delete-confirm-popup-buttons">
+              <button onClick={() => {deleteDonation(editingConsent); setConfirmDeleteConsent(false)}}>Yes</button>
+              <button onClick={() => {setConfirmDeleteConsent(false)}}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
 
     <Footer/>
   </div>
