@@ -24,12 +24,13 @@ router.get("/properties/:userId", (req, res) => {
 const multer = require('multer');
 const fs = require('fs');
 const csv = require('csv-parser');
+const path = require('path');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {cb(null, 'uploads/');},
     filename: (req, file, cb) => {
-        const consumeType = req.params.consumeType;
-        const fileName = `${consumeType}_${file.originalname}`;
+        const {consumeType,propertyId} = req.params;
+        const fileName = `${consumeType}${propertyId}_${file.originalname}`;
         cb(null, fileName);
     }
 });
@@ -186,31 +187,54 @@ router.get("/consent/:donationId", (req, res) => {
 router.delete("/donationDelete/:donationId", (req, res) => {
     const donationId = req.params.donationId;
 
-    db.query("DELETE FROM donations_readings WHERE donation_id = ?", 
+    //Delete file from uploads folder
+    db.query("SELECT filename FROM donations_metadata WHERE donation_id = ?", 
         [donationId], 
-        (err) => {
-        if (err) {
-            return res.status(500).send({message: "Error deleting donation readings"});
-        }
-
-        db.query("DELETE FROM donations_consent WHERE donation_id = ?", 
-            [donationId], 
-            (err) => {
-            if (err) {
-                return res.status(500).send({message: "Error deleting donation consent"});
+        (err, result) => {
+            if (err || result.length === 0) {
+                return res.status(500).send({ message: "Error retrieving filename" });
             }
+        
+            const filename = result[0].filename;
+            const filePath = path.join(__dirname, "../uploads", filename);
+        
+            fs.unlink(filePath, (err) => {
+                if (err && err.code !== 'ENOENT') {
+                  console.error("Error deleting file:", err); 
+                } else if (err && err.code === 'ENOENT') {
+                  console.warn("File already deleted or not found:", filename); 
+                } else {
+                  console.log("File deleted:", filename);
+                }
+            });
 
-            db.query("DELETE FROM donations_metadata WHERE donation_id = ?", 
+            //Delete data from Database Tables
+            db.query("DELETE FROM donations_readings WHERE donation_id = ?", 
                 [donationId], 
                 (err) => {
                 if (err) {
-                    return res.status(500).send({message: "Error deleting donation metadata"});
+                    return res.status(500).send({message: "Error deleting donation readings"});
                 }
-                console.log(`Donation ${donationId} deleted successfully`);
-                res.status(200).send({message: `Donation ${donationId} deleted successfully`});
+
+                db.query("DELETE FROM donations_consent WHERE donation_id = ?", 
+                    [donationId], 
+                    (err) => {
+                    if (err) {
+                        return res.status(500).send({message: "Error deleting donation consent"});
+                    }
+
+                    db.query("DELETE FROM donations_metadata WHERE donation_id = ?", 
+                        [donationId], 
+                        (err) => {
+                        if (err) {
+                            return res.status(500).send({message: "Error deleting donation metadata"});
+                        }
+                        console.log(`Donation ${donationId} deleted successfully`);
+                        res.status(200).send({message: `Donation ${donationId} deleted successfully`});
+                    });
+                });
             });
         });
-    });
 });
   
 module.exports = router;
