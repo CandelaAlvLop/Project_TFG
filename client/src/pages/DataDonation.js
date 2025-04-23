@@ -8,6 +8,7 @@ import { MdAddCircle, MdCancel } from "react-icons/md";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
 import { FaRegLightbulb, FaEdit, FaFileUpload } from "react-icons/fa";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 
 function DataDonation() {
   useEffect(() => {
@@ -45,7 +46,7 @@ function DataDonation() {
   const [consent, setConsent] = useState(false); //Display Consent section
   const [selectedConsents, setSelectedConsents] = useState([]); 
   const [savedConsent, setSavedConsent] = useState(false);
-  const [editingConsent, setEditingConsent] = useState(null);
+  const [editingConsent, setEditingConsent] = useState(null); //Consents being edited (ID)
 
   const [error, setError] = useState("");
 
@@ -164,6 +165,24 @@ function DataDonation() {
     });
   }
 
+  function deleteDonation(donationId) { 
+    axios.delete(`http://localhost:3001/DataDonationManager/donationDelete/${donationId}`)
+      .then(() => {
+        setConsent(false); 
+        setSelectedConsents([]); 
+        setEditingConsent(null);
+        return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
+      })
+      .then((response) => {
+        setUploadedInfos(response.data.files);
+        setFirstUpload(response.data.firstUpload);
+        setLastUpload(response.data.lastUpload);
+      })
+      .catch((err) => {
+        console.error("Error deleting donation:", err);
+      });
+  }  
+
   function donationManagement() {
     if (upload) {
       return (
@@ -277,6 +296,7 @@ function DataDonation() {
       {consent && (
         <div className="consent-popup">
           <div className="consent-popup-content">
+            {editingConsent && <button className="delete-consent" onClick={() => { deleteDonation(editingConsent)}}><RiDeleteBin5Fill /> Delete</button>}
             <h2>Consent Selection</h2>
             <div className="checkboxes-content">
               <label><input type="checkbox" checked={selectedConsents.includes("General usage trends")} onChange={() => consentSelection("General usage trends")}/>

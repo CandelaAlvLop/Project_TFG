@@ -190,6 +190,7 @@
   font-size: 32px;
   color: rgb(3, 133, 122);
   margin-bottom: 40px;
+  margin-top: 15px;
 }
 
 .consent-popup-content{
@@ -251,4 +252,14 @@
 
 .cancel-consent:hover {
   background-color: rgb(180, 31, 31);
+}
+
+.delete-consent {
+  background-color: rgb(171, 42, 62);
+  display: block;
+  margin: 10px 10px 0px auto;
+}
+
+.delete-consent:hover {
+  background-color: rgb(209, 54, 77);
 }

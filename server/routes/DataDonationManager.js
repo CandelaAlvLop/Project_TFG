@@ -113,11 +113,7 @@ router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
         [userId, propertyId, consumeType],
         (err, result) => {
             if (err) {
-                console.error("Error getting donations:", err);
-                return res.status(500).send({message: "Database error", error: err});
-            }
-            if (result.length === 0) {
-                return res.status(400).send({message: "No donations found"});
+                return res.status(500).send({message: "Error getting donations", error: err});
             }
             const firstUpload = result[0];
             const lastUpload = result[result.length - 1];
@@ -183,6 +179,38 @@ router.get("/consent/:donationId", (req, res) => {
             res.status(200).send({consents: result[0].consents.split(",")});
         }
     );
+});
+
+
+//Delete Data
+router.delete("/donationDelete/:donationId", (req, res) => {
+    const donationId = req.params.donationId;
+
+    db.query("DELETE FROM donations_readings WHERE donation_id = ?", 
+        [donationId], 
+        (err) => {
+        if (err) {
+            return res.status(500).send({message: "Error deleting donation readings"});
+        }
+
+        db.query("DELETE FROM donations_consent WHERE donation_id = ?", 
+            [donationId], 
+            (err) => {
+            if (err) {
+                return res.status(500).send({message: "Error deleting donation consent"});
+            }
+
+            db.query("DELETE FROM donations_metadata WHERE donation_id = ?", 
+                [donationId], 
+                (err) => {
+                if (err) {
+                    return res.status(500).send({message: "Error deleting donation metadata"});
+                }
+                console.log(`Donation ${donationId} deleted successfully`);
+                res.status(200).send({message: `Donation ${donationId} deleted successfully`});
+            });
+        });
+    });
 });
   
 module.exports = router;
