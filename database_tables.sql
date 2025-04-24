@@ -23,7 +23,8 @@ VALUES
     (2, 'Carlos', 'Romero', 'carla', '54224211E', 'carla@example.com', '123Abc*', 'Donor'),
     (3, 'Claudia', 'Garcia', 'claudia', '54164322D', 'claudia@example.com', '123Abc*', 'Education'),
     (4, 'Marta', 'Alvarez', 'marta', '54777727F', 'marta@example.com', '123Abc*', 'Research'),
-    (5, 'Candela', 'Alvarez', 'cande', '54175127F', 'cande@gmail.com', '123Abc*', 'Research');
+    (5, 'Candela', 'Alvarez', 'cande', '54166134F', 'cande@gmail.com', '123Abc*', 'Research'),
+    (6, 'Vladimir', 'Estivill', 'vladimir', '54177163D', 'vladimir@gmail.com', '123Abc*', 'Donor');
 
 -- PROPERTY
 CREATE TABLE IF NOT EXISTS property(
@@ -62,7 +63,9 @@ VALUES
 	(4, 'Research Retreat', 70, 20, '03020', 1, '50-65', 35000, 'no', 'No Work', 'Retreat space for writing.', 'Fridge,Gas Stove,Gas Oven,Terrace with Plants', 1400, 1800, 700),
 	(5, 'Family House', 150, 18, '29004', 6, '0-20,21-35,36-50', 72000, 'no', 'Full Day,No Work', 'Multigenerational family home.', 'Fridge,Washing Machine,Dryer,Gas Central Heating,Swimming Pool', 6000, 4000, 3500),
 	(5, 'City Apartment', 90, 10, '29002', 3, '21-35,36-50', 52000, 'yes', 'Morning,Afternoon', 'Daily apartment in city.', 'Fridge,Dish Washer,Electric Oven,Lamps,TV', 3300, 2000, 1600),
-	(5, 'Beach House', 110, 22, '29001', 4, '0-20,50-65', 48000, 'no', 'No Work', 'Used on holidays.', 'Fridge,Gas Oven,Gas Hot Water,Terrace with Plants,Garden', 2500, 2200, 1400);
+	(5, 'Beach House', 110, 22, '29001', 4, '0-20,50-65', 48000, 'no', 'No Work', 'Used on holidays.', 'Fridge,Gas Oven,Gas Hot Water,Terrace with Plants,Garden', 2500, 2200, 1400),
+    (6, 'Flat', 90, 25, '08823', 2, '0-20,21-35', 48000, 'no', 'Full Day,No Work', 'City Flat, daily use.', 'Fridge,Washing Machine,Dryer,Gas Central Heating,Swimming Pool', 700, 60, 1),
+	(6, 'Vacation House', 150, 10, '92340', 2, '0-20,21-35', 48000, 'yes', 'Morning,Afternoon', 'House in the beach for vacations.', 'Fridge,Dish Washer,Electric Oven,Lamps,TV', 200, 20, 1);
 
 SELECT * FROM users;
 SELECT * FROM property;
