@@ -67,7 +67,7 @@ router.post("/properties", (req, res) => {
     );
 });
 
-//Get User Property (Adding)
+//Get User Properties (Adding)
 router.get("/properties/:userId", (req, res) => {
     const userId = req.params.userId;
 
@@ -85,7 +85,7 @@ router.get("/properties/:userId", (req, res) => {
     });
 });
 
-//Delete User Property
+//Delete Property
 router.delete("/properties/:id", (req, res) => {
     const propertyId = req.params.id;
 
@@ -117,7 +117,7 @@ router.get("/propertiesUpdate/:id", (req, res) => {
     });
 });
 
-//Update User Property
+//Update Property
 router.put("/propertiesUpdate/:id", (req, res) => {
     const propertyId = req.params.id;
     const {userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption} = req.body;

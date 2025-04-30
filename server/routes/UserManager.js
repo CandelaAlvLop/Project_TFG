@@ -95,7 +95,7 @@ router.post("/login", (req, res) => {
 
 // ------------------------------- PERSONAL DATA -------------------------------
 // ------------- USER DATA -------------
-//Get User Data
+//Get User
 router.get("/userUpdate/:id", (req, res) => {
     const userId = req.params.id;
     db.query("SELECT * FROM users WHERE user_id = ?", 
@@ -110,7 +110,7 @@ router.get("/userUpdate/:id", (req, res) => {
         });
 });
 
-//Update User Data
+//Update User
 router.put("/userUpdate/:id", (req, res) => {
     const userId = req.params.id;
     const {name, surname, username, DNI, email, password, type} = req.body;

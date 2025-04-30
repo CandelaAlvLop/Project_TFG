@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../db');
 
 // ------------------------------- DATA DONATION -------------------------------
+//Get User Properties
 router.get("/properties/:userId", (req, res) => {
     const userId = req.params.userId;
     
@@ -20,7 +21,7 @@ router.get("/properties/:userId", (req, res) => {
     });
 });
   
-//Upload data file
+//Upload Data File
 const multer = require('multer');
 const fs = require('fs');
 const csv = require('csv-parser');
@@ -36,7 +37,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-//Insert data file into Database
 router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).send({message: "No file uploaded"});
@@ -104,7 +104,7 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
         })
 });
  
-//Get data file
+//Get donations
 router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
     const {userId, propertyId, consumeType} = req.params;
     
@@ -164,7 +164,7 @@ router.post("/consent", (req, res) => {
     );
 });
 
-//Edit Consents
+//Get Consents
 router.get("/consent/:donationId", (req, res) => {
     const {donationId} = req.params;
   
@@ -182,7 +182,7 @@ router.get("/consent/:donationId", (req, res) => {
 });
 
 
-//Delete Data
+//Delete Donation
 router.delete("/donationDelete/:donationId", (req, res) => {
     const donationId = req.params.donationId;
 
