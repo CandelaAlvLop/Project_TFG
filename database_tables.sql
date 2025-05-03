@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS donations_readings (
   timer_day INT,
   timer_month INT,
   timer_year INT,
-  meter_reading DECIMAL(10,6),
+  meter_reading DECIMAL(15,6),
   CONSTRAINT fk_donations_id_readings FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
 );
 

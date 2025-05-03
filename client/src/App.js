@@ -14,6 +14,8 @@ import Faq from './pages/Faq';
 import AddProperty from './pages/AddProperty';
 import EditProperty from './pages/EditProperty';
 
+import MyConsumeTESTING from './pages/MyConsumeTESTING';
+
 function App() {
   return (
     <Router>
@@ -31,6 +33,9 @@ function App() {
         <Route path="/faq" element={<Faq/>} />
         <Route path="/addproperty" element={<AddProperty/>} />
         <Route path="/editproperty" element={<EditProperty/>} />
+
+        <Route path="/myconsumeTESTING" element={<MyConsumeTESTING />} />
+
       </Routes>
     </Router>
   )

@@ -215,7 +215,24 @@ router.delete("/donationDelete/:donationId", (req, res) => {
                     });
                 });
             });
-        });
+});
 
+
+//Get Consume
+router.get("/consume/:propertyId/:consumeType", (req, res) => {
+    const { propertyId, consumeType } = req.params;
+  
+    db.query(
+        `SELECT R.timer_year,R.meter_reading FROM donations_readings R JOIN donations_metadata M ON R.donation_id = M.donation_id WHERE M.property_id = ? AND M.consume_type = ? ORDER BY R.timer_year, R.timer_month, R.timer_day, R.timer_hours`,
+        [propertyId, consumeType],
+        (err, result) => {
+            if (err) {
+                console.error("Error fetching readings:", err);
+                return res.status(500).send({ message: "Error fetching readings", error: err });
+            }
+            res.status(200).send(result);
+        }
+        );
+}); 
   
 module.exports = router;

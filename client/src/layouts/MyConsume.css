@@ -1,0 +1,35 @@
+.consume-data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 2rem;
+}
+  
+.consume-input {
+  max-width: 500px; 
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 50px;
+}
+
+.consume-input:hover {
+  background-color: rgba(151, 216, 224, 0.027);
+}
+
+.consume-input h2 {
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid rgb(204, 204, 204);
+  padding-bottom: 8px;
+}
+
+.consume-input p {
+  margin-top: 50px;
+  font-size: 18px;
+  color: rgb(3, 133, 122);
+}
