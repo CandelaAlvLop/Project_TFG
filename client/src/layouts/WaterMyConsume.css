@@ -37,3 +37,24 @@
   font-size: 18px;
   color: rgb(3, 133, 122);
 }
+
+.month-select {
+  padding: 14px;
+  background: rgba(17, 196, 181, 0.027);
+  border: 2px solid rgba(1, 168, 154, 0.685);
+  border-radius: 25px;
+  color: rgb(3, 133, 122);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.month-select:hover {
+  background: rgb(225, 252, 252);
+  border-color: rgb(1, 168, 154);
+}
+
+.month-select.selected {
+  background: rgb(17, 196, 181);
+  border-color: rgb(1, 168, 154);
+  color: white;
+}

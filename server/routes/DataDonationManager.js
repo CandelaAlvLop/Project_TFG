@@ -223,7 +223,7 @@ router.get("/consume/:propertyId/:consumeType", (req, res) => {
     const { propertyId, consumeType } = req.params;
   
     db.query(
-        `SELECT R.timer_month,R.timer_year,R.meter_reading FROM donations_readings R JOIN donations_metadata M ON R.donation_id = M.donation_id WHERE M.property_id = ? AND M.consume_type = ? ORDER BY R.timer_year, R.timer_month, R.timer_day, R.timer_hours`,
+        `SELECT R.timer_hours,R.timer_day,R.timer_month,R.timer_year,R.meter_reading FROM donations_readings R JOIN donations_metadata M ON R.donation_id = M.donation_id WHERE M.property_id = ? AND M.consume_type = ? ORDER BY R.timer_year, R.timer_month, R.timer_day, R.timer_hours`,
         [propertyId, consumeType],
         (err, result) => {
             if (err) {

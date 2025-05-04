@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Navbar from './NavbarIn';
 import Footer from './Footer';
 import Navbar2 from "./Navbar2";
-import "../layouts/MyConsume.css";
+import "../layouts/WaterMyConsume.css";
 import axios from 'axios';
 import {Doughnut, Bar} from "react-chartjs-2";
 import {useNavigate} from 'react-router-dom';
@@ -13,9 +13,12 @@ function WaterMyConsume() {
     
     const [waterTotalConsume, setWaterTotalConsume] = useState(0);
     const [waterMonthConsume, setWaterMonthConsume] = useState([]);
+    const [waterDayConsume, setWaterDayConsume] = useState([]);
+    const [selectMonth, setSelectMonth] = useState(1);
     const {propertyId} = useParams();
     const navigate = useNavigate();
 
+    //Year Graphic Representation
     useEffect(() => {
         if (!propertyId) return console.error("No Property retrieved");
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
@@ -25,6 +28,7 @@ function WaterMyConsume() {
         })
     }, [propertyId]);
 
+    //Month Graphic Representation
     useEffect(() => {
         if (!propertyId) return;
       
@@ -38,9 +42,8 @@ function WaterMyConsume() {
                 for (let i = 0; i < response.data.length; i++) {
                     const readings = parseFloat(response.data[i].meter_reading);
 
-                    if (response.data[i].timer_month != previousMonth) { //Month Change
-                        const substract = lastReading - previousMonthReading; //Substract difference to obtain the actual month consume
-                        monthConsumes.push(parseFloat(substract));
+                    if (response.data[i].timer_month !== previousMonth) { //Month Change
+                        monthConsumes.push(parseFloat(lastReading - previousMonthReading)); //Substract difference to obtain the actual month consume
                         previousMonth = response.data[i].timer_month; //New Month
                         previousMonthReading = lastReading; 
                         lastReading = readings; //Update Reading
@@ -52,7 +55,47 @@ function WaterMyConsume() {
                 monthConsumes.push(parseFloat((lastReading - previousMonthReading)));
                 setWaterMonthConsume(monthConsumes);
             })
-      }, [propertyId]);
+    }, [propertyId]);
+      
+    //Day Graphic Representation
+    useEffect(() => {
+        axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
+            .then((response) => {
+                let dayConsumes = [];
+                let previousMonth = response.data[0].timer_month; 
+                let previousDay = response.data[0].timer_day; 
+                let previousDayReading = 0; 
+                let lastReading = parseFloat(response.data[0].meter_reading);
+                let months = {};
+
+                    for (let i = 0; i < response.data.length; i++) {
+                        const readings = parseFloat(response.data[i].meter_reading);
+    
+                        if (response.data[i].timer_month !== previousMonth) {
+                            dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
+                            months[previousMonth] = dayConsumes; //Store Day Consume into its Month
+                            //Update Month and Day
+                            previousMonth = response.data[i].timer_month;
+                            previousDay = response.data[i].timer_day;
+                            previousDayReading = lastReading; //Update last Reading
+                            dayConsumes = []; //Reset for the new month
+                        } else if (response.data[i].timer_day !== previousDay) { 
+                            dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
+                            previousDay = response.data[i].timer_day;
+                            previousDayReading = lastReading;
+                        }
+                        lastReading = readings;
+                    }
+                dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
+                months[previousMonth] = dayConsumes;
+                setWaterDayConsume(months);
+            })
+    }, [propertyId, selectMonth]);
+
+    function selectionMonth (month) {
+        if (selectMonth === month) return "month-select selected";
+        else return "month-select";
+    }
 
     const waterConsumeMax = 450000;
     const dataWater = {
@@ -64,11 +107,21 @@ function WaterMyConsume() {
         }]
     }
 
-    const barWater = {
-        labels: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    const barMonthWater = {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
-            label: "Water Consume (l)",
+            label: "Water Month Consume (l)",
             data: waterMonthConsume,
+            backgroundColor: "rgb(143, 216, 226)"
+        }]
+    }
+
+    const waterDayConsume_ = waterDayConsume[selectMonth] || [];
+    const barDayWater = {
+        labels: waterDayConsume_.map((value, index) => (index + 1).toString()),
+        datasets: [{
+            label: "Water Daily Consume (l)",
+            data: waterDayConsume_,
             backgroundColor: "rgb(143, 216, 226)"
         }]
     }
@@ -89,7 +142,22 @@ function WaterMyConsume() {
                     </div>
                 </div>
             </div>
-            <Bar data={barWater} />
+            <div className="month-buttons">
+                <button onClick={() => setSelectMonth(1)} className={selectionMonth(1)}>Jan</button>
+                <button onClick={() => setSelectMonth(2)} className={selectionMonth(2)}>Feb</button>
+                <button onClick={() => setSelectMonth(3)} className={selectionMonth(3)}>Mar</button>
+                <button onClick={() => setSelectMonth(4)} className={selectionMonth(4)}>Apr</button>
+                <button onClick={() => setSelectMonth(5)} className={selectionMonth(5)}>May</button>
+                <button onClick={() => setSelectMonth(6)} className={selectionMonth(6)}>Jun</button>
+                <button onClick={() => setSelectMonth(7)} className={selectionMonth(7)}>Jul</button>
+                <button onClick={() => setSelectMonth(8)} className={selectionMonth(8)}>Aug</button>
+                <button onClick={() => setSelectMonth(9)} className={selectionMonth(9)}>Sep</button>
+                <button onClick={() => setSelectMonth(10)} className={selectionMonth(10)}>Oct</button>
+                <button onClick={() => setSelectMonth(11)} className={selectionMonth(11)}>Nov</button>
+                <button onClick={() => setSelectMonth(12)} className={selectionMonth(12)}>Dec</button>
+            </div>
+            <Bar data={barDayWater}/>
+            <Bar data={barMonthWater}/>
             <Footer />
         </div>
     );
