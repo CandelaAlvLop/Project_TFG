@@ -5,6 +5,7 @@ import Navbar2 from "./Navbar2";
 import "../layouts/MyConsume.css";
 import axios from 'axios';
 import {Doughnut} from "react-chartjs-2";
+import {useNavigate} from 'react-router-dom';
 
 
 function MyConsume() {
@@ -14,7 +15,7 @@ function MyConsume() {
     const [waterTotalConsume, setWaterTotalConsume] = useState(0);
     const [gasTotalConsume, setGasTotalConsume] = useState(0);
     const [electricTotalConsume, setElectricTotalConsume] = useState(0);
-
+    const navigate = useNavigate();
     const userId = localStorage.getItem('user_id');
 
     useEffect(() => {
@@ -101,40 +102,36 @@ function MyConsume() {
             
             {selectedProperty && (
                 <div className="consume-data">
-                    <div className = "consume-input">
+                    <div className = "consume-input" onClick={() => navigate(`/WaterMyConsume/${selectedProperty}`)}>
                         <h2>Water</h2>
+                        <h3>Year Consume</h3>
                         <div style={{width: 300}}>
                             <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
                             <p><strong>{waterTotalConsume} l</strong></p>
                         </div>
                     </div>
                 
-                    <div className = "consume-input">
+                    <div className = "consume-input" onClick={() => navigate(`/ElectricMyConsume/${selectedProperty}`)}>
                         <h2>Electric</h2>
+                        <h3>Year Consume</h3>
                         <div style={{width: 300}}>
                             <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
                             <p><strong>{electricTotalConsume} kWh</strong></p>
                         </div>
                     </div>
 
-                    <div className = "consume-input">
+                    <div className = "consume-input" onClick={() => navigate(`/GasMyConsume/${selectedProperty}`)}>
                         <h2>Gas</h2>
+                        <h3>Year Consume</h3>
                         <div style={{width: 300}}>
                             <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
                             <p><strong>{gasTotalConsume} m³</strong></p>
                         </div>
                     </div>
-                </div>
-                
+                </div>  
             )}
-
-
-            
-
             <Footer />
         </div>
-
-        
     );
 }
 

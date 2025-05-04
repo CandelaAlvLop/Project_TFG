@@ -8,10 +8,7 @@ function Navbar2() {
             <nav className="navbar-dashboard">
                 <Link to="/dashboard"><FaHome/></Link>
                 <Link to="/personaldata" className="personaldata">Personal Data</Link>
-                <Link to="/myconsume" className="myconsume">My Consume</Link>
-
-                <Link to="/myconsumeTESTING" className="myconsumeTESTING">My Consume TESTING</Link>
-                
+                <Link to="/myconsume" className="myconsume">My Consume</Link>                
                 <Link to="/datadonation" className="datadonation">Data Donation</Link>
             </nav>
         </div>

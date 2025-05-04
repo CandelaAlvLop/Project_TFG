@@ -13,8 +13,9 @@ import Instructions from './pages/Instructions';
 import Faq from './pages/Faq';
 import AddProperty from './pages/AddProperty';
 import EditProperty from './pages/EditProperty';
-
-import MyConsumeTESTING from './pages/MyConsumeTESTING';
+import WaterMyConsume from './pages/WaterMyConsume';
+import ElectricMyConsume from './pages/ElectricMyConsume';
+import GasMyConsume from './pages/GasMyConsume';
 
 function App() {
   return (
@@ -33,9 +34,9 @@ function App() {
         <Route path="/faq" element={<Faq/>} />
         <Route path="/addproperty" element={<AddProperty/>} />
         <Route path="/editproperty" element={<EditProperty/>} />
-
-        <Route path="/myconsumeTESTING" element={<MyConsumeTESTING />} />
-
+        <Route path="/watermyconsume/:propertyId" element={<WaterMyConsume/>} />
+        <Route path="/electricmyconsume/:propertyId" element={<ElectricMyConsume/>} />
+        <Route path="/gasmyconsume/:propertyId" element={<GasMyConsume/>} />
       </Routes>
     </Router>
   )
