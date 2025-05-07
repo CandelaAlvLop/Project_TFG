@@ -11,7 +11,9 @@ import {IoMdArrowRoundBack} from "react-icons/io";
 
 
 function GasMyConsume() {
-    
+
+    const [waterTotalConsume, setWaterTotalConsume] = useState(0);
+    const [electricTotalConsume, setElectricTotalConsume] = useState(0);
     const [gasTotalConsume, setGasTotalConsume] = useState(0);
     const [gasMonthConsume, setGasMonthConsume] = useState([]);
     const [gasDayConsume, setGasDayConsume] = useState([]);
@@ -23,6 +25,18 @@ function GasMyConsume() {
     useEffect(() => {
         window.scrollTo(0, 0); 
         if (!propertyId) return console.error("No Property retrieved");
+        axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
+            .then((response) => {
+                if (response.data.length === 0){setWaterTotalConsume(0); return}
+                setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
+        })
+
+        axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Electric`)
+            .then((response) => {
+                if (response.data.length === 0){setElectricTotalConsume(0); return}
+                setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
+        })
+
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Gas`)
             .then((response) => {
                 if (response.data.length === 0){setGasTotalConsume(0); return}
@@ -99,6 +113,26 @@ function GasMyConsume() {
         else return "month-select";
     }
 
+    const waterConsumeMax = 450000;
+    const dataWater = {
+        datasets: [{
+            data: [waterTotalConsume, waterConsumeMax - waterTotalConsume],
+            backgroundColor: ["rgb(143, 216, 226)", "rgba(143, 216, 226, 0.12)"],
+            cutout: '65%',
+            borderWidth: 0,
+        }]
+    }
+
+    const electricConsumeMax = 28000;
+    const dataElectric = {
+        datasets: [{
+            data: [electricTotalConsume, electricConsumeMax - electricTotalConsume],
+            backgroundColor: ["rgb(152, 240, 149)", "rgba(146, 226, 143, 0.12)"],
+            cutout: '65%',
+            borderWidth: 0,
+        }]
+    }
+
     const gasConsumeMax = 20;
     const dataGas = {
         datasets: [{
@@ -167,6 +201,26 @@ function GasMyConsume() {
                 <div className="consume-day"> 
                     <h3>Daily Consume</h3>
                     <Bar data={barDayGas}/>
+                </div>
+            </div>
+
+           <div className="consume-data2">
+                <div className = "consume-year2" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${propertyId}`)}}}>
+                    <h2>Water</h2>
+                    <h3>Year Consume</h3>
+                    <div style={{width: 220}}>
+                        <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
+                        <p><strong>{waterTotalConsume} l</strong></p>
+                    </div>
+                </div>
+
+                <div className = "consume-year2" onClick={() => {if ((electricTotalConsume) > 0) {navigate(`/ElectricMyConsume/${propertyId}`)}}}>
+                    <h2>Electric</h2>
+                    <h3>Year Consume</h3>
+                    <div style={{width: 220}}>
+                        <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
+                        <p><strong>{electricTotalConsume} l</strong></p>
+                    </div>
                 </div>
             </div>
             <Footer />

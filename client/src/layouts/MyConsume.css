@@ -17,6 +17,7 @@
 
 .consume-input:hover {
   background-color: rgba(151, 216, 224, 0.027);
+  cursor: pointer;
 }
 
 .consume-input h2 {

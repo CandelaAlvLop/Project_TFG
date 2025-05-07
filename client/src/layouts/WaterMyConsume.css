@@ -6,14 +6,18 @@
   margin-bottom: 40px;
 }
 
-.consume-data {
+.consume-data, .consume-data2 {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
 }
+
+.consume-data2 {
+  gap: 60px;
+}
   
-.consume-year, .consume-month, .consume-day{
+.consume-year, .consume-month, .consume-day, .consume-year2 {
   padding: 40px;
   max-height: 490px;
   background-color: white;
@@ -21,6 +25,19 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin-top: 50px;
+}
+
+.consume-year2 {
+  padding: 30px;
+  max-height: 390px;
+  width: 225px;
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+
+.consume-year2:hover {
+  background-color: rgba(151, 216, 224, 0.027);
+  cursor: pointer;
 }
 
 .consume-month, .consume-day {
@@ -36,17 +53,26 @@
   max-width: 450px;
 }
 
-.consume-year h2 {
+.consume-year h2, .consume-year2 h2 {
   text-align: center;
   font-size: 25px;
   border-bottom: 2px solid rgb(204, 204, 204);
   padding-bottom: 8px;
   margin-top: 0px;
 }
-.consume-year h3 {
+
+.consume-year2 h2 {
+  font-size: 20px;
+}
+
+.consume-year h3, .consume-year2 h3 {
   text-align: center;
   color: grey;
   margin-bottom: 30px;
+}
+
+.consume-year2 h3 {
+  font-size: 16px;
 }
 
 .consume-month h3, .consume-day h3 {
@@ -61,6 +87,12 @@
 .consume-year p {
   margin-top: 50px;
   font-size: 18px;
+  color: rgb(3, 133, 122);
+}
+
+.consume-year2 p {
+  margin-top: 50px;
+  font-size: 16px;
   color: rgb(3, 133, 122);
 }
 

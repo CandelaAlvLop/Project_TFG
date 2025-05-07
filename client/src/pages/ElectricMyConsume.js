@@ -11,8 +11,10 @@ import {IoMdArrowRoundBack} from "react-icons/io";
 
 
 function ElectricMyConsume() {
-    
+
+    const [waterTotalConsume, setWaterTotalConsume] = useState(0);
     const [electricTotalConsume, setElectricTotalConsume] = useState(0);
+    const [gasTotalConsume, setGasTotalConsume] = useState(0);
     const [electricMonthConsume, setElectricMonthConsume] = useState([]);
     const [electricDayConsume, setElectricDayConsume] = useState([]);
     const [selectMonth, setSelectMonth] = useState(1);
@@ -23,10 +25,22 @@ function ElectricMyConsume() {
     useEffect(() => {
         window.scrollTo(0, 0); 
         if (!propertyId) return console.error("No Property retrieved");
+        axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
+        .then((response) => {
+            if (response.data.length === 0){setWaterTotalConsume(0); return}
+            setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
+        })
+
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Electric`)
             .then((response) => {
                 if (response.data.length === 0){setElectricTotalConsume(0); return}
                 setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
+        })
+
+        axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Gas`)
+            .then((response) => {
+                if (response.data.length === 0){setGasTotalConsume(0); return}
+                setGasTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
         })
     }, [propertyId]);
 
@@ -99,11 +113,31 @@ function ElectricMyConsume() {
         else return "month-select";
     }
 
+    const waterConsumeMax = 450000;
+    const dataWater = {
+        datasets: [{
+            data: [waterTotalConsume, waterConsumeMax - waterTotalConsume],
+            backgroundColor: ["rgb(143, 216, 226)", "rgba(143, 216, 226, 0.12)"],
+            cutout: '65%',
+            borderWidth: 0,
+        }]
+    }
+
     const electricConsumeMax = 28000;
     const dataElectric = {
         datasets: [{
             data: [electricTotalConsume, electricConsumeMax - electricTotalConsume],
             backgroundColor: ["rgb(152, 240, 149)", "rgba(146, 226, 143, 0.12)"],
+            cutout: '65%',
+            borderWidth: 0,
+        }]
+    }
+
+    const gasConsumeMax = 20;
+    const dataGas = {
+        datasets: [{
+            data: [gasTotalConsume, gasConsumeMax - gasTotalConsume],
+            backgroundColor: ["rgb(248, 121, 121)", "rgba(196, 139, 139, 0.12)"],
             cutout: '65%',
             borderWidth: 0,
         }]
@@ -167,6 +201,26 @@ function ElectricMyConsume() {
                 <div className="consume-day"> 
                     <h3>Daily Consume</h3>
                     <Bar data={barDayElectric}/>
+                </div>
+            </div>
+
+            <div className="consume-data2">
+                <div className="consume-year2" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${propertyId}`)}}}>
+                    <h2>Water</h2>
+                    <h3>Year Consume</h3>
+                    <div style={{width: 220}}>
+                        <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
+                        <p><strong>{waterTotalConsume} l</strong></p>
+                    </div>
+                </div>
+
+                <div className="consume-year2" onClick={() => {if ((gasTotalConsume) > 0) {navigate(`/GasMyConsume/${propertyId}`)}}}>
+                    <h2>Gas</h2>
+                    <h3>Year Consume</h3>
+                    <div style={{width: 220}}>
+                        <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
+                        <p><strong>{gasTotalConsume} l</strong></p>
+                    </div>
                 </div>
             </div>
             <Footer />
