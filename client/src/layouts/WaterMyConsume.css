@@ -1,14 +1,21 @@
+.consume-title {
+  text-align: center;
+  font-size: 32px;
+  color: rgb(3, 133, 122);
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
 .consume-data {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
+  gap: 20px;
   justify-content: center;
-  margin-top: 2rem;
 }
   
-.consume-input {
-  max-width: 500px; 
+.consume-year, .consume-month, .consume-day{
   padding: 40px;
+  max-height: 490px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
@@ -16,23 +23,42 @@
   margin-top: 50px;
 }
 
-.consume-input:hover {
-  background-color: rgba(151, 216, 224, 0.027);
+.consume-month, .consume-day {
+  width: 100%;
+  max-width: 900px; 
 }
 
-.consume-input h2 {
+.consume-month-selection {
+  padding: 20px;
+  max-height: 490px;
+  text-align: center;
+  margin-top: 50px;
+  max-width: 450px;
+}
+
+.consume-year h2 {
   text-align: center;
   font-size: 25px;
   border-bottom: 2px solid rgb(204, 204, 204);
   padding-bottom: 8px;
+  margin-top: 0px;
 }
-.consume-input h3 {
+.consume-year h3 {
   text-align: center;
   color: grey;
   margin-bottom: 30px;
 }
 
-.consume-input p {
+.consume-month h3, .consume-day h3 {
+  text-align: center;
+  color: grey;
+  margin-top: 0px;
+  border-bottom: 2px solid rgb(204, 204, 204);
+  padding-bottom: 8px;
+  margin-bottom: 30px;
+}
+
+.consume-year p {
   margin-top: 50px;
   font-size: 18px;
   color: rgb(3, 133, 122);
@@ -57,4 +83,17 @@
   background: rgb(17, 196, 181);
   border-color: rgb(1, 168, 154);
   color: white;
+}
+
+.back-button {
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 40px;
+  margin-left: 70px;
+  background-color: rgb(3, 133, 122);
+  color: white;
+}
+
+.back-button:hover {
+  background-color: rgb(1, 92, 84);
 }

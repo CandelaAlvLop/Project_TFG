@@ -7,6 +7,7 @@ import axios from 'axios';
 import {Doughnut, Bar} from "react-chartjs-2";
 import {useNavigate} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
+import {IoMdArrowRoundBack} from "react-icons/io";
 
 
 function WaterMyConsume() {
@@ -20,6 +21,7 @@ function WaterMyConsume() {
 
     //Year Graphic Representation
     useEffect(() => {
+        window.scrollTo(0, 0); 
         if (!propertyId) return console.error("No Property retrieved");
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
             .then((response) => {
@@ -130,10 +132,10 @@ function WaterMyConsume() {
         <div>
             <Navbar />
             <Navbar2 />
-            <button type="button" className="back" onClick={() => navigate('/MyConsume')}>Back</button>
-            <h1 className="property-title">My Water Consume</h1>
+            <button type="button" className="back-button" onClick={() => navigate('/MyConsume')}><IoMdArrowRoundBack /> Back</button>
+            <h1 className="consume-title">My Water Consume</h1>
             <div className="consume-data">
-                <div className = "consume-input">
+                <div className = "consume-year">
                     <h2>Water</h2>
                     <h3>Year Consume</h3>
                     <div style={{width: 300}}>
@@ -141,23 +143,32 @@ function WaterMyConsume() {
                         <p><strong>{waterTotalConsume} l</strong></p>
                     </div>
                 </div>
+                <div className="consume-month"> 
+                    <h3>Month Consume</h3>
+                    <Bar data={barMonthWater}/>
+                </div>
             </div>
-            <div className="month-buttons">
-                <button onClick={() => setSelectMonth(1)} className={selectionMonth(1)}>Jan</button>
-                <button onClick={() => setSelectMonth(2)} className={selectionMonth(2)}>Feb</button>
-                <button onClick={() => setSelectMonth(3)} className={selectionMonth(3)}>Mar</button>
-                <button onClick={() => setSelectMonth(4)} className={selectionMonth(4)}>Apr</button>
-                <button onClick={() => setSelectMonth(5)} className={selectionMonth(5)}>May</button>
-                <button onClick={() => setSelectMonth(6)} className={selectionMonth(6)}>Jun</button>
-                <button onClick={() => setSelectMonth(7)} className={selectionMonth(7)}>Jul</button>
-                <button onClick={() => setSelectMonth(8)} className={selectionMonth(8)}>Aug</button>
-                <button onClick={() => setSelectMonth(9)} className={selectionMonth(9)}>Sep</button>
-                <button onClick={() => setSelectMonth(10)} className={selectionMonth(10)}>Oct</button>
-                <button onClick={() => setSelectMonth(11)} className={selectionMonth(11)}>Nov</button>
-                <button onClick={() => setSelectMonth(12)} className={selectionMonth(12)}>Dec</button>
+
+            <div className="consume-data">
+                <div className="consume-month-selection"> 
+                    <button onClick={() => setSelectMonth(1)} className={selectionMonth(1)}>Jan</button>
+                    <button onClick={() => setSelectMonth(2)} className={selectionMonth(2)}>Feb</button>
+                    <button onClick={() => setSelectMonth(3)} className={selectionMonth(3)}>Mar</button>
+                    <button onClick={() => setSelectMonth(4)} className={selectionMonth(4)}>Apr</button>
+                    <button onClick={() => setSelectMonth(5)} className={selectionMonth(5)}>May</button>
+                    <button onClick={() => setSelectMonth(6)} className={selectionMonth(6)}>Jun</button>
+                    <button onClick={() => setSelectMonth(7)} className={selectionMonth(7)}>Jul</button>
+                    <button onClick={() => setSelectMonth(8)} className={selectionMonth(8)}>Aug</button>
+                    <button onClick={() => setSelectMonth(9)} className={selectionMonth(9)}>Sep</button>
+                    <button onClick={() => setSelectMonth(10)} className={selectionMonth(10)}>Oct</button>
+                    <button onClick={() => setSelectMonth(11)} className={selectionMonth(11)}>Nov</button>
+                    <button onClick={() => setSelectMonth(12)} className={selectionMonth(12)}>Dec</button>
+                </div>
+                <div className="consume-day"> 
+                    <h3>Daily Consume</h3>
+                    <Bar data={barDayWater}/>
+                </div>
             </div>
-            <Bar data={barDayWater}/>
-            <Bar data={barMonthWater}/>
             <Footer />
         </div>
     );
