@@ -8,6 +8,9 @@ import {Doughnut, Bar} from "react-chartjs-2";
 import {useNavigate} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import {IoMdArrowRoundBack} from "react-icons/io";
+import {IoWaterOutline} from "react-icons/io5";
+import {FaFire} from "react-icons/fa6";
+import {FaRegLightbulb} from "react-icons/fa";
 
 
 function ElectricMyConsume() {
@@ -170,7 +173,7 @@ function ElectricMyConsume() {
             <h1 className="consume-title">My Electric Consume</h1>
             <div className="consume-data">
                 <div className = "consume-year">
-                    <h2>Electric</h2>
+                    <h2><FaRegLightbulb /> Electric</h2>
                     <h3>Year Consume</h3>
                     <div style={{width: 300}}>
                         <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
@@ -206,7 +209,7 @@ function ElectricMyConsume() {
 
             <div className="consume-data2">
                 <div className="consume-year2" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${propertyId}`)}}}>
-                    <h2>Water</h2>
+                    <h2><IoWaterOutline /> Water</h2>
                     <h3>Year Consume</h3>
                     <div style={{width: 220}}>
                         <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
@@ -215,7 +218,7 @@ function ElectricMyConsume() {
                 </div>
 
                 <div className="consume-year2" onClick={() => {if ((gasTotalConsume) > 0) {navigate(`/GasMyConsume/${propertyId}`)}}}>
-                    <h2>Gas</h2>
+                    <h2><FaFire /> Gas</h2>
                     <h3>Year Consume</h3>
                     <div style={{width: 220}}>
                         <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>

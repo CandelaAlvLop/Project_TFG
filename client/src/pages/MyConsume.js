@@ -6,6 +6,9 @@ import "../layouts/MyConsume.css";
 import axios from 'axios';
 import {Doughnut} from "react-chartjs-2";
 import {useNavigate} from 'react-router-dom';
+import {IoWaterOutline} from "react-icons/io5";
+import {FaFire} from "react-icons/fa6";
+import {FaRegLightbulb} from "react-icons/fa";
 
 
 function MyConsume() {
@@ -102,8 +105,8 @@ function MyConsume() {
             
             {selectedProperty && (
                 <div className="consume-data">
-                    <div className = "consume-input" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${selectedProperty}`)}}}>
-                        <h2>Water</h2>
+                    <div className="consume-input" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${selectedProperty}`)}}}>
+                        <h2><IoWaterOutline /> Water</h2>
                         <h3>Year Consume</h3>
                         <div style={{width: 300}}>
                             <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
@@ -111,8 +114,8 @@ function MyConsume() {
                         </div>
                     </div>
                 
-                    <div className = "consume-input" onClick={() => navigate(`/ElectricMyConsume/${selectedProperty}`)}>
-                        <h2>Electric</h2>
+                    <div className="consume-input" onClick={() => navigate(`/ElectricMyConsume/${selectedProperty}`)}>
+                        <h2><FaRegLightbulb /> Electric</h2>
                         <h3>Year Consume</h3>
                         <div style={{width: 300}}>
                             <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
@@ -120,8 +123,8 @@ function MyConsume() {
                         </div>
                     </div>
 
-                    <div className = "consume-input" onClick={() => navigate(`/GasMyConsume/${selectedProperty}`)}>
-                        <h2>Gas</h2>
+                    <div className="consume-input" onClick={() => navigate(`/GasMyConsume/${selectedProperty}`)}>
+                        <h2><FaFire /> Gas</h2>
                         <h3>Year Consume</h3>
                         <div style={{width: 300}}>
                             <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
