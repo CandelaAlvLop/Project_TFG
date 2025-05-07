@@ -50,6 +50,8 @@ function DataDonation() {
 
   const [error, setError] = useState("");
 
+  const ConsentList = ["General usage trends", "Campaign Contact", "Research Campaigns", "Government Campaigns", "Education Campaigns", "Transport Campaigns", "Business Campaigns", "Compare with Metadata"]
+
   const consumeIcons = [{icon:<IoWaterOutline />, consume:'Water'},{icon:<FaRegLightbulb />, consume:'Electric'},{icon:<FaFire />, consume:'Gas'}];
   
   const userId = localStorage.getItem('user_id');
@@ -146,6 +148,14 @@ function DataDonation() {
   function consentSelection(value) {
     if (selectedConsents.includes(value)) {setSelectedConsents(selectedConsents.filter(consent => consent !== value));} //Remove element from the new array
     else {setSelectedConsents([...selectedConsents, value]);} //Add element to the new array
+  }
+
+  function consentSelectionAll() {
+    if (selectedConsents.length === ConsentList.length) {
+      setSelectedConsents([]); //Unselect when already selected
+    } else {
+      setSelectedConsents(ConsentList);
+    }
   }
 
   function saveConsent() {
@@ -299,6 +309,11 @@ function DataDonation() {
             {editingConsent && <button className="delete-consent" onClick={() => {window.scrollTo(0, 0); setConfirmDeleteConsent(true)}}><RiDeleteBin5Fill /> Delete</button>}
             <h2>Consent Selection</h2>
             <div className="checkboxes-content">
+              <div className="select-all">
+                <label> <input type="checkbox" checked={selectedConsents.length === ConsentList.length} onChange={() => consentSelectionAll()}/>
+                  Select All.
+                </label>
+              </div>
               <label><input type="checkbox" checked={selectedConsents.includes("General usage trends")} onChange={() => consentSelection("General usage trends")}/>
                 I consent to the analysis of my compsumtion data for general purposes and usage trends.
               </label>
@@ -323,6 +338,7 @@ function DataDonation() {
               <label> <input type="checkbox" checked={selectedConsents.includes("Compare with Metadata")} onChange={() => consentSelection("Compare with Metadata")}/>
                 I consent to the analysis of my consumption data with metadata (e.g., climate, mobility, tourism).
               </label>
+  
               {savedConsent && selectedConsents.length === 0 && (
                 <div className="error-consent">Please select at least one consent option.</div>
               )}
