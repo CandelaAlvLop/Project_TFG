@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
+
 // ------------------------------- DATA DONATION -------------------------------
 //Get User Properties
 router.get("/properties/:userId", (req, res) => {

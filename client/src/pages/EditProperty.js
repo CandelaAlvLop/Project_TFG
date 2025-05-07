@@ -8,10 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import { MdCancel } from "react-icons/md";
 import { CiSaveDown2 } from "react-icons/ci";
 
+
 function EditProperty() {
     useEffect(() => {
         window.scrollTo(0, 0);
         setUserProperty();
+        //eslint-disable-next-line
     }, []);
 
     const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;

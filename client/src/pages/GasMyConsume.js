@@ -4,19 +4,18 @@ import Footer from './Footer';
 import Navbar2 from "./Navbar2";
 import "../layouts/WaterMyConsume.css";
 import axios from 'axios';
-import {Doughnut, Bar} from "react-chartjs-2";
-import {useNavigate} from 'react-router-dom';
-import {useParams} from 'react-router-dom';
-import {IoMdArrowRoundBack} from "react-icons/io";
-import {IoWaterOutline} from "react-icons/io5";
-import {FaFire} from "react-icons/fa6";
-import {FaRegLightbulb} from "react-icons/fa";
+import { Doughnut, Bar } from "react-chartjs-2";
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoWaterOutline } from "react-icons/io5";
+import { FaFire } from "react-icons/fa6";
+import { FaRegLightbulb } from "react-icons/fa";
 
 import HeatingByAreas from "../images/HeatingByAreas.png";
 import UseOfEfficientStove from "../images/UseOfEfficientStove.png";
 import ProperThermalIsolation from "../images/ProperThermalIsolation.png";
 import ProgrammableThermostats from "../images/ProgrammableThermostats.png";
-
 
 
 function GasMyConsume() {

@@ -9,8 +9,12 @@ import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
 import { FaRegLightbulb, FaEdit, FaFileUpload } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { useNavigate } from 'react-router-dom';
+
 
 function DataDonation() {
+
+  const userId = localStorage.getItem('user_id');
   useEffect(() => {
       window.scrollTo(0, 0); 
       if (!userId) return console.error("No User retrieved");
@@ -21,7 +25,7 @@ function DataDonation() {
           .catch((error) => {
               console.error("Error retrieving User Property data:", error);
           });
-  }, []);
+  }, [userId]);
 
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState("");
@@ -49,12 +53,11 @@ function DataDonation() {
   const [confirmDeleteConsent, setConfirmDeleteConsent] = useState(false); //Confirm Delete
 
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const ConsentList = ["General usage trends", "Campaign Contact", "Research Campaigns", "Government Campaigns", "Education Campaigns", "Transport Campaigns", "Business Campaigns", "Compare with Metadata"]
 
   const consumeIcons = [{icon:<IoWaterOutline />, consume:'Water'},{icon:<FaRegLightbulb />, consume:'Electric'},{icon:<FaFire />, consume:'Gas'}];
-  
-  const userId = localStorage.getItem('user_id');
 
   function selectionProperty (propertyId) {
     if (selectedProperty === propertyId) return "property-select selected";
@@ -98,7 +101,7 @@ function DataDonation() {
           setError("");
         });
     }
-  }, [selectedProperty, selectedConsume]);
+  }, [selectedProperty, selectedConsume, userId]);
 
 
   function UploadFile() {
@@ -280,15 +283,22 @@ function DataDonation() {
       <Navbar2 />
 
       <h1 className="property-title">Select a Property to Donate Data</h1>
-      
-      <div className="property-data">
-        {properties.map((property) => (
-          <button key={property.property_id} className={selectionProperty(property.property_id)}
-            onClick={() => setSelectedProperty(property.property_id)}>
-            {property.propertyName}
-          </button>
-        ))}
-      </div>
+      {properties.length > 0 && (
+        <div className="property-data">
+          {properties.map((property) => (
+            <button key={property.property_id} className={selectionProperty(property.property_id)}
+              onClick={() => setSelectedProperty(property.property_id)}>
+              {property.propertyName}
+            </button>
+          ))}
+        </div>
+      )}
+      {properties.length === 0 && (
+        <div className="no-properties">
+          No properties added
+          <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>   
+        </div>
+      )}
 
       {selectedProperty && ( <div className="property-consume-type">
         {consumeIcons.map(({icon, consume}) => (

@@ -9,11 +9,13 @@ import { MdAddCircle } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
+
 function PersonalData() {
     useEffect(() => {
         window.scrollTo(0, 0);
         setUserData();
         setUserProperties();
+        //eslint-disable-next-line
     }, []);
     const navigate = useNavigate();
 
@@ -22,7 +24,7 @@ function PersonalData() {
     const usernamePattern = /^.{3,10}$/;
     const DNIPattern = /^[0-9]{8}[A-Z]$/;
     const emailPattern = /^[\w.-]+@([\w-]+\.)+[\w-]{2,}$/;
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{6,}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9])[\S]{6,}$/;
 
     const [NewName, setNewName] = useState("");
     const [NewSurname, setNewSurname] = useState("");

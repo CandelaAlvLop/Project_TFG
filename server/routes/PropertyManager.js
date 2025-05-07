@@ -10,6 +10,7 @@ const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
 const income_Pattern = /^[1-9][0-9]{0,6}$/;
 const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
 
+
 // ------------------------------- PERSONAL DATA -------------------------------
 
 // ------------- PROPERTY DATA -------------

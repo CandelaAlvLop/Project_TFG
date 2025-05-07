@@ -4,11 +4,12 @@ import Footer from './Footer';
 import Navbar2 from "./Navbar2";
 import "../layouts/MyConsume.css";
 import axios from 'axios';
-import {Doughnut} from "react-chartjs-2";
-import {useNavigate} from 'react-router-dom';
-import {IoWaterOutline} from "react-icons/io5";
-import {FaFire} from "react-icons/fa6";
-import {FaRegLightbulb} from "react-icons/fa";
+import { Doughnut } from "react-chartjs-2";
+import { useNavigate } from 'react-router-dom';
+import { IoWaterOutline } from "react-icons/io5";
+import { FaFire } from "react-icons/fa6";
+import { FaRegLightbulb } from "react-icons/fa";
+import { MdAddCircle } from "react-icons/md";
 
 
 function MyConsume() {
@@ -31,7 +32,7 @@ function MyConsume() {
             .catch((error) => {
                 console.error("Error retrieving User Property data:", error);
             });
-    }, []);
+    }, [userId]);
 
     function selectionProperty (propertyId) {
         if (selectedProperty === propertyId) return "property-select selected";
@@ -94,14 +95,22 @@ function MyConsume() {
             <Navbar />
             <Navbar2 />
             <h1 className="property-title">Select a Property to view its Consume</h1>
-            <div className="property-data">
-                {properties.map((property) => (
-                <button key={property.property_id} className={selectionProperty(property.property_id)}
-                    onClick={() => setSelectedProperty(property.property_id)}>
-                    {property.propertyName}
-                </button>
-                ))}
-            </div>
+            {properties.length > 0 && (
+                <div className="property-data">
+                    {properties.map((property) => (
+                    <button key={property.property_id} className={selectionProperty(property.property_id)}
+                        onClick={() => setSelectedProperty(property.property_id)}>
+                        {property.propertyName}
+                    </button>
+                    ))}
+                </div>
+            )}
+            {properties.length === 0 && (
+                <div className="no-properties">
+                No properties added
+                <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>   
+                </div>
+            )}
             
             {selectedProperty && (
                 <div className="consume-data">

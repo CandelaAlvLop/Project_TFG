@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Drawing from "../images/drawing-mainpage.png";
 
+
 function Instructions() {
     //Show top of the page
     useEffect(() => {

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { MdAddCircle } from "react-icons/md";
 
+
 function AddProperty() {
     useEffect(() => {
         window.scrollTo(0, 0);

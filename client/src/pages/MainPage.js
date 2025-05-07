@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import "../layouts/MainPage.css";
 import Drawing from "../images/drawing-mainpage.png";
 
+
 function MainPage() {
     //Show top of the page
     useEffect(() => {

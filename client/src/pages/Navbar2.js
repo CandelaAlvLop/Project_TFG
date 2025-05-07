@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 
+
 function Navbar2() {
     return (
         <div>
