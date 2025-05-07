@@ -209,7 +209,7 @@ function WaterMyConsume() {
                     <h3>Year Consume</h3>
                     <div style={{width: 220}}>
                         <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
-                        <p><strong>{electricTotalConsume} l</strong></p>
+                        <p><strong>{electricTotalConsume} kWh</strong></p>
                     </div>
                 </div>
                 <div className="consume-year2" onClick={() => {if ((gasTotalConsume) > 0) {navigate(`/GasMyConsume/${propertyId}`)}}}>
@@ -217,7 +217,7 @@ function WaterMyConsume() {
                     <h3>Year Consume</h3>
                     <div style={{width: 220}}>
                         <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
-                        <p><strong>{gasTotalConsume} l</strong></p>
+                        <p><strong>{gasTotalConsume} m³</strong></p>
                     </div>
                 </div>
             </div>

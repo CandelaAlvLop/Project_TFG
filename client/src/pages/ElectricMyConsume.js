@@ -174,7 +174,7 @@ function ElectricMyConsume() {
                     <h3>Year Consume</h3>
                     <div style={{width: 300}}>
                         <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
-                        <p><strong>{electricTotalConsume} l</strong></p>
+                        <p><strong>{electricTotalConsume} kWh</strong></p>
                     </div>
                 </div>
                 <div className="consume-month"> 
@@ -219,7 +219,7 @@ function ElectricMyConsume() {
                     <h3>Year Consume</h3>
                     <div style={{width: 220}}>
                         <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
-                        <p><strong>{gasTotalConsume} l</strong></p>
+                        <p><strong>{gasTotalConsume} m³</strong></p>
                     </div>
                 </div>
             </div>
