@@ -2,6 +2,7 @@
   background: #C4E8E8;
   position: fixed;
   display: flex;
+  z-index: 2;
   top: 0px;
   width: 100%;
   justify-content: space-between;

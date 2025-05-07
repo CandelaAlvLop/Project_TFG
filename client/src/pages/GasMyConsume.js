@@ -12,6 +12,12 @@ import {IoWaterOutline} from "react-icons/io5";
 import {FaFire} from "react-icons/fa6";
 import {FaRegLightbulb} from "react-icons/fa";
 
+import HeatingByAreas from "../images/HeatingByAreas.png";
+import UseOfEfficientStove from "../images/UseOfEfficientStove.png";
+import ProperThermalIsolation from "../images/ProperThermalIsolation.png";
+import ProgrammableThermostats from "../images/ProgrammableThermostats.png";
+
+
 
 function GasMyConsume() {
 
@@ -204,6 +210,38 @@ function GasMyConsume() {
                 <div className="consume-day"> 
                     <h3>Daily Consume</h3>
                     <Bar data={barDayGas}/>
+                </div>
+            </div>
+
+            <h2 className="advices-title">How can I optimize my consume?</h2>
+            <div className="advice-group">
+                <div className="advice">
+                    <img src={HeatingByAreas} alt="Heating by areas"/>
+                    <div className="advice-text-red">
+                        <h4>Heating by areas</h4>
+                        <p>Implement a zoned heating system that allows you to heat only the areas of the house that are being used.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={UseOfEfficientStove} alt="Use of Efficient Stove"/>
+                    <div className="advice-text-red">
+                        <h4>Use of Efficient Stove</h4>
+                        <p>Choose gas stoves that have a good energy efficiency rating.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={ProperThermalIsolation} alt="Proper Thermal Isolation"/>
+                    <div className="advice-text-red">
+                        <h4>Proper Thermal Isolation</h4>
+                        <p>Make sure windows, doors, and walls are well sealed to keep heat inside during winter and outside during summer.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={ProgrammableThermostats} alt="Programmable Thermostats"/>
+                    <div className="advice-text-red">
+                        <h4>Programmable Thermostats</h4>
+                        <p>Use programmable thermostats to efficiently control heating. These devices allow you to adjust the temperature based on the house’s occupancy schedule.</p>
+                    </div>
                 </div>
             </div>
 

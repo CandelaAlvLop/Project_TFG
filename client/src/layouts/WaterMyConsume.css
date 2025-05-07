@@ -3,17 +3,25 @@
   font-size: 32px;
   color: rgb(3, 133, 122);
   margin-top: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
-.consume-data, .consume-data2 {
+.consume-data {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+  margin-bottom: 40px;
+  border-top: 2px solid rgb(204, 204, 204);
+  padding-top: 0px;
 }
 
 .consume-data2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 40px;
   gap: 60px;
 }
   
@@ -31,7 +39,7 @@
   padding: 30px;
   max-height: 390px;
   width: 225px;
-  margin-top: 100px;
+  margin-top: 80px;
   margin-bottom: 40px;
 }
 
@@ -128,4 +136,84 @@
 
 .back-button:hover {
   background-color: rgb(1, 92, 84);
+}
+
+
+/*Advices*/
+.advices-title {
+  text-align: center;
+  font-size: 28px;
+  margin-top: 100px;
+  border-top: 2px solid rgb(204, 204, 204);
+  padding-top: 40px;
+}
+
+.advice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 50px;
+  border-bottom: 2px solid rgb(204, 204, 204);
+  padding-bottom: 60px;
+}
+
+.advice-group h2 {
+  font-size: 25px;
+}
+
+.advice img {
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.advice {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.advice-text-blue, .advice-text-red, .advice-text-green {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  bottom: 0px;
+  left: 0;
+  right: 0px;
+  opacity: 0;
+  transition: 0.3s ease;
+  background-color: rgb(143, 216, 226);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.advice-text-red {
+  background-color: rgb(248, 121, 121);
+}
+
+.advice-text-green {
+  background-color: rgb(152, 240, 149);
+}
+
+.advice:hover .advice-text-blue {
+  opacity: 1;
+}
+
+.advice:hover .advice-text-red {
+  opacity: 1;
+}
+
+.advice:hover .advice-text-green {
+  opacity: 1;
+}
+
+.advice-text-blue h4, .advice-text-red h4, .advice-text-green h4 {
+  font-size: 18px;
+}
+
+.advice-text-blue p, .advice-text-red p , .advice-text-green p {
+  font-size: 14px;
+  line-height: 1.5;
 }

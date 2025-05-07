@@ -12,6 +12,11 @@ import {IoWaterOutline} from "react-icons/io5";
 import {FaFire} from "react-icons/fa6";
 import {FaRegLightbulb} from "react-icons/fa";
 
+import UseOfEfficientElectricStove from "../images/UseOfEfficientElectricStove.png";
+import TurnOffUnnecessaryLights from "../images/TurnOffUnnecessaryLights.png";
+import SmartTemperatureControl from "../images/SmartTemperatureControl.png";
+import ProgrammableThermostats from "../images/ProgrammableThermostats.png";
+
 
 function ElectricMyConsume() {
 
@@ -204,6 +209,38 @@ function ElectricMyConsume() {
                 <div className="consume-day"> 
                     <h3>Daily Consume</h3>
                     <Bar data={barDayElectric}/>
+                </div>
+            </div>
+            
+            <h2 className="advices-title">How can I optimize my consume?</h2>
+            <div className="advice-group">
+                <div className="advice">
+                    <img src={UseOfEfficientElectricStove} alt="Efficient Use of Electric Heating"/>
+                    <div className="advice-text-green">
+                        <h4>Efficient Use of Electric Heating</h4>
+                        <p>Implement a zoned electric heating system that allows you to heat only the areas of the house that are being used.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={TurnOffUnnecessaryLights} alt="Turn Off Unnecessary Lights"/>
+                    <div className="advice-text-green">
+                        <h4>Turn Off Unnecessary Lights</h4>
+                        <p>Keep lights on only in occupied rooms when there is no daylight.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={SmartTemperatureControl} alt="Smart Temperature Control"/>
+                    <div className="advice-text-green">
+                        <h4>Smart Temperature Control</h4>
+                        <p>Make sure windows, doors, and walls are well sealed to keep heat inside during winter and outside during summer.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={ProgrammableThermostats} alt="Programmable Air Conditioner"/>
+                    <div className="advice-text-green">
+                        <h4>Programmable Air Conditioner</h4>
+                        <p>Use programmable air conditioners to efficiently control temperature. These devices allow you to adjust the temperature based on the house’s occupancy schedule.</p>
+                    </div>
                 </div>
             </div>
 

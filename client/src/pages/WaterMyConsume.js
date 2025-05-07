@@ -12,6 +12,11 @@ import {IoWaterOutline} from "react-icons/io5";
 import {FaFire} from "react-icons/fa6";
 import {FaRegLightbulb} from "react-icons/fa";
 
+import SmartIrrigation from "../images/SmartIrrigation.png";
+import EfficientUseOfAppliances from "../images/EfficientUseOfAppliances.png";
+import WaterReuse from "../images/WaterReuse.png";
+import InstallationofFlowReducers from "../images/InstallationofFlowReducers.png";
+
 
 function WaterMyConsume() {
 
@@ -206,6 +211,39 @@ function WaterMyConsume() {
                     <Bar data={barDayWater}/>
                 </div>
             </div>
+            
+            <h2 className="advices-title">How can I optimize my consume?</h2>
+            <div className="advice-group">
+                <div className="advice">
+                    <img src={SmartIrrigation} alt="Smart Irrigation"/>
+                    <div className="advice-text-blue">
+                        <h4>Smart Irrigation</h4>
+                        <p>Water during the early morning hours or late in the evening to minimize evaporation, or use drip irrigation systems that apply water directly to the base of the plants where it is most needed.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={EfficientUseOfAppliances} alt="Efficient Use of Appliances"/>
+                    <div className="advice-text-blue">
+                        <h4>Efficient Use of Appliances</h4>
+                        <p>Remember to use washing machines and dishwashers only when they are fully loaded. This reduces the number of cycles and saves energy.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={WaterReuse} alt="Water Reuse"/>
+                    <div className="advice-text-blue">
+                        <h4>Water Reuse</h4>
+                        <p>For example, rinse water from fruits and vegetables can be used to water indoor plants or the garden.</p>
+                    </div>
+                </div>
+                <div className="advice">
+                    <img src={InstallationofFlowReducers} alt="Installation of Flow Reducers"/>
+                    <div className="advice-text-blue">
+                        <h4>Installation of Flow Reducers</h4>
+                        <p>Install low-flow devices on faucets and showers. These reducers can significantly cut water usage without affecting to the user experience quality.</p>
+                    </div>
+                </div>
+            </div>
+
             <div className="consume-data2">
                 <div className="consume-year2" onClick={() => {if ((electricTotalConsume) > 0) {navigate(`/ElectricMyConsume/${propertyId}`)}}}>
                     <h2><FaRegLightbulb /> Electric</h2>
