@@ -237,32 +237,61 @@ function DataDonation() {
           <p><strong className="show-hide-answer" onClick={() => setShowAnswer1(!showAnswer1)}>
             {showAnswer1 ? "▼ Who is responsible for the processing of your data" : "▶ Who is responsible for the processing of your data"}
           </strong></p>
-          {showAnswer1 && <p>Answer 1</p>}
+          {showAnswer1 && <p className="answer">DATALOG is responsible for the processing of your data once you have signed the data transfer agreement. Its in charge of protecting and managing your information.</p>}
 
           <p><strong className="show-hide-answer" onClick={() => setShowAnswer2(!showAnswer2)}>
             {showAnswer2 ? "▼ For what purposes we collect the data we request" : "▶ For what purposes we collect the data we request"}
           </strong></p>
-          {showAnswer2 && <p>Answer 2</p>}
+          {showAnswer2 && 
+            <div className="answer">
+              <p>Your consumption data is collected to allow you to:</p>
+              <ul>
+                <li>Access and understand your consumption data.</li>
+                <li>Reuse it for personal insights.</li>
+                <li>Authorize reuse for the common good.</li>
+                <li>Participate in research or citizen science campaigns.</li>
+              </ul>
+            </div>
+          }
 
-          <p><strong className="show-hide-answer" onClick={() => setShowAnswer3(!showAnswer3)}>
+          <p ><strong className="show-hide-answer" onClick={() => setShowAnswer3(!showAnswer3)}>
             {showAnswer3 ? "▼ What is the legal basis for its processing" : "▶ What is the legal basis for its processing"}
           </strong></p>
-          {showAnswer3 && <p>Answer 3</p>}
+          {showAnswer3 && <p className="answer">The legal basis is your explicit consent given through the data transfer agreement, where you authorize DATALOG to request, process, and optionally anonymize your data for specific uses.</p>}
 
           <p><strong className="show-hide-answer" onClick={() => setShowAnswer4(!showAnswer4)}>
             {showAnswer4 ? "▼ How long we retain your data" : "▶ How long we retain your data"}
           </strong></p>
-          {showAnswer4 && <p>Answer 4</p>}
+          {showAnswer4 && 
+            <div className="answer">
+              <p>The data is retained until:</p>
+              <ul>
+                <li>You revoke consent.</li>
+                <li>You request deletion.</li>
+                <li>Or DATALOG no longer needs the data for the agreed purposes.</li>
+              </ul>
+            </div>
+          }
 
           <p><strong className="show-hide-answer" onClick={() => setShowAnswer5(!showAnswer5)}>
             {showAnswer5 ? "▼ To whom your data is disclosed" : "▶ To whom your data is disclosed"}
           </strong></p>
-          {showAnswer5 && <p>Answer 5</p>}
+          {showAnswer5 && <p className="answer">Your data is not shared without your consent. If you want it to be shared with a third party, you must request it and DATALOG will anonymize and transfer the data as you specify.</p>}
 
           <p><strong className="show-hide-answer" onClick={() => setShowAnswer6(!showAnswer6)}>
             {showAnswer6 ? "▼ What your rights are" : "▶ What your rights are"}
           </strong></p>
-          {showAnswer6 && <p>Answer 6</p>}
+          {showAnswer6 && 
+            <div className="answer">
+              <p>You have the right to:</p>
+              <ul>
+                <li>Access your data.</li>
+                <li>Revoke consent.</li>
+                <li>Request deletion of your data.</li>
+                <li>Decide how it is reused.</li>
+              </ul>
+            </div>
+          }
 
           <button className="add-data" onClick={() => {window.scrollTo(0, 0); setUpload(true)}}><MdAddCircle /> Add</button>
         </div>

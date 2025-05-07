@@ -47,13 +47,13 @@ function Login() {
                     {/* Sidebar */}
                     <aside className="sidebar-login">
                         <h3>Welcome</h3>
-                        <p>Start your journey with us.</p>
+                        <a href="/register">Start your journey with us</a>
                         <h3>Data Sharing</h3>
-                        <p>Login to view content</p>
+                        <a href="/login">Login to view content</a>
                         <h3>View Your Data</h3>
-                        <p>Login to view content</p>
+                        <a href="/login">Login to view content</a>
                         <h3>Participate in Campaigns</h3>
-                        <p>Login to participate</p>
+                        <a href="/login">Login to participate</a>
                         <h3>Information</h3>
                         <a href="/instructions">Instructions</a>
                         <a href="/faq">Frequently Asked Questions</a>

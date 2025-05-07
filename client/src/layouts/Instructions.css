@@ -1,0 +1,24 @@
+.instructions {
+    padding: 20px;
+}
+
+.instructions h3 {
+    color: rgb(3, 133, 122);
+    font-size: 14px;
+}
+
+.instructions h1 {
+    margin-bottom: 40px;
+}
+
+.instructions h2 {
+    font-size: 20px;
+    margin-top: 25px;
+    color: rgb(3, 133, 122);
+    border-top: 2px solid rgb(204, 204, 204);
+    padding-top: 25px;
+}
+
+.instructions p, .instructions li {
+    line-height: 1.5;
+}

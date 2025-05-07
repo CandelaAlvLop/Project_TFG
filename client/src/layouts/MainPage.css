@@ -1,7 +1,7 @@
 /* General Styles */
 body, html {
     font-family: 'Arial', sans-serif;
-    background: rgb(249,249,249);
+    background-color: rgb(249,249,249);
     color: rgb(43, 42, 42);
 }
 
@@ -38,9 +38,8 @@ body, html {
 
 /* Sidebar Section */
 .sidebar-mainpage {
-    width: 250px;
-    background: white;
-    padding: 20px;
+    background-color: white;
+    padding: 40px;
     border-radius: 8px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     width: 35%;
@@ -66,7 +65,7 @@ body, html {
 
 /* Main Content Sidebar Section */
 .access-mainpage {
-    background: white;
+    background-color: white;
     padding: 30px;
     margin-left: 20px;
     border-radius: 8px;
@@ -84,8 +83,7 @@ body, html {
 .buttons-mainpage button {
     padding: 10px 15px;
     font-size: 16px;
-    border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     width: 200px;
     margin: 20px;
@@ -93,21 +91,21 @@ body, html {
 }
 
 .buttons-mainpage .register {
-    background: rgb(3, 133, 122);
+    background-color: rgb(3, 133, 122);
     color: white;
 }
 
 .buttons-mainpage .login {
-    background: rgb(207, 72, 90);
+    background-color: rgb(207, 72, 90);
     color: white;
 }
 
 .buttons-mainpage .register:hover {
-    background: rgb(1, 92, 84);
+    background-color: rgb(1, 92, 84);
 }
 
 .buttons-mainpage .login:hover {
-    background: rgb(168, 45, 61);
+    background-color: rgb(168, 45, 61);
 }
 
 /* Responsive */

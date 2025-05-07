@@ -19,44 +19,38 @@ function MainPage() {
             <NavbarStart />
 
             {/*Header Section*/}
-            <section className="header-mainpage">
+            <div className="header-mainpage">
                 <h1>Claim Your Data!</h1>
-                <p>
-                    Follow the steps and help us build a better city. Complete the form to complete the process.
-                </p>
-                <p>
-                    If you have any questions, you can always email us at info@datalog.com
-                </p>
+                <p>Follow the steps and help us build a better city. Complete the form to complete the process.</p>
+                <p>If you have any questions, you can always email us at info@datalog.com</p>
                 <img src={Drawing} alt="Data Visualization" />
-            </section>
+            </div>
 
             {/* Main Content Sidebar Section */}
             <div className="maincontent-mainpage">
                 {/* Sidebar */}
-                <aside className="sidebar-mainpage">
+                <div className="sidebar-mainpage">
                     <h3>Welcome</h3>
-                    <p>Start your journey with us.</p>
+                    <a href="/register">Start your journey with us</a>
                     <h3>Data Sharing</h3>
-                    <p>Login to view content</p>
+                    <a href="/login">Login to view content</a>
                     <h3>View Your Data</h3>
-                    <p>Login to view content</p>
+                    <a href="/login">Login to view content</a>
                     <h3>Participate in Campaigns</h3>
-                    <p>Login to participate</p>
+                    <a href="/login">Login to participate</a>
                     <h3>Information</h3>
                     <a href="/instructions">Instructions</a>
                     <a href="/faq">Frequently Asked Questions</a>
-                </aside>
+                </div>
 
                 {/* Register and Login access */}
-                <main className="access-mainpage">
+                <div className="access-mainpage">
                     <h2>Start the process!</h2>
-
-                    {/* Login and Register Buttons */}
                     <div className="buttons-mainpage">
                         <button className="register" onClick={() => navigate("/register")}>Register</button>
                         <button className="login" onClick={() => navigate("/login")}>Login</button>
                     </div>
-                </main>
+                </div>
             </div>
             <Footer />
         </div>
