@@ -51,8 +51,8 @@ function PersonalData() {
                 setNewEmail(response.data.email);
                 setNewPassword(response.data.password);
                 setNewType(response.data.type);
-        }).catch ((error) => {
-            console.error("Error retrieving User data:", error);
+            }).catch ((error) => {
+                console.error("Error retrieving User data:", error);
         });
     };
 

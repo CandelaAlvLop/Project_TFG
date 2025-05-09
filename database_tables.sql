@@ -1,4 +1,5 @@
 -- USER
+DROP TABLE IF EXISTS notifications_consent CASCADE;
 DROP TABLE IF EXISTS donations_consent CASCADE;
 DROP TABLE IF EXISTS donations_readings CASCADE;
 DROP TABLE IF EXISTS donations_metadata CASCADE;
@@ -100,10 +101,18 @@ CREATE TABLE IF NOT EXISTS donations_consent (
   CONSTRAINT fk_donations_id_consents FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
 );
 
+CREATE TABLE IF NOT EXISTS notifications_consent (
+  notification_id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  notifications TEXT,
+  notification_consent_date DATE DEFAULT (CURRENT_DATE),
+  CONSTRAINT fk_user_id_notifications FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
 
 SELECT * FROM donations_metadata;
 SELECT * FROM donations_readings;
 SELECT * FROM donations_consent;
+SELECT * FROM notifications_consent;
 
 
 
