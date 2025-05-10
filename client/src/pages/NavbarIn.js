@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../layouts/NavbarIn.css';
 import { FaBell } from "react-icons/fa";

@@ -1,4 +1,3 @@
-import React from 'react';
 import '../layouts/Footer.css';
 import EUDataAltruism from "../images/EUDataAltruism.png";
 import UPFLogo from "../images/UPFLogo.png";

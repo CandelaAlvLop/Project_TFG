@@ -1,0 +1,80 @@
+.campaigns-data {
+    text-align: center;
+    font-size: 32px;
+    color: rgb(3, 133, 122);
+    margin-top: 70px;
+    margin-bottom: 60px;
+}
+
+.campaigns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.campaigns-input {
+    max-width: 280px; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: rgb(61, 61, 61);
+    display: flex;
+    flex-direction: column;
+}
+
+.campaigns-input h2 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.campaigns-input-date {
+    font-size: 14px;
+    color: black;
+    line-height: 0.7;
+}
+
+.campaigns-input:hover {
+    cursor: pointer;
+    filter: brightness(85%);
+}
+
+.campaigns-view-more {
+    text-align: right;
+    margin-top: auto;
+}
+
+.campaigns-view-more p:hover {
+    text-decoration: underline;
+}
+
+.icon-filter {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.icon-select {
+  font-size: 25px;
+  padding: 10px;
+  background: white;
+  border: 2px solid rgba(128, 128, 128, 0.356);
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.icon-select:hover {
+  background: rgb(225, 252, 252);
+  border-color: rgb(3, 133, 122);
+}
+
+.icon-select.selected {
+  background: rgb(0, 168, 154);
+  border-color: rgb(3, 133, 122);
+  color: white;
+}
