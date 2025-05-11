@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import "chart.js/auto";
+import "../layouts/Navbar2.css";
 import "../layouts/Dashboard.css";
 import Footer from "./Footer";
 import Navbar from "./NavbarIn";

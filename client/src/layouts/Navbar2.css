@@ -1,0 +1,18 @@
+.navbar-dashboard {
+    background: rgba(236, 236, 236, 0.555);
+    padding: 30px 30px;
+    margin-top: 70px;
+    top: 0px;
+    width: 100%;
+}
+  
+.navbar-dashboard a {
+    text-decoration: none;
+    font-size: 16px;
+    color: rgba(29, 29, 29, 0.795);
+    padding: 25px;
+}
+  
+.navbar-dashboard a:hover {
+    background-color: rgba(255, 255, 255, 0.637);
+}

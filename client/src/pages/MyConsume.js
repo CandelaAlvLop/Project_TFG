@@ -123,7 +123,7 @@ function MyConsume() {
                         </div>
                     </div>
                 
-                    <div className="consume-input" onClick={() => navigate(`/ElectricMyConsume/${selectedProperty}`)}>
+                    <div className="consume-input" onClick={() => {if ((electricTotalConsume) > 0) {navigate(`/ElectricMyConsume/${selectedProperty}`)}}}>
                         <h2><FaRegLightbulb /> Electric</h2>
                         <h3>Year Consume</h3>
                         <div style={{width: 300}}>
@@ -132,7 +132,7 @@ function MyConsume() {
                         </div>
                     </div>
 
-                    <div className="consume-input" onClick={() => navigate(`/GasMyConsume/${selectedProperty}`)}>
+                    <div className="consume-input" onClick={() => {if ((gasTotalConsume) > 0) {navigate(`/GasMyConsume/${selectedProperty}`)}}}>
                         <h2><FaFire /> Gas</h2>
                         <h3>Year Consume</h3>
                         <div style={{width: 300}}>

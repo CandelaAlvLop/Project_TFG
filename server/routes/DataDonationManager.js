@@ -184,38 +184,49 @@ router.get("/consent/:donationId", (req, res) => {
 
 
 //Delete Donation
-router.delete("/donationDelete/:donationId", (req, res) => {
-    const donationId = req.params.donationId;
+router.post("/donationDelete", (req, res) => {
+    const {userId, donationId, justifications} = req.body;
 
-    //Delete file from uploads folder
+    //Save Justifications
+    db.query("INSERT INTO donations_justification (user_id, justification) VALUES (?,?)",
+        [userId, justifications],
+            (insert_err) => {
+                if (insert_err) {
+                    console.error("Error inserting justifications:", insert_err);
+                    return res.status(500).send({message: "Error inserting justifications"});
+                }            
+
+                //Delete file from uploads folder
 
 
-            //Delete data from Database Tables
-            db.query("DELETE FROM donations_readings WHERE donation_id = ?", 
-                [donationId], 
-                (err) => {
-                if (err) {
-                    return res.status(500).send({message: "Error deleting donation readings"});
-                }
-
-                db.query("DELETE FROM donations_consent WHERE donation_id = ?", 
-                    [donationId], 
-                    (err) => {
-                    if (err) {
-                        return res.status(500).send({message: "Error deleting donation consent"});
-                    }
-
-                    db.query("DELETE FROM donations_metadata WHERE donation_id = ?", 
+                    //Delete data from Database Tables
+                    db.query("DELETE FROM donations_readings WHERE donation_id = ?", 
                         [donationId], 
                         (err) => {
                         if (err) {
-                            return res.status(500).send({message: "Error deleting donation metadata"});
+                            return res.status(500).send({message: "Error deleting donation readings"});
                         }
-                        console.log(`Donation ${donationId} deleted successfully`);
-                        res.status(200).send({message: `Donation ${donationId} deleted successfully`});
+
+                        db.query("DELETE FROM donations_consent WHERE donation_id = ?", 
+                            [donationId], 
+                            (err) => {
+                            if (err) {
+                                return res.status(500).send({message: "Error deleting donation consent"});
+                            }
+
+                            db.query("DELETE FROM donations_metadata WHERE donation_id = ?", 
+                                [donationId], 
+                                (err) => {
+                                if (err) {
+                                    return res.status(500).send({message: "Error deleting donation metadata"});
+                                }
+                                console.log(`Donation ${donationId} deleted successfully`);
+                                res.status(200).send({message: `Donation ${donationId} deleted successfully`});
+                            });
+                        });
                     });
-                });
-            });
+                }
+    );
 });
 
 

@@ -34,10 +34,12 @@ function DataDonation() {
   const [upload, setUpload] = useState(false); //Upload form
   const [uploadedFile, setUploadedFile] = useState(null); //Before upload
   const [uploadedInfos, setUploadedInfos] = useState([]); //After upload
-
   const [firstUpload, setFirstUpload] = useState(null);
   const [lastUpload, setLastUpload] = useState(null);
   const [showFiles, setShowFiles] = useState(false);
+  const [donationId, setDonationId] = useState(null);
+  const [error, setError] = useState("");
+
   const [showAnswer1, setShowAnswer1] = useState(false);
   const [showAnswer2, setShowAnswer2] = useState(false);
   const [showAnswer3, setShowAnswer3] = useState(false);
@@ -45,29 +47,20 @@ function DataDonation() {
   const [showAnswer5, setShowAnswer5] = useState(false);
   const [showAnswer6, setShowAnswer6] = useState(false);
 
-  const [donationId, setDonationId] = useState(null);
   const [consent, setConsent] = useState(false); //Display Consent section
   const [selectedConsents, setSelectedConsents] = useState([]); 
   const [savedConsent, setSavedConsent] = useState(false);
   const [editingConsent, setEditingConsent] = useState(null); //Consents being edited (ID)
+
+  const [justificationForm, setJustificationForm] = useState(false);
+  const [selectedJustifications, setSelectedJustifications] = useState([]);
+  const [savedJustifications, setSavedJustifications] = useState(false);
   const [confirmDeleteConsent, setConfirmDeleteConsent] = useState(false); //Confirm Delete
 
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const ConsentList = ["General usage trends", "Campaign Contact", "Research Campaigns", "Government Campaigns", "Education Campaigns", "Transport Campaigns", "Business Campaigns", "Compare with Metadata"]
-
   const consumeIcons = [{icon:<IoWaterOutline />, consume:'Water'},{icon:<FaRegLightbulb />, consume:'Electric'},{icon:<FaFire />, consume:'Gas'}];
-
-  function selectionProperty (propertyId) {
-    if (selectedProperty === propertyId) return "property-select selected";
-    else return "property-select";
-  }
-
-  function selectionConsume (consume) {
-    if (selectedConsume === consume) return "property-consume-select selected";
-    else return "property-consume-select";
-  }
 
   useEffect(() => {
     if (userId && selectedProperty && selectedConsume) {
@@ -76,6 +69,7 @@ function DataDonation() {
           setUploadedInfos(response.data.files);
           setFirstUpload(response.data.firstUpload);
           setLastUpload(response.data.lastUpload);
+          //Reset State
           setShowFiles(false);
           setShowAnswer1(false);
           setShowAnswer2(false);
@@ -104,6 +98,18 @@ function DataDonation() {
   }, [selectedProperty, selectedConsume, userId]);
 
 
+  //Property and Consume Selection
+  function selectionProperty (propertyId) {
+    if (selectedProperty === propertyId) return "property-select selected";
+    else return "property-select";
+  }
+  function selectionConsume (consume) {
+    if (selectedConsume === consume) return "property-consume-select selected";
+    else return "property-consume-select";
+  }
+
+
+  //Upload a data file
   function UploadFile() {
     if (!uploadedFile || !selectedProperty || !selectedConsume) {
       setError("Select a valid file before saving");
@@ -136,6 +142,8 @@ function DataDonation() {
       });
   }
 
+
+  //Edit Consents
   function editConsent(donationId) {
     axios.get(`http://localhost:3001/DataDonationManager/consent/${donationId}`)
     .then((response) => {
@@ -148,6 +156,7 @@ function DataDonation() {
     });
   } 
 
+  //Consent Selection
   function consentSelection(value) {
     if (selectedConsents.includes(value)) {setSelectedConsents(selectedConsents.filter(consent => consent !== value));} //Remove element from the new array
     else {setSelectedConsents([...selectedConsents, value]);} //Add element to the new array
@@ -161,6 +170,7 @@ function DataDonation() {
     }
   }
 
+  //Save Consent Selection
   function saveConsent() {
     setSavedConsent(true);    
     if (selectedConsents.length === 0) return;
@@ -178,24 +188,50 @@ function DataDonation() {
     });
   }
 
-  function deleteDonation(donationId) { 
-    axios.delete(`http://localhost:3001/DataDonationManager/donationDelete/${donationId}`)
-      .then(() => {
-        setConsent(false); 
-        setSelectedConsents([]); 
-        setEditingConsent(null);
-        return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
-      })
-      .then((response) => {
-        setUploadedInfos(response.data.files);
-        setFirstUpload(response.data.firstUpload);
-        setLastUpload(response.data.lastUpload);
-      })
-      .catch((err) => {
-        console.error("Error deleting donation:", err);
-      });
+
+  //Select Justifications
+  function justificationSelection(value) {
+    if (selectedJustifications.includes(value)) {setSelectedJustifications(selectedJustifications.filter(consent => consent !== value));}
+    else {setSelectedJustifications([...selectedJustifications, value]);} 
+  }
+
+  //Justification Delete Button
+  function deleteJustification() { 
+    setSavedJustifications(true); 
+    if (selectedJustifications.length !== 0) {
+      window.scrollTo(0,0); 
+      setConfirmDeleteConsent(true); 
+      setJustificationForm(false)
+    }   
   }  
 
+
+  //Delete Donation
+  function deleteDonation(donationId) { 
+    axios.post("http://localhost:3001/DataDonationManager/donationDelete/", {
+      userId: userId,
+      donationId: donationId,
+      justifications: selectedJustifications.join(",")
+    })
+    .then(() => {
+      setConsent(false); 
+      setSelectedConsents([]); 
+      setEditingConsent(null);
+      setSelectedJustifications([]);
+      return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
+    })
+    .then((response) => {
+      setUploadedInfos(response.data.files);
+      setFirstUpload(response.data.firstUpload);
+      setLastUpload(response.data.lastUpload);
+    })
+    .catch((err) => {
+      console.error("Error deleting donation:", err);
+    });
+  }  
+
+
+  //Data Donation Section, View Uploads, View Security Policies Answers, Manage File Upload, Access Consent Edit
   function donationManagement() {
     if (upload) {
       return (
@@ -220,9 +256,8 @@ function DataDonation() {
             <p><strong>Last updated data:</strong> {new Date(lastUpload.upload_time).toLocaleDateString()}</p></>
           )}
           
-          <strong className="show-hide-files-uploaded" onClick={() => setShowFiles(!showFiles)}>
-            {showFiles ? "▼ Hide Files Uploaded" : "▶ Show Files Uploaded"}
-          </strong>
+          {/*Show Upload Files*/}
+          <strong className="show-hide-files-uploaded" onClick={() => setShowFiles(!showFiles)}> {showFiles ? "▼ Hide Files Uploaded" : "▶ Show Files Uploaded"} </strong>
           {showFiles && (
             <ul>
               {uploadedInfos.map((file, i) => (
@@ -231,17 +266,14 @@ function DataDonation() {
             </ul>
           )}          
 
+          {/*Show Security Policies Answers*/}
           <h2>Security policies</h2>
           <p className="security-policies-txt">Confidentiality and security are core values of DATALOG, and as such, we are committed to ensure the User’s privacy at all times and to not collect unnecessary information. Below, we provide all the necessary information regarding our Privacy Policy in relation to the personal data we collect, explaining:</p>
-          
-          <p><strong className="show-hide-answer" onClick={() => setShowAnswer1(!showAnswer1)}>
-            {showAnswer1 ? "▼ Who is responsible for the processing of your data" : "▶ Who is responsible for the processing of your data"}
-          </strong></p>
+
+          <p><strong className="show-hide-answer" onClick={() => setShowAnswer1(!showAnswer1)}> {showAnswer1 ? "▼ Who is responsible for the processing of your data" : "▶ Who is responsible for the processing of your data"} </strong></p>
           {showAnswer1 && <p className="answer">DATALOG is responsible for the processing of your data once you have signed the data transfer agreement. Its in charge of protecting and managing your information.</p>}
 
-          <p><strong className="show-hide-answer" onClick={() => setShowAnswer2(!showAnswer2)}>
-            {showAnswer2 ? "▼ For what purposes we collect the data we request" : "▶ For what purposes we collect the data we request"}
-          </strong></p>
+          <p><strong className="show-hide-answer" onClick={() => setShowAnswer2(!showAnswer2)}> {showAnswer2 ? "▼ For what purposes we collect the data we request" : "▶ For what purposes we collect the data we request"} </strong></p>
           {showAnswer2 && 
             <div className="answer">
               <p>Your consumption data is collected to allow you to:</p>
@@ -254,14 +286,10 @@ function DataDonation() {
             </div>
           }
 
-          <p ><strong className="show-hide-answer" onClick={() => setShowAnswer3(!showAnswer3)}>
-            {showAnswer3 ? "▼ What is the legal basis for its processing" : "▶ What is the legal basis for its processing"}
-          </strong></p>
+          <p><strong className="show-hide-answer" onClick={() => setShowAnswer3(!showAnswer3)}> {showAnswer3 ? "▼ What is the legal basis for its processing" : "▶ What is the legal basis for its processing"} </strong></p>
           {showAnswer3 && <p className="answer">The legal basis is your explicit consent given through the data transfer agreement, where you authorize DATALOG to request, process, and optionally anonymize your data for specific uses.</p>}
 
-          <p><strong className="show-hide-answer" onClick={() => setShowAnswer4(!showAnswer4)}>
-            {showAnswer4 ? "▼ How long we retain your data" : "▶ How long we retain your data"}
-          </strong></p>
+          <p><strong className="show-hide-answer" onClick={() => setShowAnswer4(!showAnswer4)}> {showAnswer4 ? "▼ How long we retain your data" : "▶ How long we retain your data"} </strong></p>
           {showAnswer4 && 
             <div className="answer">
               <p>The data is retained until:</p>
@@ -273,14 +301,10 @@ function DataDonation() {
             </div>
           }
 
-          <p><strong className="show-hide-answer" onClick={() => setShowAnswer5(!showAnswer5)}>
-            {showAnswer5 ? "▼ To whom your data is disclosed" : "▶ To whom your data is disclosed"}
-          </strong></p>
+          <p><strong className="show-hide-answer" onClick={() => setShowAnswer5(!showAnswer5)}> {showAnswer5 ? "▼ To whom your data is disclosed" : "▶ To whom your data is disclosed"} </strong></p>
           {showAnswer5 && <p className="answer">Your data is not shared without your consent. If you want it to be shared with a third party, you must request it and DATALOG will anonymize and transfer the data as you specify.</p>}
 
-          <p><strong className="show-hide-answer" onClick={() => setShowAnswer6(!showAnswer6)}>
-            {showAnswer6 ? "▼ What your rights are" : "▶ What your rights are"}
-          </strong></p>
+          <p><strong className="show-hide-answer" onClick={() => setShowAnswer6(!showAnswer6)}> {showAnswer6 ? "▼ What your rights are" : "▶ What your rights are"} </strong></p>
           {showAnswer6 && 
             <div className="answer">
               <p>You have the right to:</p>
@@ -292,7 +316,6 @@ function DataDonation() {
               </ul>
             </div>
           }
-
           <button className="add-data" onClick={() => {window.scrollTo(0, 0); setUpload(true)}}><MdAddCircle /> Add</button>
         </div>
       );
@@ -311,6 +334,7 @@ function DataDonation() {
       <Navbar />
       <Navbar2 />
 
+      {/*Show User Properties*/}
       <h1 className="property-title">Select a Property to Donate Data</h1>
       {properties.length > 0 && (
         <div className="property-data">
@@ -329,6 +353,7 @@ function DataDonation() {
         </div>
       )}
 
+      {/*Show Consume Types*/}
       {selectedProperty && ( <div className="property-consume-type">
         {consumeIcons.map(({icon, consume}) => (
           <button key={consume} className={selectionConsume(consume)}
@@ -342,10 +367,42 @@ function DataDonation() {
 
       {selectedConsume && donationManagement()}
 
+      {/*Consent selection*/}
       {consent && (
         <div className="consent-popup">
           <div className="consent-popup-content">
-            {editingConsent && <button className="delete-consent" onClick={() => {window.scrollTo(0, 0); setConfirmDeleteConsent(true)}}><RiDeleteBin5Fill /> Delete</button>}
+            {editingConsent && <button className="delete-consent" onClick={() => {window.scrollTo(0, 0); setJustificationForm(true)}}><RiDeleteBin5Fill /> Delete</button>}
+            
+              {/*Justification selection*/}
+              {justificationForm && (
+                <div className="consent-popup">
+                  <div className="consent-popup-content">
+                    <h2>Why do you want to delete your data?</h2>
+                    <div className="checkboxes-content">
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy concern")} onChange={() => justificationSelection("Privacy concern")}/>
+                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                      </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy2 concern")} onChange={() => justificationSelection("Privacy2 concern")}/>
+                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                      </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy3 concern")} onChange={() => justificationSelection("Privacy3 concern")}/>
+                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                      </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy4 concern")} onChange={() => justificationSelection("Privacy4 concern")}/>
+                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                      </label>
+          
+                      {savedJustifications && selectedJustifications.length === 0 && (
+                        <div className="error-consent">Please select at least one justification option.</div>
+                      )}
+                    </div>
+                    <button className="delete-consent" onClick={() => {deleteJustification()}}><RiDeleteBin5Fill /> Delete</button>
+
+                    <button className="cancel-consent" onClick={() => {setJustificationForm(false); setSelectedJustifications([]); setSavedJustifications(false); setError("")}}><MdCancel /> Cancel</button>
+                  </div>
+                </div>
+              )}
+
             <h2>Consent Selection</h2>
             <div className="checkboxes-content">
               <div className="select-all">
@@ -389,13 +446,14 @@ function DataDonation() {
         </div>
       )}
 
+      {/*Delete Data, Consents and Justifications*/}
       {confirmDeleteConsent && (
         <div className="delete-confirm-popup">
           <div className="delete-confirm-popup-content">
             <p>Are you sure you want to delete this data donation?</p>
             <div className="delete-confirm-popup-buttons">
               <button onClick={() => {deleteDonation(editingConsent); setConfirmDeleteConsent(false)}}>Yes</button>
-              <button onClick={() => {setConfirmDeleteConsent(false)}}>No</button>
+              <button onClick={() => {setConfirmDeleteConsent(false); setSelectedJustifications([]); setSavedJustifications(false); setError("")}}>No</button>
             </div>
           </div>
         </div>
