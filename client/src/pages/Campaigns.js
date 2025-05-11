@@ -65,18 +65,15 @@ function Campaigns() {
     }
 
     let filter = [];
-    if (selectedIcons.length === 0) filter = campaigns;
-    else {
-        for (let i = 0; i < campaigns.length; i++) {
-            let campaign = campaigns[i];
-            for (let j = 0; j < campaign.icons.length; j++) {
-                if (selectedIcons.includes(campaign.icons[j])) {
-                    filter.push(campaign);
-                    break;
-                }
-            }
+    if (selectedIcons.length !== 0) {
+      for (let i = 0; i < campaigns.length; i++) { //Loop All Campaigns
+        for (let j = 0; j < campaigns[i].icons.length; j++) { //Loop Icons of the Campaign
+          if (selectedIcons.includes(campaigns[i].icons[j])) {
+            filter.push(campaigns[i]);
+          }
         }
-    }
+      }
+    } else {filter = campaigns;} //No Icon Selected = Show All Campaigns
 
     return (
         <div>
