@@ -177,7 +177,9 @@ router.get("/consent/:donationId", (req, res) => {
                 console.error("Error getting consents:", err);
                 return res.status(500).send({message: "Error getting consents"});
             }
-            res.status(200).send({consents: result[0].consents.split(",")});
+            if (result.length !== 0){
+                res.status(200).send({consents: result[0].consents.split(",")});
+            }
         }
     );
 });
@@ -246,66 +248,5 @@ router.get("/consume/:propertyId/:consumeType", (req, res) => {
         }
         );
 }); 
-  
-
-//Save Notifications
-router.post("/notification", (req, res) => {
-    const {userId, notifications} = req.body;
-    console.log("Stored:", req.body);
-
-    db.query(
-        "SELECT * FROM notifications_consent WHERE user_id = ?",
-        [userId],
-        (err, result) => {
-            if (err) {
-                console.error("Error checking existing notification consents:", err);
-                return res.status(500).send({ message: "Error checking existing notification consents" });
-            }
-            if (result.length > 0) {
-                db.query(
-                    "UPDATE notifications_consent SET notifications = ? WHERE user_id = ?",
-                    [notifications, userId],
-                    (update_err) => {
-                        if (update_err) {
-                            console.error("Error updating notification consents:", update_err);
-                            return res.status(500).send({message: "Error updating notification consents"});
-                        }
-                        return res.status(200).send({message: "Notification consents updated successfully"});
-                    }
-                );
-            } else {
-                db.query(
-                    "INSERT INTO notifications_consent (user_id, notifications) VALUES (?, ?)",
-                    [userId, notifications],
-                    (insert_err) => {
-                        if (insert_err) {
-                            console.error("Error inserting notification consents:", insert_err);
-                            return res.status(500).send({message: "Error inserting notification consents"});
-                        }
-                        return res.status(200).send({message: "Notification consents inserted successfully"});
-                    }
-                );
-            }
-        }
-    );
-});
-
-//Get Notifications
-router.get("/notification/:userId", (req, res) => {
-    const {userId} = req.params;
-  
-    db.query(
-        "SELECT notifications FROM notifications_consent WHERE user_id = ?",
-        [userId],
-        (err, result) => {
-            if (err) {
-                console.error("Error getting notification consents:", err);
-                return res.status(500).send({message: "Error getting notification consents"});
-            }
-            res.status(200).send({notifications: result[0].notifications.split(",")});
-        }
-    );
-});
-
 
 module.exports = router;

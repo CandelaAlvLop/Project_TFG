@@ -16,7 +16,7 @@ function Notifications() {
 
     useEffect(() => {
         window.scrollTo(0, 0); 
-        axios.get(`http://localhost:3001/DataDonationManager/notification/${userId}`)
+        axios.get(`http://localhost:3001/UserManager/notification/${userId}`)
             .then((response) => {
                 setSelectedNotification(response.data.notifications);
                 setSavedNotification(response.data.notifications);
@@ -40,7 +40,7 @@ function Notifications() {
     
       function saveNotifications() {
         setSavedNotification([...selectedNotification]);    
-        axios.post("http://localhost:3001/DataDonationManager/notification", {
+        axios.post("http://localhost:3001/UserManager/notification", {
           userId,
           notifications: selectedNotification.join(",")
         })

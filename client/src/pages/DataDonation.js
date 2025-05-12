@@ -54,6 +54,7 @@ function DataDonation() {
 
   const [justificationForm, setJustificationForm] = useState(false);
   const [selectedJustifications, setSelectedJustifications] = useState([]);
+  const [other, setOther] = useState("");
   const [savedJustifications, setSavedJustifications] = useState(false);
   const [confirmDeleteConsent, setConfirmDeleteConsent] = useState(false); //Confirm Delete
 
@@ -199,6 +200,9 @@ function DataDonation() {
   function deleteJustification() { 
     setSavedJustifications(true); 
     if (selectedJustifications.length !== 0) {
+      if (selectedJustifications.includes("Other Reason") && other !== "") {
+        setSelectedJustifications([...selectedJustifications.filter(otherReason => otherReason !== "Other Reason"), other]);
+      }
       window.scrollTo(0,0); 
       setConfirmDeleteConsent(true); 
       setJustificationForm(false)
@@ -218,6 +222,9 @@ function DataDonation() {
       setSelectedConsents([]); 
       setEditingConsent(null);
       setSelectedJustifications([]);
+      setSavedJustifications(false);
+      setOther("");
+      setError("");
       return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
     })
     .then((response) => {
@@ -375,30 +382,48 @@ function DataDonation() {
             
               {/*Justification selection*/}
               {justificationForm && (
-                <div className="consent-popup">
-                  <div className="consent-popup-content">
+                <div className="donation-popup">
+                  <div className="donation-popup-content">
                     <h2>Why do you want to delete your data?</h2>
-                    <div className="checkboxes-content">
-                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy concern")} onChange={() => justificationSelection("Privacy concern")}/>
-                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                    <div className="checkboxes-donation">
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Incorrect Data")} onChange={() => justificationSelection("Incorrect Data")}/>
+                        The uploaded data is incorrect or outdated.
                       </label>
-                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy2 concern")} onChange={() => justificationSelection("Privacy2 concern")}/>
-                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Wrong File")} onChange={() => justificationSelection("Wrong File")}/>
+                        I uploaded the wrong file.
                       </label>
-                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy3 concern")} onChange={() => justificationSelection("Privacy3 concern")}/>
-                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Not interested in sharing data")} onChange={() => justificationSelection("Not interested in sharing data")}/>
+                        I am no longer interested in sharing my data for educational, research, government, transport or business purposes.
                       </label>
-                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy4 concern")} onChange={() => justificationSelection("Privacy4 concern")}/>
-                        I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Want full control over data")} onChange={() => justificationSelection("Want full control over data")}/>
+                        I want to have full control over my consumption data share.
                       </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Privacy Concern")} onChange={() => justificationSelection("Privacy Concern")}/>
+                        I am concerned about the privacy of my personal data.
+                      </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Security Storage Concern")} onChange={() => justificationSelection("Security Storage Concern")}/>
+                        I am concerned about the security of the storage of my personal and consumption data.
+                      </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Data Use Concern")} onChange={() => justificationSelection("Data Use Concern")}/>
+                        I am concerned about the use of my personal and consumption data.
+                      </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Temporary removal")} onChange={() => justificationSelection("Temporary removal")}/>
+                        I am temporarily removing my contribution.
+                      </label>
+                      <label><input type="checkbox" checked={selectedJustifications.includes("Other Reason")} onChange={() => justificationSelection("Other Reason")}/> 
+                        Other reason:
+                      </label>
+                      <input className="other" type="text" placeholder="Please specify your reason" value={other} onChange={(e) => setOther(e.target.value)}/>
           
                       {savedJustifications && selectedJustifications.length === 0 && (
-                        <div className="error-consent">Please select at least one justification option.</div>
+                        <div className="error-donation">Please select at least one justification option.</div>
                       )}
                     </div>
-                    <button className="delete-consent" onClick={() => {deleteJustification()}}><RiDeleteBin5Fill /> Delete</button>
 
-                    <button className="cancel-consent" onClick={() => {setJustificationForm(false); setSelectedJustifications([]); setSavedJustifications(false); setError("")}}><MdCancel /> Cancel</button>
+                    <div className="justification-buttons">
+                      <button className="delete-donation" onClick={() => {deleteJustification()}}><RiDeleteBin5Fill /> Delete</button>
+                      <button className="cancel-donation" onClick={() => {setJustificationForm(false); setSelectedJustifications([]); setSavedJustifications(false); setOther(""); setError("")}}><MdCancel /> Cancel</button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -452,8 +477,8 @@ function DataDonation() {
           <div className="delete-confirm-popup-content">
             <p>Are you sure you want to delete this data donation?</p>
             <div className="delete-confirm-popup-buttons">
-              <button onClick={() => {deleteDonation(editingConsent); setConfirmDeleteConsent(false)}}>Yes</button>
-              <button onClick={() => {setConfirmDeleteConsent(false); setSelectedJustifications([]); setSavedJustifications(false); setError("")}}>No</button>
+              <button onClick={() => {deleteDonation(editingConsent); setConfirmDeleteConsent(false); setOther(""); setError("")}}>Yes</button>
+              <button onClick={() => {setConfirmDeleteConsent(false); setSelectedJustifications([]); setSavedJustifications(false); setOther(""); setError("")}}>No</button>
             </div>
           </div>
         </div>

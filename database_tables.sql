@@ -105,7 +105,6 @@ CREATE TABLE IF NOT EXISTS donations_consent (
   CONSTRAINT fk_donations_id_consents FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
 );
 
-### ER DIAGRAM
 CREATE TABLE IF NOT EXISTS donations_justification (
   justification_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
