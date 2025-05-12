@@ -113,7 +113,7 @@ function MyConsume() {
             )}
             
             {selectedProperty && (
-                <div className="consume-data">
+                <div className="consume-data-main">
                     <div className="consume-input" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${selectedProperty}`)}}}>
                         <h2><IoWaterOutline /> Water</h2>
                         <h3>Year Consume</h3>
