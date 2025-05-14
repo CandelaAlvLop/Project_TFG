@@ -18,7 +18,6 @@ function MyCampaigns() {
 
     const navigate = useNavigate();
 
-
     const userId = localStorage.getItem("user_id");
 
     const [campaigns, setCampaigns] = useState([]);

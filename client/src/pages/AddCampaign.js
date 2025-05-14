@@ -18,7 +18,6 @@ function AddCampaign() {
     const [NewCampaignName, setNewCampaignName] = useState("");
     
     const [error, setError] = useState("");
-    const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
 
     const userId = localStorage.getItem("user_id");
@@ -37,7 +36,6 @@ function AddCampaign() {
     //Add Campaign
     function addCampaign(e) {
         e.preventDefault();
-        setSubmitted(true);
 
         axios.post('http://localhost:3001/CampaignManager/campaigns', {
             userId,

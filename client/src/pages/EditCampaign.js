@@ -19,7 +19,6 @@ function EditCampaign() {
     const campaignName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
     const [NewCampaignName, setNewCampaignName] = useState("");
     const [error, setError] = useState("");
-    const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
 
     const campaignId = localStorage.getItem("campaign_id");
@@ -38,7 +37,6 @@ function EditCampaign() {
 
     function editCampaignData(e) {
         e.preventDefault();
-        setSubmitted(true);
 
         axios.put(`http://localhost:3001/CampaignManager/campaignsUpdate/${campaignId}`, {
             userId,
