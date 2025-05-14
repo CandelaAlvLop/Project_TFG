@@ -28,12 +28,12 @@
     gap: 15px;
     padding: 0px 80px;
 }
-  
+
 .checkboxesN-content label {
     display: flex;
     font-size: 14px;
 }
-  
+
 .checkboxesN-content input[type="checkbox"] {
     margin-right: 8px;
 }
@@ -43,26 +43,27 @@
     justify-content: center;
     align-items: center;
 }
-  
-.save-notification, .cancel-notification {
+
+.save-notification,
+.cancel-notification {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 40px;
     margin-right: 15px;
     font-size: 14px;
 }
-  
+
 .save-notification {
     background-color: rgb(3, 133, 122);
     color: white;
     margin-bottom: 40px;
     margin-right: 40px;
 }
-  
+
 .save-notification:hover {
     background-color: rgb(1, 92, 84);
 }
-  
+
 .cancel-notification {
     background-color: rgba(221, 38, 38, 0.904);
     color: white;
@@ -81,7 +82,7 @@
     padding: 6px;
     background-color: rgba(3, 133, 122, 0.055);
 }
-  
+
 .select-all-notifications label {
     font-size: 16px;
 }

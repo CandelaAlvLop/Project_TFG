@@ -1,42 +1,42 @@
 .navbar2 {
-  background: #C4E8E8;
-  position: fixed;
-  display: flex;
-  top: 0px;
-  width: 100%;
-  justify-content: space-between;
+    background: #C4E8E8;
+    position: fixed;
+    display: flex;
+    top: 0px;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .left-navbar {
-  padding: 20px 30px;
+    padding: 20px 30px;
 }
 
 .logo {
-  font-size: 25px;
-  font-weight: bold;
-  color: rgba(248, 73, 93, 0.562);
-  text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+    color: rgba(248, 73, 93, 0.562);
+    text-decoration: none;
 }
 
 .logo:hover {
-  color: rgba(204, 58, 75, 0.562);
+    color: rgba(204, 58, 75, 0.562);
 }
 
 .right-navbar {
-  margin-right: 30px;
-  display: flex;
+    margin-right: 30px;
+    display: flex;
 }
 
 .right-navbar a {
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: bold;
-  color: rgba(29, 29, 29, 0.795);
-  padding: 25px 25px;
-  transition: color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(29, 29, 29, 0.795);
+    padding: 25px 25px;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .right-navbar a:hover {
-  background-color:rgb(143, 216, 226);
-  color: white;
+    background-color: rgb(143, 216, 226);
+    color: white;
 }

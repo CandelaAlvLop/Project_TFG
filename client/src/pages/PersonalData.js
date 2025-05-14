@@ -40,7 +40,7 @@ function PersonalData() {
     const userId = localStorage.getItem("user_id");
 
     //Get User Data
-    function setUserData () {
+    function setUserData() {
         if (!userId) return console.error("No User retrieved");
         axios.get(`http://localhost:3001/UserManager/userUpdate/${userId}`)
             .then((response) => {
@@ -51,12 +51,12 @@ function PersonalData() {
                 setNewEmail(response.data.email);
                 setNewPassword(response.data.password);
                 setNewType(response.data.type);
-            }).catch ((error) => {
+            }).catch((error) => {
                 console.error("Error retrieving User data:", error);
-        });
+            });
     };
 
-    function editUserData (e) {
+    function editUserData(e) {
         e.preventDefault();
         axios.put(`http://localhost:3001/UserManager/userUpdate/${userId}`, {
             name: NewName,
@@ -80,16 +80,16 @@ function PersonalData() {
         });
     };
 
-    function cancelEditUserData () {
+    function cancelEditUserData() {
         setEdit(false);
-        setUserData(); 
+        setUserData();
         setError("");
     }
 
     // ------------------------------- PROPERTY DATA -------------------------------   
     const [properties, setProperties] = useState([]);
 
-    function setUserProperties () {
+    function setUserProperties() {
         if (!userId) return console.error("No User retrieved");
         axios.get(`http://localhost:3001/PropertyManager/properties/${userId}`)
             .then((response) => {
@@ -101,7 +101,7 @@ function PersonalData() {
     };
 
     //Delete property
-    function deleteProperty (propertyId) {
+    function deleteProperty(propertyId) {
         axios.delete(`http://localhost:3001/PropertyManager/properties/${propertyId}`)
             .then(() => {
                 setProperties(properties.filter(property => property.property_id !== propertyId));
@@ -118,7 +118,7 @@ function PersonalData() {
             <div className="user-data">
                 <h1>Personal Information</h1>
                 <form onSubmit={editUserData}>
-                    
+
                     <div className="row">
                         <div className="input">
                             <label htmlFor="name">Name</label>
@@ -131,10 +131,10 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewName(e.target.value)}
-                                disabled={!edit} 
+                                disabled={!edit}
                             />
                         </div>
-                        <div className="input"> 
+                        <div className="input">
                             <label htmlFor="surname">Surname</label>
                             <input type="text" id="surname" name="surname" value={NewSurname}
                                 onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters")}
@@ -151,9 +151,9 @@ function PersonalData() {
                     </div>
 
                     <div className="row">
-                        <div className="input">            
+                        <div className="input">
                             <label htmlFor="username">Username</label>
-                            <input type="text" id="username" name="username" value={NewUsername}  
+                            <input type="text" id="username" name="username" value={NewUsername}
                                 onInvalid={(e) => e.target.setCustomValidity("Username must be between 3 and 10 characters")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -165,7 +165,7 @@ function PersonalData() {
                                 disabled={!edit}
                             />
                         </div>
-                        <div className="input"> 
+                        <div className="input">
                             <label htmlFor="DNI">DNI</label>
                             <input type="text" id="DNI" name="DNI" value={NewDNI}
                                 onInvalid={(e) => e.target.setCustomValidity("DNI must contain 8 digits and a capital letter")}
@@ -182,9 +182,9 @@ function PersonalData() {
                     </div>
 
                     <div className="row">
-                        <div className="input"> 
+                        <div className="input">
                             <label htmlFor="email">Email</label>
-                            <input type="text" id="email" name="email" value={NewEmail}  
+                            <input type="text" id="email" name="email" value={NewEmail}
                                 onInvalid={(e) => e.target.setCustomValidity("Not a valid email address")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
@@ -213,7 +213,7 @@ function PersonalData() {
                     </div>
 
                     <div className="row">
-                        <div className="input"> 
+                        <div className="input">
                             <label htmlFor="type">User Type</label>
                             <select id="type" name="type" value={NewType}
                                 onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
@@ -236,7 +236,7 @@ function PersonalData() {
                     {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}><FaEdit /> Edit</button>)}
                     {edit === true && (
                         <><button type="submit" className="save">Save</button>
-                        <button type="button" className="cancel" onClick={cancelEditUserData}>Cancel</button></>
+                            <button type="button" className="cancel" onClick={cancelEditUserData}>Cancel</button></>
                     )}
                 </form>
             </div>
@@ -253,10 +253,11 @@ function PersonalData() {
                                 <p><strong>District:</strong> {property.district}</p>
                             </div>
                             <div className="property-buttons">
-                                <button type="button" className="edit" 
+                                <button type="button" className="edit"
                                     onClick={() => {
                                         localStorage.setItem("property_id", property.property_id);
-                                        navigate('/editproperty');}
+                                        navigate('/editproperty');
+                                    }
                                     }><FaEdit /> Edit</button>
                                 <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}><RiDeleteBin5Fill /> Delete</button>
                             </div>
@@ -265,13 +266,12 @@ function PersonalData() {
                     {properties.length === 0 && <p className="no-properties">No properties added</p>}
                 </div>
 
-                <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>            
+                <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>
             </div>
 
-            <Footer/>
+            <Footer />
         </div>
     );
 }
 export default PersonalData;
 
-   

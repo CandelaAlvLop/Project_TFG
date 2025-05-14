@@ -26,36 +26,36 @@ function GasMyConsume() {
     const [gasMonthConsume, setGasMonthConsume] = useState([]);
     const [gasDayConsume, setGasDayConsume] = useState([]);
     const [selectMonth, setSelectMonth] = useState(1);
-    const {propertyId} = useParams();
+    const { propertyId } = useParams();
     const navigate = useNavigate();
 
     //Year Graphic Representation
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
         if (!propertyId) return console.error("No Property retrieved");
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
             .then((response) => {
-                if (response.data.length === 0){setWaterTotalConsume(0); return}
-                setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
-        })
+                if (response.data.length === 0) { setWaterTotalConsume(0); return }
+                setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
+            })
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Electric`)
             .then((response) => {
-                if (response.data.length === 0){setElectricTotalConsume(0); return}
-                setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
-        })
+                if (response.data.length === 0) { setElectricTotalConsume(0); return }
+                setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
+            })
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Gas`)
             .then((response) => {
-                if (response.data.length === 0){setGasTotalConsume(0); return}
-                setGasTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
-        })
+                if (response.data.length === 0) { setGasTotalConsume(0); return }
+                setGasTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
+            })
     }, [propertyId]);
 
     //Month Graphic Representation
     useEffect(() => {
         if (!propertyId) return;
-      
+
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Gas`)
             .then((response) => {
                 const monthConsumes = [];
@@ -69,7 +69,7 @@ function GasMyConsume() {
                     if (response.data[i].timer_month !== previousMonth) { //Month Change
                         monthConsumes.push(parseFloat(lastReading - previousMonthReading)); //Substract difference to obtain the actual month consume
                         previousMonth = response.data[i].timer_month; //New Month
-                        previousMonthReading = lastReading; 
+                        previousMonthReading = lastReading;
                         lastReading = readings; //Update Reading
                     } else {
                         lastReading = readings;
@@ -80,43 +80,43 @@ function GasMyConsume() {
                 setGasMonthConsume(monthConsumes);
             })
     }, [propertyId]);
-      
+
     //Day Graphic Representation
     useEffect(() => {
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Gas`)
             .then((response) => {
                 let dayConsumes = [];
-                let previousMonth = response.data[0].timer_month; 
-                let previousDay = response.data[0].timer_day; 
-                let previousDayReading = 0; 
+                let previousMonth = response.data[0].timer_month;
+                let previousDay = response.data[0].timer_day;
+                let previousDayReading = 0;
                 let lastReading = parseFloat(response.data[0].meter_reading);
                 let months = {};
 
-                    for (let i = 0; i < response.data.length; i++) {
-                        const readings = parseFloat(response.data[i].meter_reading);
-    
-                        if (response.data[i].timer_month !== previousMonth) {
-                            dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
-                            months[previousMonth] = dayConsumes; //Store Day Consume into its Month
-                            //Update Month and Day
-                            previousMonth = response.data[i].timer_month;
-                            previousDay = response.data[i].timer_day;
-                            previousDayReading = lastReading; //Update last Reading
-                            dayConsumes = []; //Reset for the new month
-                        } else if (response.data[i].timer_day !== previousDay) { 
-                            dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
-                            previousDay = response.data[i].timer_day;
-                            previousDayReading = lastReading;
-                        }
-                        lastReading = readings;
+                for (let i = 0; i < response.data.length; i++) {
+                    const readings = parseFloat(response.data[i].meter_reading);
+
+                    if (response.data[i].timer_month !== previousMonth) {
+                        dayConsumes.push(parseFloat(lastReading - previousDayReading));
+                        months[previousMonth] = dayConsumes; //Store Day Consume into its Month
+                        //Update Month and Day
+                        previousMonth = response.data[i].timer_month;
+                        previousDay = response.data[i].timer_day;
+                        previousDayReading = lastReading; //Update last Reading
+                        dayConsumes = []; //Reset for the new month
+                    } else if (response.data[i].timer_day !== previousDay) {
+                        dayConsumes.push(parseFloat(lastReading - previousDayReading));
+                        previousDay = response.data[i].timer_day;
+                        previousDayReading = lastReading;
                     }
-                dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
+                    lastReading = readings;
+                }
+                dayConsumes.push(parseFloat(lastReading - previousDayReading));
                 months[previousMonth] = dayConsumes;
                 setGasDayConsume(months);
             })
     }, [propertyId, selectMonth]);
 
-    function selectionMonth (month) {
+    function selectionMonth(month) {
         if (selectMonth === month) return "month-select selected";
         else return "month-select";
     }
@@ -177,22 +177,22 @@ function GasMyConsume() {
             <button type="button" className="back-button" onClick={() => navigate('/MyConsume')}><IoMdArrowRoundBack /> Back</button>
             <h1 className="consume-title">My Gas Consume</h1>
             <div className="consume-data">
-                <div className = "consume-year">
+                <div className="consume-year">
                     <h2><FaFire /> Gas</h2>
                     <h3>Year Consume</h3>
-                    <div style={{width: 300}}>
-                        <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
+                    <div style={{ width: 300 }}>
+                        <Doughnut data={dataGas} options={{ plugins: { tooltip: { enabled: false } } }} />
                         <p><strong>{gasTotalConsume} m³</strong></p>
                     </div>
                 </div>
-                <div className="consume-month"> 
+                <div className="consume-month">
                     <h3>Month Consume</h3>
-                    <Bar data={barMonthGas}/>
+                    <Bar data={barMonthGas} />
                 </div>
             </div>
 
             <div className="consume-data">
-                <div className="consume-month-selection"> 
+                <div className="consume-month-selection">
                     <button onClick={() => setSelectMonth(1)} className={selectionMonth(1)}>Jan</button>
                     <button onClick={() => setSelectMonth(2)} className={selectionMonth(2)}>Feb</button>
                     <button onClick={() => setSelectMonth(3)} className={selectionMonth(3)}>Mar</button>
@@ -206,37 +206,37 @@ function GasMyConsume() {
                     <button onClick={() => setSelectMonth(11)} className={selectionMonth(11)}>Nov</button>
                     <button onClick={() => setSelectMonth(12)} className={selectionMonth(12)}>Dec</button>
                 </div>
-                <div className="consume-day"> 
+                <div className="consume-day">
                     <h3>Daily Consume</h3>
-                    <Bar data={barDayGas}/>
+                    <Bar data={barDayGas} />
                 </div>
             </div>
 
             <h2 className="advices-title">How can I optimize my consume?</h2>
             <div className="advice-group">
                 <div className="advice">
-                    <img src={HeatingByAreas} alt="Heating by areas"/>
+                    <img src={HeatingByAreas} alt="Heating by areas" />
                     <div className="advice-text-red">
                         <h4>Heating by areas</h4>
                         <p>Implement a zoned heating system that allows you to heat only the areas of the house that are being used.</p>
                     </div>
                 </div>
                 <div className="advice">
-                    <img src={UseOfEfficientStove} alt="Use of Efficient Stove"/>
+                    <img src={UseOfEfficientStove} alt="Use of Efficient Stove" />
                     <div className="advice-text-red">
                         <h4>Use of Efficient Stove</h4>
                         <p>Choose gas stoves that have a good energy efficiency rating.</p>
                     </div>
                 </div>
                 <div className="advice">
-                    <img src={ProperThermalIsolation} alt="Proper Thermal Isolation"/>
+                    <img src={ProperThermalIsolation} alt="Proper Thermal Isolation" />
                     <div className="advice-text-red">
                         <h4>Proper Thermal Isolation</h4>
                         <p>Make sure windows, doors, and walls are well sealed to keep heat inside during winter and outside during summer.</p>
                     </div>
                 </div>
                 <div className="advice">
-                    <img src={ProgrammableThermostats} alt="Programmable Thermostats"/>
+                    <img src={ProgrammableThermostats} alt="Programmable Thermostats" />
                     <div className="advice-text-red">
                         <h4>Programmable Thermostats</h4>
                         <p>Use programmable thermostats to efficiently control heating. These devices allow you to adjust the temperature based on the house’s occupancy schedule.</p>
@@ -244,21 +244,21 @@ function GasMyConsume() {
                 </div>
             </div>
 
-           <div className="consume-data2">
-                <div className = "consume-year2" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${propertyId}`)}}}>
+            <div className="consume-data2">
+                <div className="consume-year2" onClick={() => { if ((waterTotalConsume) > 0) { navigate(`/WaterMyConsume/${propertyId}`) } }}>
                     <h2><IoWaterOutline /> Water</h2>
                     <h3>Year Consume</h3>
-                    <div style={{width: 220}}>
-                        <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
+                    <div style={{ width: 220 }}>
+                        <Doughnut data={dataWater} options={{ plugins: { tooltip: { enabled: false } } }} />
                         <p><strong>{waterTotalConsume} l</strong></p>
                     </div>
                 </div>
 
-                <div className = "consume-year2" onClick={() => {if ((electricTotalConsume) > 0) {navigate(`/ElectricMyConsume/${propertyId}`)}}}>
+                <div className="consume-year2" onClick={() => { if ((electricTotalConsume) > 0) { navigate(`/ElectricMyConsume/${propertyId}`) } }}>
                     <h2><FaRegLightbulb /> Electric</h2>
                     <h3>Year Consume</h3>
-                    <div style={{width: 220}}>
-                        <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
+                    <div style={{ width: 220 }}>
+                        <Doughnut data={dataElectric} options={{ plugins: { tooltip: { enabled: false } } }} />
                         <p><strong>{electricTotalConsume} kWh</strong></p>
                     </div>
                 </div>

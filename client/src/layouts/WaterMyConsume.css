@@ -1,219 +1,232 @@
 .consume-title {
-  text-align: center;
-  font-size: 32px;
-  color: rgb(3, 133, 122);
-  margin-top: 30px;
-  margin-bottom: 60px;
+    text-align: center;
+    font-size: 32px;
+    color: rgb(3, 133, 122);
+    margin-top: 30px;
+    margin-bottom: 60px;
 }
 
 .consume-data {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin-bottom: 40px;
-  border-top: 2px solid rgb(204, 204, 204);
-  padding-top: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+    border-top: 2px solid rgb(204, 204, 204);
+    padding-top: 0px;
 }
 
 .consume-data2 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin-bottom: 40px;
-  gap: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+    gap: 60px;
 }
-  
-.consume-year, .consume-month, .consume-day, .consume-year2 {
-  padding: 40px;
-  max-height: 490px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  margin-top: 50px;
+
+.consume-year,
+.consume-month,
+.consume-day,
+.consume-year2 {
+    padding: 40px;
+    max-height: 490px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 50px;
 }
 
 .consume-year2 {
-  padding: 30px;
-  max-height: 390px;
-  width: 225px;
-  margin-top: 80px;
-  margin-bottom: 40px;
+    padding: 30px;
+    max-height: 390px;
+    width: 225px;
+    margin-top: 80px;
+    margin-bottom: 40px;
 }
 
 .consume-year2:hover {
-  background-color: rgba(151, 216, 224, 0.027);
-  cursor: pointer;
+    background-color: rgba(151, 216, 224, 0.027);
+    cursor: pointer;
 }
 
-.consume-month, .consume-day {
-  width: 100%;
-  max-width: 900px; 
+.consume-month,
+.consume-day {
+    width: 100%;
+    max-width: 900px;
 }
 
 .consume-month-selection {
-  padding: 20px;
-  max-height: 490px;
-  text-align: center;
-  margin-top: 50px;
-  max-width: 450px;
+    padding: 20px;
+    max-height: 490px;
+    text-align: center;
+    margin-top: 50px;
+    max-width: 450px;
 }
 
-.consume-year h2, .consume-year2 h2 {
-  text-align: center;
-  font-size: 25px;
-  border-bottom: 2px solid rgb(204, 204, 204);
-  padding-bottom: 8px;
-  margin-top: 0px;
+.consume-year h2,
+.consume-year2 h2 {
+    text-align: center;
+    font-size: 25px;
+    border-bottom: 2px solid rgb(204, 204, 204);
+    padding-bottom: 8px;
+    margin-top: 0px;
 }
 
 .consume-year2 h2 {
-  font-size: 20px;
+    font-size: 20px;
 }
 
-.consume-year h3, .consume-year2 h3 {
-  text-align: center;
-  color: grey;
-  margin-bottom: 30px;
+.consume-year h3,
+.consume-year2 h3 {
+    text-align: center;
+    color: grey;
+    margin-bottom: 30px;
 }
 
 .consume-year2 h3 {
-  font-size: 16px;
+    font-size: 16px;
 }
 
-.consume-month h3, .consume-day h3 {
-  text-align: center;
-  color: grey;
-  margin-top: 0px;
-  border-bottom: 2px solid rgb(204, 204, 204);
-  padding-bottom: 8px;
-  margin-bottom: 30px;
+.consume-month h3,
+.consume-day h3 {
+    text-align: center;
+    color: grey;
+    margin-top: 0px;
+    border-bottom: 2px solid rgb(204, 204, 204);
+    padding-bottom: 8px;
+    margin-bottom: 30px;
 }
 
 .consume-year p {
-  margin-top: 50px;
-  font-size: 18px;
-  color: rgb(3, 133, 122);
+    margin-top: 50px;
+    font-size: 18px;
+    color: rgb(3, 133, 122);
 }
 
 .consume-year2 p {
-  margin-top: 50px;
-  font-size: 16px;
-  color: rgb(3, 133, 122);
+    margin-top: 50px;
+    font-size: 16px;
+    color: rgb(3, 133, 122);
 }
 
 .month-select {
-  padding: 14px;
-  background: rgba(17, 196, 181, 0.027);
-  border: 2px solid rgba(1, 168, 154, 0.685);
-  border-radius: 25px;
-  color: rgb(3, 133, 122);
-  cursor: pointer;
-  transition: 0.2s;
+    padding: 14px;
+    background: rgba(17, 196, 181, 0.027);
+    border: 2px solid rgba(1, 168, 154, 0.685);
+    border-radius: 25px;
+    color: rgb(3, 133, 122);
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .month-select:hover {
-  background: rgb(225, 252, 252);
-  border-color: rgb(1, 168, 154);
+    background: rgb(225, 252, 252);
+    border-color: rgb(1, 168, 154);
 }
 
 .month-select.selected {
-  background: rgb(17, 196, 181);
-  border-color: rgb(1, 168, 154);
-  color: white;
+    background: rgb(17, 196, 181);
+    border-color: rgb(1, 168, 154);
+    color: white;
 }
 
 .back-button {
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 40px;
-  margin-left: 70px;
-  background-color: rgb(3, 133, 122);
-  color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-left: 70px;
+    background-color: rgb(3, 133, 122);
+    color: white;
 }
 
 .back-button:hover {
-  background-color: rgb(1, 92, 84);
+    background-color: rgb(1, 92, 84);
 }
 
 
 /*Advices*/
 .advices-title {
-  text-align: center;
-  font-size: 28px;
-  margin-top: 100px;
-  border-top: 2px solid rgb(204, 204, 204);
-  padding-top: 40px;
+    text-align: center;
+    font-size: 28px;
+    margin-top: 100px;
+    border-top: 2px solid rgb(204, 204, 204);
+    padding-top: 40px;
 }
 
 .advice-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 50px;
-  border-bottom: 2px solid rgb(204, 204, 204);
-  padding-bottom: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 50px;
+    border-bottom: 2px solid rgb(204, 204, 204);
+    padding-bottom: 60px;
 }
 
 .advice-group h2 {
-  font-size: 25px;
+    font-size: 25px;
 }
 
 .advice img {
-  border-radius: 12px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .advice {
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
 }
 
-.advice-text-blue, .advice-text-red, .advice-text-green {
-  position: absolute;
-  z-index: 1;
-  top: 0px;
-  bottom: 0px;
-  left: 0;
-  right: 0px;
-  opacity: 0;
-  transition: 0.3s ease;
-  background-color: rgb(143, 216, 226);
-  color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+.advice-text-blue,
+.advice-text-red,
+.advice-text-green {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    right: 0px;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: rgb(143, 216, 226);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .advice-text-red {
-  background-color: rgb(248, 121, 121);
+    background-color: rgb(248, 121, 121);
 }
 
 .advice-text-green {
-  background-color: rgb(152, 240, 149);
+    background-color: rgb(152, 240, 149);
 }
 
 .advice:hover .advice-text-blue {
-  opacity: 1;
+    opacity: 1;
 }
 
 .advice:hover .advice-text-red {
-  opacity: 1;
+    opacity: 1;
 }
 
 .advice:hover .advice-text-green {
-  opacity: 1;
+    opacity: 1;
 }
 
-.advice-text-blue h4, .advice-text-red h4, .advice-text-green h4 {
-  font-size: 18px;
+.advice-text-blue h4,
+.advice-text-red h4,
+.advice-text-green h4 {
+    font-size: 18px;
 }
 
-.advice-text-blue p, .advice-text-red p , .advice-text-green p {
-  font-size: 14px;
-  line-height: 1.5;
+.advice-text-blue p,
+.advice-text-red p,
+.advice-text-green p {
+    font-size: 14px;
+    line-height: 1.5;
 }

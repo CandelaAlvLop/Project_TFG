@@ -8,7 +8,7 @@ import Drawing from "../images/drawing-mainpage.png";
 function Instructions() {
     //Show top of the page
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
     }, []);
 
     return (
@@ -22,8 +22,8 @@ function Instructions() {
                 <img src={Drawing} alt="Data Visualization" />
             </div>
 
-             {/* Main Content Sidebar Section */}
-             <div className="maincontent-mainpage">
+            {/* Main Content Sidebar Section */}
+            <div className="maincontent-mainpage">
                 {/* Sidebar */}
                 <div className="sidebar-mainpage">
                     <h3>Welcome</h3>

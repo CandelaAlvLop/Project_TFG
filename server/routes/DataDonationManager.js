@@ -7,43 +7,43 @@ const db = require('../db');
 //Get User Properties
 router.get("/properties/:userId", (req, res) => {
     const userId = req.params.userId;
-    
-    db.query("SELECT property_id, propertyName FROM property WHERE user_id = ?", 
-        [userId], 
+
+    db.query("SELECT property_id, propertyName FROM property WHERE user_id = ?",
+        [userId],
         (err, result) => {
-        if (err) {
-            console.error("Error getting properties:", err);
-            return res.status(500).send({message: "Database error", error: err});
-        }
-        if (result.length === 0) {
-            return res.status(404).send({message: "No properties found"});
-        }
-        res.status(200).send(result);
-    });
+            if (err) {
+                console.error("Error getting properties:", err);
+                return res.status(500).send({ message: "Database error", error: err });
+            }
+            if (result.length === 0) {
+                return res.status(404).send({ message: "No properties found" });
+            }
+            res.status(200).send(result);
+        });
 });
-  
+
 //Upload Data File
 const multer = require('multer');
 const fs = require('fs');
 const csv = require('csv-parser');
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {cb(null, 'uploads/');},
+    destination: (req, file, cb) => { cb(null, 'uploads/'); },
     filename: (req, file, cb) => {
-        const {consumeType,propertyId} = req.params;
+        const { consumeType, propertyId } = req.params;
         const fileName = `${consumeType}${propertyId}_${file.originalname}`;
         cb(null, fileName);
     }
 });
 
-const upload = multer({storage});
+const upload = multer({ storage });
 
 router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'), (req, res) => {
     if (!req.file) {
-        return res.status(400).send({message: "No file uploaded"});
+        return res.status(400).send({ message: "No file uploaded" });
     }
 
-    const {userId, propertyId, consumeType} = req.params;
+    const { userId, propertyId, consumeType } = req.params;
     const filename = req.file.filename;
     const filepath = req.file.path;
     const readings = [];
@@ -51,7 +51,7 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
 
     fs.createReadStream(filepath) //Read line by line
         //FILE FORMAT
-        .pipe(csv({separator: ',', headers: ['TimerHours','TimerDay','TimerMonth','TimerYear','WaterMeterReading','ElectricityMeterReading','GasMeterReading']})) //Map to headers
+        .pipe(csv({ separator: ',', headers: ['TimerHours', 'TimerDay', 'TimerMonth', 'TimerYear', 'WaterMeterReading', 'ElectricityMeterReading', 'GasMeterReading'] })) //Map to headers
         .on('data', (row) => { //For each row check column type
             let headerType = "";
             if (consumeType === 'Water') headerType = 'WaterMeterReading';
@@ -64,10 +64,11 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
             }
 
             //Parse reading (string) for each row into a int/float and push into readings
-            readings.push([parseInt(row.TimerHours), parseInt(row.TimerDay), parseInt(row.TimerMonth), parseInt(row.TimerYear), parseFloat(row[headerType])]); 
+            readings.push([parseInt(row.TimerHours), parseInt(row.TimerDay), parseInt(row.TimerMonth), parseInt(row.TimerYear), parseFloat(row[headerType])]);
         })
         .on('end', () => { //After all file is read
-            if (readings.length === 0 || !format) return res.status(400).send({message: `The uploaded file must include the following columns: 
+            if (readings.length === 0 || !format) return res.status(400).send({
+                message: `The uploaded file must include the following columns: 
                 • TimerHours 
                 • TimerDay 
                 • TimerMonth 
@@ -75,15 +76,15 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
                 • WaterMeterReading
                 • ElectricityMeterReading
                 • GasMeterReading`});
-                        
+
             db.query(
                 "INSERT INTO donations_metadata (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",
                 [userId, propertyId, consumeType, filename],
                 (err, result) => {
                     if (err) {
                         console.error("Error inserting file information to the database:", err);
-                        return res.status(500).send({message: "Error inserting file information to the database"}); 
-                    }   
+                        return res.status(500).send({ message: "Error inserting file information to the database" });
+                    }
 
                     const donationId = result.insertId;
                     const finalReadings = readings.map(read => [donationId, ...read]); //Insert donationId
@@ -94,38 +95,38 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
                         (err) => {
                             if (err) {
                                 console.error("Error inserting data read into to the database:", err);
-                                return res.status(500).send({message: "Error inserting data read into the database"});
+                                return res.status(500).send({ message: "Error inserting data read into the database" });
                             }
                             console.log(`File ${filename} uploaded and saved, whith ${finalReadings.length} readings inserted`);
-                            res.status(200).send({message: "File uploaded and saved:", filename, donationId});
+                            res.status(200).send({ message: "File uploaded and saved:", filename, donationId });
                         }
                     );
                 }
             );
         })
 });
- 
+
 //Get donations
 router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
-    const {userId, propertyId, consumeType} = req.params;
-    
+    const { userId, propertyId, consumeType } = req.params;
+
     db.query(
         "SELECT * FROM donations_metadata WHERE user_id = ? AND property_id = ? AND consume_type = ? ORDER BY upload_time ASC",
         [userId, propertyId, consumeType],
         (err, result) => {
             if (err) {
-                return res.status(500).send({message: "Error getting donations", error: err});
+                return res.status(500).send({ message: "Error getting donations", error: err });
             }
             const firstUpload = result[0];
             const lastUpload = result[result.length - 1];
-            res.status(200).send({files: result, firstUpload, lastUpload});
+            res.status(200).send({ files: result, firstUpload, lastUpload });
         }
     );
 });
 
 //Save Consents
 router.post("/consent", (req, res) => {
-    const {donationId, consents} = req.body;
+    const { donationId, consents } = req.body;
     console.log("Stored:", req.body);
 
     db.query(
@@ -143,9 +144,9 @@ router.post("/consent", (req, res) => {
                     (update_err) => {
                         if (update_err) {
                             console.error("Error updating consents:", update_err);
-                            return res.status(500).send({message: "Error updating consents"});
+                            return res.status(500).send({ message: "Error updating consents" });
                         }
-                        return res.status(200).send({message: "Consents updated successfully"});
+                        return res.status(200).send({ message: "Consents updated successfully" });
                     }
                 );
             } else {
@@ -155,9 +156,9 @@ router.post("/consent", (req, res) => {
                     (insert_err) => {
                         if (insert_err) {
                             console.error("Error inserting consents:", insert_err);
-                            return res.status(500).send({message: "Error inserting consents"});
+                            return res.status(500).send({ message: "Error inserting consents" });
                         }
-                        return res.status(200).send({message: "Consents inserted successfully"});
+                        return res.status(200).send({ message: "Consents inserted successfully" });
                     }
                 );
             }
@@ -167,18 +168,18 @@ router.post("/consent", (req, res) => {
 
 //Get Consents
 router.get("/consent/:donationId", (req, res) => {
-    const {donationId} = req.params;
-  
+    const { donationId } = req.params;
+
     db.query(
         "SELECT consents FROM donations_consent WHERE donation_id = ?",
         [donationId],
         (err, result) => {
             if (err) {
                 console.error("Error getting consents:", err);
-                return res.status(500).send({message: "Error getting consents"});
+                return res.status(500).send({ message: "Error getting consents" });
             }
-            if (result.length !== 0){
-                res.status(200).send({consents: result[0].consents.split(",")});
+            if (result.length !== 0) {
+                res.status(200).send({ consents: result[0].consents.split(",") });
             }
         }
     );
@@ -187,47 +188,47 @@ router.get("/consent/:donationId", (req, res) => {
 
 //Delete Donation
 router.post("/donationDelete", (req, res) => {
-    const {userId, donationId, justifications} = req.body;
+    const { userId, donationId, justifications } = req.body;
 
     //Save Justifications
     db.query("INSERT INTO donations_justification (user_id, justification) VALUES (?,?)",
         [userId, justifications],
-            (insert_err) => {
-                if (insert_err) {
-                    console.error("Error inserting justifications:", insert_err);
-                    return res.status(500).send({message: "Error inserting justifications"});
-                }            
+        (insert_err) => {
+            if (insert_err) {
+                console.error("Error inserting justifications:", insert_err);
+                return res.status(500).send({ message: "Error inserting justifications" });
+            }
 
-                //Delete file from uploads folder
+            //Delete file from uploads folder
 
 
-                    //Delete data from Database Tables
-                    db.query("DELETE FROM donations_readings WHERE donation_id = ?", 
-                        [donationId], 
+            //Delete data from Database Tables
+            db.query("DELETE FROM donations_readings WHERE donation_id = ?",
+                [donationId],
+                (err) => {
+                    if (err) {
+                        return res.status(500).send({ message: "Error deleting donation readings" });
+                    }
+
+                    db.query("DELETE FROM donations_consent WHERE donation_id = ?",
+                        [donationId],
                         (err) => {
-                        if (err) {
-                            return res.status(500).send({message: "Error deleting donation readings"});
-                        }
-
-                        db.query("DELETE FROM donations_consent WHERE donation_id = ?", 
-                            [donationId], 
-                            (err) => {
                             if (err) {
-                                return res.status(500).send({message: "Error deleting donation consent"});
+                                return res.status(500).send({ message: "Error deleting donation consent" });
                             }
 
-                            db.query("DELETE FROM donations_metadata WHERE donation_id = ?", 
-                                [donationId], 
+                            db.query("DELETE FROM donations_metadata WHERE donation_id = ?",
+                                [donationId],
                                 (err) => {
-                                if (err) {
-                                    return res.status(500).send({message: "Error deleting donation metadata"});
-                                }
-                                console.log(`Donation ${donationId} deleted successfully`);
-                                res.status(200).send({message: `Donation ${donationId} deleted successfully`});
-                            });
+                                    if (err) {
+                                        return res.status(500).send({ message: "Error deleting donation metadata" });
+                                    }
+                                    console.log(`Donation ${donationId} deleted successfully`);
+                                    res.status(200).send({ message: `Donation ${donationId} deleted successfully` });
+                                });
                         });
-                    });
-                }
+                });
+        }
     );
 });
 
@@ -235,7 +236,7 @@ router.post("/donationDelete", (req, res) => {
 //Get Consume
 router.get("/consume/:propertyId/:consumeType", (req, res) => {
     const { propertyId, consumeType } = req.params;
-  
+
     db.query(
         `SELECT R.timer_hours,R.timer_day,R.timer_month,R.timer_year,R.meter_reading FROM donations_readings R JOIN donations_metadata M ON R.donation_id = M.donation_id WHERE M.property_id = ? AND M.consume_type = ? ORDER BY R.timer_year, R.timer_month, R.timer_day, R.timer_hours`,
         [propertyId, consumeType],
@@ -246,7 +247,7 @@ router.get("/consume/:propertyId/:consumeType", (req, res) => {
             }
             res.status(200).send(result);
         }
-        );
-}); 
+    );
+});
 
 module.exports = router;

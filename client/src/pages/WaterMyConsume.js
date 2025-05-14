@@ -4,13 +4,13 @@ import Footer from './Footer';
 import Navbar2 from "./Navbar2";
 import "../layouts/WaterMyConsume.css";
 import axios from 'axios';
-import {Doughnut, Bar} from "react-chartjs-2";
-import {useNavigate} from 'react-router-dom';
-import {useParams} from 'react-router-dom';
-import {IoMdArrowRoundBack} from "react-icons/io";
-import {IoWaterOutline} from "react-icons/io5";
-import {FaFire} from "react-icons/fa6";
-import {FaRegLightbulb} from "react-icons/fa";
+import { Doughnut, Bar } from "react-chartjs-2";
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoWaterOutline } from "react-icons/io5";
+import { FaFire } from "react-icons/fa6";
+import { FaRegLightbulb } from "react-icons/fa";
 
 import SmartIrrigation from "../images/SmartIrrigation.png";
 import EfficientUseOfAppliances from "../images/EfficientUseOfAppliances.png";
@@ -26,36 +26,36 @@ function WaterMyConsume() {
     const [waterMonthConsume, setWaterMonthConsume] = useState([]);
     const [waterDayConsume, setWaterDayConsume] = useState([]);
     const [selectMonth, setSelectMonth] = useState(1);
-    const {propertyId} = useParams();
+    const { propertyId } = useParams();
     const navigate = useNavigate();
 
     //Year Graphic Representation
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
         if (!propertyId) return console.error("No Property retrieved");
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
             .then((response) => {
-                if (response.data.length === 0){setWaterTotalConsume(0); return}
-                setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
-        })
+                if (response.data.length === 0) { setWaterTotalConsume(0); return }
+                setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
+            })
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Electric`)
             .then((response) => {
-                if (response.data.length === 0){setElectricTotalConsume(0); return}
-                setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
-        })
+                if (response.data.length === 0) { setElectricTotalConsume(0); return }
+                setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
+            })
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Gas`)
             .then((response) => {
-                if (response.data.length === 0){setGasTotalConsume(0); return}
-                setGasTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); 
-        })
+                if (response.data.length === 0) { setGasTotalConsume(0); return }
+                setGasTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
+            })
     }, [propertyId]);
 
     //Month Graphic Representation
     useEffect(() => {
         if (!propertyId) return;
-      
+
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
             .then((response) => {
                 const monthConsumes = [];
@@ -69,7 +69,7 @@ function WaterMyConsume() {
                     if (response.data[i].timer_month !== previousMonth) { //Month Change
                         monthConsumes.push(parseFloat(lastReading - previousMonthReading)); //Substract difference to obtain the actual month consume
                         previousMonth = response.data[i].timer_month; //New Month
-                        previousMonthReading = lastReading; 
+                        previousMonthReading = lastReading;
                         lastReading = readings; //Update Reading
                     } else {
                         lastReading = readings;
@@ -80,43 +80,43 @@ function WaterMyConsume() {
                 setWaterMonthConsume(monthConsumes);
             })
     }, [propertyId]);
-      
+
     //Day Graphic Representation
     useEffect(() => {
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
             .then((response) => {
                 let dayConsumes = [];
-                let previousMonth = response.data[0].timer_month; 
-                let previousDay = response.data[0].timer_day; 
-                let previousDayReading = 0; 
+                let previousMonth = response.data[0].timer_month;
+                let previousDay = response.data[0].timer_day;
+                let previousDayReading = 0;
                 let lastReading = parseFloat(response.data[0].meter_reading);
                 let months = {};
 
-                    for (let i = 0; i < response.data.length; i++) {
-                        const readings = parseFloat(response.data[i].meter_reading);
-    
-                        if (response.data[i].timer_month !== previousMonth) {
-                            dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
-                            months[previousMonth] = dayConsumes; //Store Day Consume into its Month
-                            //Update Month and Day
-                            previousMonth = response.data[i].timer_month;
-                            previousDay = response.data[i].timer_day;
-                            previousDayReading = lastReading; //Update last Reading
-                            dayConsumes = []; //Reset for the new month
-                        } else if (response.data[i].timer_day !== previousDay) { 
-                            dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
-                            previousDay = response.data[i].timer_day;
-                            previousDayReading = lastReading;
-                        }
-                        lastReading = readings;
+                for (let i = 0; i < response.data.length; i++) {
+                    const readings = parseFloat(response.data[i].meter_reading);
+
+                    if (response.data[i].timer_month !== previousMonth) {
+                        dayConsumes.push(parseFloat(lastReading - previousDayReading));
+                        months[previousMonth] = dayConsumes; //Store Day Consume into its Month
+                        //Update Month and Day
+                        previousMonth = response.data[i].timer_month;
+                        previousDay = response.data[i].timer_day;
+                        previousDayReading = lastReading; //Update last Reading
+                        dayConsumes = []; //Reset for the new month
+                    } else if (response.data[i].timer_day !== previousDay) {
+                        dayConsumes.push(parseFloat(lastReading - previousDayReading));
+                        previousDay = response.data[i].timer_day;
+                        previousDayReading = lastReading;
                     }
-                dayConsumes.push(parseFloat(lastReading - previousDayReading)); 
+                    lastReading = readings;
+                }
+                dayConsumes.push(parseFloat(lastReading - previousDayReading));
                 months[previousMonth] = dayConsumes;
                 setWaterDayConsume(months);
             })
     }, [propertyId, selectMonth]);
 
-    function selectionMonth (month) {
+    function selectionMonth(month) {
         if (selectMonth === month) return "month-select selected";
         else return "month-select";
     }
@@ -177,22 +177,22 @@ function WaterMyConsume() {
             <button type="button" className="back-button" onClick={() => navigate('/MyConsume')}><IoMdArrowRoundBack /> Back</button>
             <h1 className="consume-title">My Water Consume</h1>
             <div className="consume-data">
-                <div className = "consume-year">
+                <div className="consume-year">
                     <h2><IoWaterOutline /> Water</h2>
                     <h3>Year Consume</h3>
-                    <div style={{width: 300}}>
-                        <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
+                    <div style={{ width: 300 }}>
+                        <Doughnut data={dataWater} options={{ plugins: { tooltip: { enabled: false } } }} />
                         <p><strong>{waterTotalConsume} l</strong></p>
                     </div>
                 </div>
-                <div className="consume-month"> 
+                <div className="consume-month">
                     <h3>Month Consume</h3>
-                    <Bar data={barMonthWater}/>
+                    <Bar data={barMonthWater} />
                 </div>
             </div>
 
             <div className="consume-data">
-                <div className="consume-month-selection"> 
+                <div className="consume-month-selection">
                     <button onClick={() => setSelectMonth(1)} className={selectionMonth(1)}>Jan</button>
                     <button onClick={() => setSelectMonth(2)} className={selectionMonth(2)}>Feb</button>
                     <button onClick={() => setSelectMonth(3)} className={selectionMonth(3)}>Mar</button>
@@ -206,37 +206,37 @@ function WaterMyConsume() {
                     <button onClick={() => setSelectMonth(11)} className={selectionMonth(11)}>Nov</button>
                     <button onClick={() => setSelectMonth(12)} className={selectionMonth(12)}>Dec</button>
                 </div>
-                <div className="consume-day"> 
+                <div className="consume-day">
                     <h3>Daily Consume</h3>
-                    <Bar data={barDayWater}/>
+                    <Bar data={barDayWater} />
                 </div>
             </div>
-            
+
             <h2 className="advices-title">How can I optimize my consume?</h2>
             <div className="advice-group">
                 <div className="advice">
-                    <img src={SmartIrrigation} alt="Smart Irrigation"/>
+                    <img src={SmartIrrigation} alt="Smart Irrigation" />
                     <div className="advice-text-blue">
                         <h4>Smart Irrigation</h4>
                         <p>Water during the early morning hours or late in the evening to minimize evaporation, or use drip irrigation systems that apply water directly to the base of the plants where it is most needed.</p>
                     </div>
                 </div>
                 <div className="advice">
-                    <img src={EfficientUseOfAppliances} alt="Efficient Use of Appliances"/>
+                    <img src={EfficientUseOfAppliances} alt="Efficient Use of Appliances" />
                     <div className="advice-text-blue">
                         <h4>Efficient Use of Appliances</h4>
                         <p>Remember to use washing machines and dishwashers only when they are fully loaded. This reduces the number of cycles and saves energy.</p>
                     </div>
                 </div>
                 <div className="advice">
-                    <img src={WaterReuse} alt="Water Reuse"/>
+                    <img src={WaterReuse} alt="Water Reuse" />
                     <div className="advice-text-blue">
                         <h4>Water Reuse</h4>
                         <p>For example, rinse water from fruits and vegetables can be used to water indoor plants or the garden.</p>
                     </div>
                 </div>
                 <div className="advice">
-                    <img src={InstallationofFlowReducers} alt="Installation of Flow Reducers"/>
+                    <img src={InstallationofFlowReducers} alt="Installation of Flow Reducers" />
                     <div className="advice-text-blue">
                         <h4>Installation of Flow Reducers</h4>
                         <p>Install low-flow devices on faucets and showers. These reducers can significantly cut water usage without affecting to the user experience quality.</p>
@@ -245,19 +245,19 @@ function WaterMyConsume() {
             </div>
 
             <div className="consume-data2">
-                <div className="consume-year2" onClick={() => {if ((electricTotalConsume) > 0) {navigate(`/ElectricMyConsume/${propertyId}`)}}}>
+                <div className="consume-year2" onClick={() => { if ((electricTotalConsume) > 0) { navigate(`/ElectricMyConsume/${propertyId}`) } }}>
                     <h2><FaRegLightbulb /> Electric</h2>
                     <h3>Year Consume</h3>
-                    <div style={{width: 220}}>
-                        <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
+                    <div style={{ width: 220 }}>
+                        <Doughnut data={dataElectric} options={{ plugins: { tooltip: { enabled: false } } }} />
                         <p><strong>{electricTotalConsume} kWh</strong></p>
                     </div>
                 </div>
-                <div className="consume-year2" onClick={() => {if ((gasTotalConsume) > 0) {navigate(`/GasMyConsume/${propertyId}`)}}}>
+                <div className="consume-year2" onClick={() => { if ((gasTotalConsume) > 0) { navigate(`/GasMyConsume/${propertyId}`) } }}>
                     <h2><FaFire />  Gas</h2>
                     <h3>Year Consume</h3>
-                    <div style={{width: 220}}>
-                        <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
+                    <div style={{ width: 220 }}>
+                        <Doughnut data={dataGas} options={{ plugins: { tooltip: { enabled: false } } }} />
                         <p><strong>{gasTotalConsume} m³</strong></p>
                     </div>
                 </div>

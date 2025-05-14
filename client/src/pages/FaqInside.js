@@ -8,7 +8,7 @@ import "../layouts/Faq.css";
 function FaqInside() {
     //Show top of the page
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
     }, []);
 
     return (
@@ -18,7 +18,7 @@ function FaqInside() {
             <h1 className="dashboard-title">Data Control Center</h1>
             <h2 className="dashboard-subtitle">Track your resource usage, contribute your data, and engage in sustainability campaigns</h2>
 
-             <div className="maincontent-dashboard">
+            <div className="maincontent-dashboard">
                 {/* Sidebar */}
                 <div className="sidebar-dashboard">
                     <h3>Add Property</h3>

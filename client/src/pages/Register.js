@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function Register() {
     //Show top of the page
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
     }, []);
 
     const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
@@ -28,12 +28,12 @@ function Register() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    function registerUser (e) {
+    function registerUser(e) {
         e.preventDefault(); //Prevent refreshing
         axios.post('http://localhost:3001/UserManager/register', {
             name: NewName,
             surname: NewSurname,
-            username: NewUsername, 
+            username: NewUsername,
             DNI: NewDNI,
             email: NewEmail,
             password: NewPassword,
@@ -41,7 +41,7 @@ function Register() {
         }).then((response) => {
             localStorage.setItem("user_id", response.data.userId); //Store user ID
             console.log("User ID stored after registration:", response.data.userId);
-            navigate('/dashboard');       
+            navigate('/dashboard');
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -54,7 +54,7 @@ function Register() {
     return (
         <div>
             <Navbar />
-                <div className="register">
+            <div className="register">
                 <div className="title-register">
                     <h1>Create your account</h1>
                 </div>
@@ -72,9 +72,9 @@ function Register() {
                             }}
                             onChange={(e) => setNewName(e.target.value)}
                         />
-                        
+
                         <label htmlFor="surname">Surname</label>
-                        <input type="text" id="surname" name="surname" value={NewSurname} placeholder="Enter surname (must start with capital letter)" required                          
+                        <input type="text" id="surname" name="surname" value={NewSurname} placeholder="Enter surname (must start with capital letter)" required
                             //Surname must start with a capital letter and be followed by small letters, max 10 letters
                             onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters")}
                             onInput={(e) => {
@@ -85,7 +85,7 @@ function Register() {
                             }}
                             onChange={(e) => setNewSurname(e.target.value)}
                         />
-                    
+
                         <label htmlFor="username">Username</label>
                         <input type="text" id="username" name="username" value={NewUsername} placeholder="Enter username (between 2 and 10 characters)" required
                             //Username must be between 3 and 10 characters 
@@ -98,7 +98,7 @@ function Register() {
                             }}
                             onChange={(e) => setNewUsername(e.target.value)}
                         />
-                    
+
                         <label htmlFor="DNI">DNI</label>
                         <input type="text" id="DNI" name="DNI" value={NewDNI} placeholder="Enter DNI (9 digits and a letter)" required
                             //DNI contains 8 digits and a capital letter                           
@@ -111,7 +111,7 @@ function Register() {
                             }}
                             onChange={(e) => setNewDNI(e.target.value)}
                         />
-                    
+
                         <label htmlFor="email">Email</label>
                         <input type="text" id="email" name="email" value={NewEmail} placeholder="Enter email" required
                             //Email structure
@@ -124,7 +124,7 @@ function Register() {
                             }}
                             onChange={(e) => setNewEmail(e.target.value)}
                         />
-                    
+
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" name="password" value={NewPassword} placeholder="Enter password (minimum 6 characters)" required
                             //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
@@ -139,23 +139,23 @@ function Register() {
                         />
 
                         {/*FIX TYPE BAR AND PASSWORD PATTERN*/}
-			  	        <label htmlFor="type">Choose type of user</label>
-			  	        <select id="type" name="type" value={NewType} required
+                        <label htmlFor="type">Choose type of user</label>
+                        <select id="type" name="type" value={NewType} required
                             onInvalid={(e) => e.target.setCustomValidity("Select your type of user")}
                             onInput={(e) => e.target.setCustomValidity("")}
                             onChange={(e) => setNewType(e.target.value)}>
                             <option value="">Select a type</option>
-			  		        <option value="Donor">Donor</option>
-					        <option value="Research">Research</option>
-					        <option value="Government">Government</option>
-					        <option value="Education">Education</option>
+                            <option value="Donor">Donor</option>
+                            <option value="Research">Research</option>
+                            <option value="Government">Government</option>
+                            <option value="Education">Education</option>
                             <option value="Transport">Transport</option>
-			  	        </select>
+                        </select>
 
                         {error && <div className="error-register">{error}</div>}
                     </div>
                     <button className="button-register" type="submit">Register</button>
-               </form>
+                </form>
             </div>
             <Footer />
         </div>

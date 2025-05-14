@@ -19,6 +19,7 @@
     padding-top: 25px;
 }
 
-.instructions p, .instructions li {
+.instructions p,
+.instructions li {
     line-height: 1.5;
 }

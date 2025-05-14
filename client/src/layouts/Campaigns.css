@@ -14,7 +14,7 @@
 }
 
 .campaigns-input {
-    max-width: 280px; 
+    max-width: 280px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
@@ -52,29 +52,29 @@
 }
 
 .icon-filter {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-bottom: 50px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 50px;
 }
 
 .icon-select {
-  font-size: 25px;
-  padding: 10px;
-  background: white;
-  border: 2px solid rgba(128, 128, 128, 0.356);
-  border-radius: 10px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+    font-size: 25px;
+    padding: 10px;
+    background: white;
+    border: 2px solid rgba(128, 128, 128, 0.356);
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .icon-select:hover {
-  background: rgb(225, 252, 252);
-  border-color: rgb(3, 133, 122);
+    background: rgb(225, 252, 252);
+    border-color: rgb(3, 133, 122);
 }
 
 .icon-select.selected {
-  background: rgb(0, 168, 154);
-  border-color: rgb(3, 133, 122);
-  color: white;
+    background: rgb(0, 168, 154);
+    border-color: rgb(3, 133, 122);
+    color: white;
 }

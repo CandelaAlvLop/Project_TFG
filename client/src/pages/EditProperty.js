@@ -23,7 +23,7 @@ function EditProperty() {
     const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
     const income_Pattern = /^[1-9][0-9]{0,6}$/;
     const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
-    
+
     const [NewPropertyName, setNewPropertyName] = useState("");
     const [NewSize, setNewSize] = useState();
     const [NewBuildingAge, setNewBuildingAge] = useState();
@@ -35,10 +35,12 @@ function EditProperty() {
     const [NewWorkingSchedule, setNewWorkingSchedule] = useState([]);
     const [NewDescription, setNewDescription] = useState("");
     const [NewAppliances, setNewAppliances] = useState({
-        electric: {fridge: false, dishWasher: false, washingMachine: false, dryer: false, microwave: false, tv: false, computer: false, 
-                    lamps: false, airConditioning: false, centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false},
-        gas: {centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false },
-        water: {swimmingPool: false, garden: false, bathrooms: false, halfBathrooms: false, terraceWithPlants: false}
+        electric: {
+            fridge: false, dishWasher: false, washingMachine: false, dryer: false, microwave: false, tv: false, computer: false,
+            lamps: false, airConditioning: false, centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false
+        },
+        gas: { centralHeating: false, heatingRadiators: false, hotWater: false, stove: false, oven: false },
+        water: { swimmingPool: false, garden: false, bathrooms: false, halfBathrooms: false, terraceWithPlants: false }
     });
     const [NewElectricConsumption, setNewElectricConsumption] = useState();
     const [NewGasConsumption, setNewGasConsumption] = useState();
@@ -50,15 +52,15 @@ function EditProperty() {
     const propertyId = localStorage.getItem("property_id");
     const userId = localStorage.getItem("user_id");
 
-    function setUserProperty () {
+    function setUserProperty() {
         if (!propertyId) return console.error("No Property retrieved");
         axios.get(`http://localhost:3001/PropertyManager/propertiesUpdate/${propertyId}`)
             .then((response) => {
                 let propertyAppliances_string = [];
                 if (response.data.appliances) propertyAppliances_string = response.data.appliances.split(',');
-            
-                const propertyAppliances = {electric: {}, gas: {}, water: {}};
-            
+
+                const propertyAppliances = { electric: {}, gas: {}, water: {} };
+
                 propertyAppliances.electric.fridge = propertyAppliances_string.includes("Fridge");
                 propertyAppliances.electric.dishWasher = propertyAppliances_string.includes("Dish Washer");
                 propertyAppliances.electric.washingMachine = propertyAppliances_string.includes("Washing Machine");
@@ -73,13 +75,13 @@ function EditProperty() {
                 propertyAppliances.electric.hotWater = propertyAppliances_string.includes("Electric Hot Water");
                 propertyAppliances.electric.stove = propertyAppliances_string.includes("Electric Stove");
                 propertyAppliances.electric.oven = propertyAppliances_string.includes("Electric Oven");
-            
+
                 propertyAppliances.gas.centralHeating = propertyAppliances_string.includes("Gas Central Heating");
                 propertyAppliances.gas.heatingRadiators = propertyAppliances_string.includes("Gas Heating Radiators");
                 propertyAppliances.gas.hotWater = propertyAppliances_string.includes("Gas Hot Water");
                 propertyAppliances.gas.stove = propertyAppliances_string.includes("Gas Stove");
                 propertyAppliances.gas.oven = propertyAppliances_string.includes("Gas Oven");
-            
+
                 propertyAppliances.water.swimmingPool = propertyAppliances_string.includes("Swimming Pool");
                 propertyAppliances.water.garden = propertyAppliances_string.includes("Garden");
                 propertyAppliances.water.bathrooms = propertyAppliances_string.includes("Bathrooms");
@@ -106,7 +108,7 @@ function EditProperty() {
             });
     };
 
-    function editPropertyData (e) {
+    function editPropertyData(e) {
         e.preventDefault();
         setSubmitted(true);
 
@@ -170,20 +172,20 @@ function EditProperty() {
         });
     };
 
-    function cancelEditPropertyData () {
+    function cancelEditPropertyData() {
         localStorage.removeItem("property_id");
         navigate('/personaldata');
     }
 
 
     function ageUpdate(value) {
-        if (NewAges.includes(value)) {setNewAges(NewAges.filter(age => age !== value));} 
-        else {setNewAges([...NewAges, value]);}
+        if (NewAges.includes(value)) { setNewAges(NewAges.filter(age => age !== value)); }
+        else { setNewAges([...NewAges, value]); }
     }
 
     function workingScheduleUpdate(value) {
-        if (NewWorkingSchedule.includes(value)) {setNewWorkingSchedule(NewWorkingSchedule.filter(age => age !== value));} 
-        else {setNewWorkingSchedule([...NewWorkingSchedule, value]);}
+        if (NewWorkingSchedule.includes(value)) { setNewWorkingSchedule(NewWorkingSchedule.filter(age => age !== value)); }
+        else { setNewWorkingSchedule([...NewWorkingSchedule, value]); }
     }
 
     return (
@@ -262,15 +264,15 @@ function EditProperty() {
                         />
                         <label htmlFor="ages">Ages</label>
                         <div className="checkboxes">
-                            <label><input type="checkbox" value="0-20" checked={NewAges.includes("0-20")} onChange={() => ageUpdate("0-20")}/>0-20</label>
-                            <label><input type="checkbox" value="21-35" checked={NewAges.includes("21-35")} onChange={(e) => ageUpdate("21-35")}/> 21-35</label>
-                            <label><input type="checkbox" value="36-50" checked={NewAges.includes("36-50")} onChange={(e) => ageUpdate("36-50")}/> 36-50</label>
-                            <label><input type="checkbox" value="50-65" checked={NewAges.includes("50-65")} onChange={(e) => ageUpdate("50-65")}/> 50-65</label>
-                            <label><input type="checkbox" value="66-80" checked={NewAges.includes("66-80")} onChange={(e) => ageUpdate("66-80")}/> 66-80</label>
-                            <label><input type="checkbox" value="80+" checked={NewAges.includes("80+")} onChange={(e) => ageUpdate("80+")}/> 80+</label>
+                            <label><input type="checkbox" value="0-20" checked={NewAges.includes("0-20")} onChange={() => ageUpdate("0-20")} />0-20</label>
+                            <label><input type="checkbox" value="21-35" checked={NewAges.includes("21-35")} onChange={(e) => ageUpdate("21-35")} /> 21-35</label>
+                            <label><input type="checkbox" value="36-50" checked={NewAges.includes("36-50")} onChange={(e) => ageUpdate("36-50")} /> 36-50</label>
+                            <label><input type="checkbox" value="50-65" checked={NewAges.includes("50-65")} onChange={(e) => ageUpdate("50-65")} /> 50-65</label>
+                            <label><input type="checkbox" value="66-80" checked={NewAges.includes("66-80")} onChange={(e) => ageUpdate("66-80")} /> 66-80</label>
+                            <label><input type="checkbox" value="80+" checked={NewAges.includes("80+")} onChange={(e) => ageUpdate("80+")} /> 80+</label>
                             {submitted && !NewAges.length && <div className="error-property">"Please select at least one Age Range"</div>}
                         </div>
-                        
+
                         <label htmlFor="income">Income</label>
                         <input type="number" id="income" name="income" value={NewIncome} placeholder="Approximate total income" required
                             //Income must not start with a 0, no decimals, and up to 7 digits
@@ -280,7 +282,7 @@ function EditProperty() {
                                 if (!income_Pattern.test(e.target.value)) {
                                     e.target.setCustomValidity("Income must not start by zero, cannot contain decimals and it must be up to 7 digits");
                                 }
-                            }}  
+                            }}
                             onChange={(e) => setNewIncome(e.target.value)}
                         />
                         <label htmlFor="remoteWorkers">Remote Workers</label>
@@ -290,15 +292,15 @@ function EditProperty() {
                             onChange={(e) => setNewRemoteWorkers(e.target.value)}>
                             <option value="">Select if there are Remote Workers</option>
                             <option value="yes">Yes</option>
-                            <option value="no">No</option>   
+                            <option value="no">No</option>
                         </select>
                         <label htmlFor="workingSchedule">Working Schedules</label>
                         <div className="checkboxes" required>
-                            <label><input type="checkbox" value="Morning" checked={NewWorkingSchedule.includes("Morning")} onChange={(e) => workingScheduleUpdate("Morning")}/> Morning</label>
-                            <label><input type="checkbox" value="Afternoon" checked={NewWorkingSchedule.includes("Afternoon")} onChange={(e) => workingScheduleUpdate("Afternoon")}/> Afternoon</label>
-                            <label><input type="checkbox" value="Full Day" checked={NewWorkingSchedule.includes("Full Day")} onChange={(e) => workingScheduleUpdate("Full Day")}/> Full Day</label>
-                            <label><input type="checkbox" value="Night" checked={NewWorkingSchedule.includes("Night")} onChange={(e) => workingScheduleUpdate("Night")}/> Night</label>
-                            <label><input type="checkbox" value="No Work" checked={NewWorkingSchedule.includes("No Work")} onChange={(e) => workingScheduleUpdate("No Work")}/> No Work</label>
+                            <label><input type="checkbox" value="Morning" checked={NewWorkingSchedule.includes("Morning")} onChange={(e) => workingScheduleUpdate("Morning")} /> Morning</label>
+                            <label><input type="checkbox" value="Afternoon" checked={NewWorkingSchedule.includes("Afternoon")} onChange={(e) => workingScheduleUpdate("Afternoon")} /> Afternoon</label>
+                            <label><input type="checkbox" value="Full Day" checked={NewWorkingSchedule.includes("Full Day")} onChange={(e) => workingScheduleUpdate("Full Day")} /> Full Day</label>
+                            <label><input type="checkbox" value="Night" checked={NewWorkingSchedule.includes("Night")} onChange={(e) => workingScheduleUpdate("Night")} /> Night</label>
+                            <label><input type="checkbox" value="No Work" checked={NewWorkingSchedule.includes("No Work")} onChange={(e) => workingScheduleUpdate("No Work")} /> No Work</label>
                             {submitted && !NewWorkingSchedule.length && <div className="error-property">"Please select at least one Working Schedule"</div>}
                         </div>
                         <label htmlFor="description">Description</label>
@@ -311,42 +313,42 @@ function EditProperty() {
                     <div className="appliances">
                         <div className="appliance-type">Electric</div>
                         <div className="appliance-checkboxes">
-                            <label><input type="checkbox" checked={NewAppliances.electric.fridge} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, fridge: !NewAppliances.electric.fridge}})}/> Fridge</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.dishWasher} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, dishWasher: !NewAppliances.electric.dishWasher}})}/> Dish Washer</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.washingMachine} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, washingMachine: !NewAppliances.electric.washingMachine}})}/> Washing Machine</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.dryer} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, dryer: !NewAppliances.electric.dryer}})}/> Dryer</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.microwave} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, microwave: !NewAppliances.electric.microwave}})}/> Microwave</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.tv} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, tv: !NewAppliances.electric.tv}})} /> TV</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.computer} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, computer: !NewAppliances.electric.computer}})}/> Computer</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.lamps} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, lamps: !NewAppliances.electric.lamps}})}/> Lamps</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.airConditioning} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, airConditioning: !NewAppliances.electric.airConditioning}})}/> Air Conditioning</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.centralHeating} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, centralHeating: !NewAppliances.electric.centralHeating}})}/> Central Heating</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.heatingRadiators} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, heatingRadiators: !NewAppliances.electric.heatingRadiators}})}/> Heating Radiators</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.hotWater} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, hotWater: !NewAppliances.electric.hotWater}})}/> Hot Water</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.stove} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, stove: !NewAppliances.electric.stove}})}/> Stove</label>
-                            <label><input type="checkbox" checked={NewAppliances.electric.oven} onChange={() => setNewAppliances({...NewAppliances, electric: {...NewAppliances.electric, oven: !NewAppliances.electric.oven}})}/> Oven</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.fridge} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, fridge: !NewAppliances.electric.fridge } })} /> Fridge</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.dishWasher} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, dishWasher: !NewAppliances.electric.dishWasher } })} /> Dish Washer</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.washingMachine} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, washingMachine: !NewAppliances.electric.washingMachine } })} /> Washing Machine</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.dryer} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, dryer: !NewAppliances.electric.dryer } })} /> Dryer</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.microwave} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, microwave: !NewAppliances.electric.microwave } })} /> Microwave</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.tv} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, tv: !NewAppliances.electric.tv } })} /> TV</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.computer} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, computer: !NewAppliances.electric.computer } })} /> Computer</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.lamps} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, lamps: !NewAppliances.electric.lamps } })} /> Lamps</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.airConditioning} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, airConditioning: !NewAppliances.electric.airConditioning } })} /> Air Conditioning</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.centralHeating} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, centralHeating: !NewAppliances.electric.centralHeating } })} /> Central Heating</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.heatingRadiators} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, heatingRadiators: !NewAppliances.electric.heatingRadiators } })} /> Heating Radiators</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.hotWater} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, hotWater: !NewAppliances.electric.hotWater } })} /> Hot Water</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.stove} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, stove: !NewAppliances.electric.stove } })} /> Stove</label>
+                            <label><input type="checkbox" checked={NewAppliances.electric.oven} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, oven: !NewAppliances.electric.oven } })} /> Oven</label>
                         </div>
                     </div>
 
                     <div className="appliances">
                         <div className="appliance-type">Gas</div>
                         <div className="appliance-checkboxes">
-                            <label><input type="checkbox" checked={NewAppliances.gas.centralHeating} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, centralHeating: !NewAppliances.gas.centralHeating}})}/> Central Heating</label>
-                            <label><input type="checkbox" checked={NewAppliances.gas.heatingRadiators} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, heatingRadiators: !NewAppliances.gas.heatingRadiators}})}/> Heating Radiators</label>
-                            <label><input type="checkbox" checked={NewAppliances.gas.hotWater} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, hotWater: !NewAppliances.gas.hotWater}})}/> Hot Water</label>
-                            <label><input type="checkbox" checked={NewAppliances.gas.stove} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, stove: !NewAppliances.gas.stove}})}/> Stove</label>
-                            <label><input type="checkbox" checked={NewAppliances.gas.oven} onChange={() => setNewAppliances({...NewAppliances, gas: {...NewAppliances.gas, oven: !NewAppliances.gas.oven}})}/> Oven</label>
+                            <label><input type="checkbox" checked={NewAppliances.gas.centralHeating} onChange={() => setNewAppliances({ ...NewAppliances, gas: { ...NewAppliances.gas, centralHeating: !NewAppliances.gas.centralHeating } })} /> Central Heating</label>
+                            <label><input type="checkbox" checked={NewAppliances.gas.heatingRadiators} onChange={() => setNewAppliances({ ...NewAppliances, gas: { ...NewAppliances.gas, heatingRadiators: !NewAppliances.gas.heatingRadiators } })} /> Heating Radiators</label>
+                            <label><input type="checkbox" checked={NewAppliances.gas.hotWater} onChange={() => setNewAppliances({ ...NewAppliances, gas: { ...NewAppliances.gas, hotWater: !NewAppliances.gas.hotWater } })} /> Hot Water</label>
+                            <label><input type="checkbox" checked={NewAppliances.gas.stove} onChange={() => setNewAppliances({ ...NewAppliances, gas: { ...NewAppliances.gas, stove: !NewAppliances.gas.stove } })} /> Stove</label>
+                            <label><input type="checkbox" checked={NewAppliances.gas.oven} onChange={() => setNewAppliances({ ...NewAppliances, gas: { ...NewAppliances.gas, oven: !NewAppliances.gas.oven } })} /> Oven</label>
                         </div>
                     </div>
 
                     <div className="appliances">
                         <div className="appliance-type">Water</div>
                         <div className="appliance-checkboxes">
-                            <label><input type="checkbox" checked={NewAppliances.water.swimmingPool} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, swimmingPool: !NewAppliances.water.swimmingPool}})}/> Swimming Pool</label>
-                            <label><input type="checkbox" checked={NewAppliances.water.garden} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, garden: !NewAppliances.water.garden}})}/> Garden</label>
-                            <label><input type="checkbox" checked={NewAppliances.water.bathrooms} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, bathrooms: !NewAppliances.water.bathrooms}})}/> Bathrooms</label>
-                            <label><input type="checkbox" checked={NewAppliances.water.halfBathrooms} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, halfBathrooms: !NewAppliances.water.halfBathrooms}})}/> Half Bathrooms</label>
-                            <label><input type="checkbox" checked={NewAppliances.water.terraceWithPlants} onChange={() => setNewAppliances({...NewAppliances, water: {...NewAppliances.water, terraceWithPlants: !NewAppliances.water.terraceWithPlants}})}/> Terrace with Plants</label>
+                            <label><input type="checkbox" checked={NewAppliances.water.swimmingPool} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, swimmingPool: !NewAppliances.water.swimmingPool } })} /> Swimming Pool</label>
+                            <label><input type="checkbox" checked={NewAppliances.water.garden} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, garden: !NewAppliances.water.garden } })} /> Garden</label>
+                            <label><input type="checkbox" checked={NewAppliances.water.bathrooms} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, bathrooms: !NewAppliances.water.bathrooms } })} /> Bathrooms</label>
+                            <label><input type="checkbox" checked={NewAppliances.water.halfBathrooms} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, halfBathrooms: !NewAppliances.water.halfBathrooms } })} /> Half Bathrooms</label>
+                            <label><input type="checkbox" checked={NewAppliances.water.terraceWithPlants} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, terraceWithPlants: !NewAppliances.water.terraceWithPlants } })} /> Terrace with Plants</label>
                         </div>
                     </div>
 
@@ -389,15 +391,15 @@ function EditProperty() {
                             onChange={(e) => setNewWaterConsumption(e.target.value)}
                         />
                     </div>
-                
-                    {error && <div className="error-property-missing">{error}</div>}                    
+
+                    {error && <div className="error-property-missing">{error}</div>}
                     <div>
                         <button type="submit" className="save"><CiSaveDown2 /> Save</button>
                         <button type="button" className="cancel" onClick={cancelEditPropertyData}><MdCancel /> Cancel</button>
                     </div>
                 </form>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

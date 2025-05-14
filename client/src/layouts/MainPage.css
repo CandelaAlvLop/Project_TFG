@@ -1,7 +1,8 @@
 /* General Styles */
-body, html {
+body,
+html {
     font-family: 'Arial', sans-serif;
-    background-color: rgb(249,249,249);
+    background-color: rgb(249, 249, 249);
     color: rgb(43, 42, 42);
 }
 
@@ -17,7 +18,7 @@ body, html {
 .header-mainpage h1 {
     font-size: 40px;
     font-weight: bold;
-    color:rgba(255, 255, 255, 0.938);
+    color: rgba(255, 255, 255, 0.938);
 }
 
 .header-mainpage p {
@@ -124,4 +125,3 @@ body, html {
         margin: 0;
     }
 }
-

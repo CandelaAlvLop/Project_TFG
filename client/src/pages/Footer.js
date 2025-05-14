@@ -30,15 +30,15 @@ function Footer() {
 
                 <div className="footer-section">
                     <h4>Funded by</h4>
-                    <img src={InBarcelonaOva} alt="InBarcelonaOva" className="InBarcelonaOva"/>
-                    <img src={AjuntamentBarcelona} alt="Barcelona City Council" className="AjuntamentBarcelona"/>
+                    <img src={InBarcelonaOva} alt="InBarcelonaOva" className="InBarcelonaOva" />
+                    <img src={AjuntamentBarcelona} alt="Barcelona City Council" className="AjuntamentBarcelona" />
                 </div>
 
                 <div className="footer-section">
                     <h4>Supported by</h4>
                     <img src={MinisterioCienciaInnovacion} alt="Ministry of Cience and Innovation" className="MinisterioCienciaInnovacion" />
-                    <img src={AgenciaEstatalDeInvestigacion} alt="State Agency of Innovation" className="AgenciaEstatalDeInvestigacion"/>
-                    <img src={ExcelenciaMariaDeMaetzu} alt="Excelencia de Maria de Maetzu" className="ExcelenciaMariaDeMaetzu"/>
+                    <img src={AgenciaEstatalDeInvestigacion} alt="State Agency of Innovation" className="AgenciaEstatalDeInvestigacion" />
+                    <img src={ExcelenciaMariaDeMaetzu} alt="Excelencia de Maria de Maetzu" className="ExcelenciaMariaDeMaetzu" />
                 </div>
             </div>
         </footer>

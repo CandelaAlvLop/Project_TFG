@@ -14,10 +14,10 @@ function NavbarIn() {
             </div>
             <div className="right-navbar">
                 <Link to="/campaigns">Campaigns</Link>
-                <Link to="/notifications"><FaBell/></Link>
-                <IoIosLogOut 
-                    className="logout" 
-                    onClick = { () => {
+                <Link to="/notifications"><FaBell /></Link>
+                <IoIosLogOut
+                    className="logout"
+                    onClick={() => {
                         console.log("User logged out");
                         localStorage.removeItem("user_id");
                         localStorage.removeItem("username");

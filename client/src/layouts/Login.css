@@ -1,7 +1,8 @@
-body, html {
+body,
+html {
     font-family: Arial, sans-serif;
     margin: 0;
-    background: rgb(249,249,249);
+    background: rgb(249, 249, 249);
 }
 
 /* Main Content Section */
@@ -66,7 +67,8 @@ body, html {
     text-align: center;
 }
 
-.login input[type="text"], .login input[type="password"] {
+.login input[type="text"],
+.login input[type="password"] {
     border-radius: 5px;
     width: 270px;
     margin: 20px auto;
@@ -77,7 +79,8 @@ body, html {
     background: rgba(228, 228, 228, 0.349);
 }
 
-.login input[type="submit"], button {
+.login input[type="submit"],
+button {
     border-radius: 7px;
     width: 120px;
     margin-top: 15px;
@@ -89,7 +92,8 @@ body, html {
     cursor: pointer;
 }
 
-.login input[type="submit"]:hover, button:hover {
+.login input[type="submit"]:hover,
+button:hover {
     background-color: rgb(1, 92, 84);
 }
 

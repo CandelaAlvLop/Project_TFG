@@ -13,7 +13,7 @@ import { MdAddCircle } from "react-icons/md";
 
 
 function MyConsume() {
-    
+
     const [properties, setProperties] = useState([]);
     const [selectedProperty, setSelectedProperty] = useState("");
     const [waterTotalConsume, setWaterTotalConsume] = useState(0);
@@ -23,7 +23,7 @@ function MyConsume() {
     const userId = localStorage.getItem('user_id');
 
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
         if (!userId) return console.error("No User retrieved");
         axios.get(`http://localhost:3001/DataDonationManager/properties/${userId}`)
             .then((response) => {
@@ -34,7 +34,7 @@ function MyConsume() {
             });
     }, [userId]);
 
-    function selectionProperty (propertyId) {
+    function selectionProperty(propertyId) {
         if (selectedProperty === propertyId) return "property-select selected";
         else return "property-select";
     }
@@ -43,21 +43,21 @@ function MyConsume() {
         if (!selectedProperty) return console.error("No Property retrieved");
         axios.get(`http://localhost:3001/DataDonationManager/consume/${selectedProperty}/Water`)
             .then((response) => {
-                if (response.data.length === 0){setWaterTotalConsume(0); return}
+                if (response.data.length === 0) { setWaterTotalConsume(0); return }
                 setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); //Last reading is the accumulated consume of the year
-        })
+            })
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${selectedProperty}/Electric`)
             .then((response) => {
-                if (response.data.length === 0){setElectricTotalConsume(0); return}
+                if (response.data.length === 0) { setElectricTotalConsume(0); return }
                 setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
-        })
+            })
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${selectedProperty}/Gas`)
             .then((response) => {
-                if (response.data.length === 0){setGasTotalConsume(0); return}
+                if (response.data.length === 0) { setGasTotalConsume(0); return }
                 setGasTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(4));
-        })
+            })
     }, [selectedProperty]);
 
     const waterConsumeMax = 450000;
@@ -98,49 +98,49 @@ function MyConsume() {
             {properties.length > 0 && (
                 <div className="property-data">
                     {properties.map((property) => (
-                    <button key={property.property_id} className={selectionProperty(property.property_id)}
-                        onClick={() => setSelectedProperty(property.property_id)}>
-                        {property.propertyName}
-                    </button>
+                        <button key={property.property_id} className={selectionProperty(property.property_id)}
+                            onClick={() => setSelectedProperty(property.property_id)}>
+                            {property.propertyName}
+                        </button>
                     ))}
                 </div>
             )}
             {properties.length === 0 && (
                 <div className="no-properties">
-                No properties added
-                <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>   
+                    No properties added
+                    <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>
                 </div>
             )}
-            
+
             {selectedProperty && (
                 <div className="consume-data-main">
-                    <div className="consume-input" onClick={() => {if ((waterTotalConsume) > 0) {navigate(`/WaterMyConsume/${selectedProperty}`)}}}>
+                    <div className="consume-input" onClick={() => { if ((waterTotalConsume) > 0) { navigate(`/WaterMyConsume/${selectedProperty}`) } }}>
                         <h2><IoWaterOutline /> Water</h2>
                         <h3>Year Consume</h3>
-                        <div style={{width: 300}}>
-                            <Doughnut data={dataWater} options={{plugins: {tooltip: {enabled: false}}}}/>
+                        <div style={{ width: 300 }}>
+                            <Doughnut data={dataWater} options={{ plugins: { tooltip: { enabled: false } } }} />
                             <p><strong>{waterTotalConsume} l</strong></p>
                         </div>
                     </div>
-                
-                    <div className="consume-input" onClick={() => {if ((electricTotalConsume) > 0) {navigate(`/ElectricMyConsume/${selectedProperty}`)}}}>
+
+                    <div className="consume-input" onClick={() => { if ((electricTotalConsume) > 0) { navigate(`/ElectricMyConsume/${selectedProperty}`) } }}>
                         <h2><FaRegLightbulb /> Electric</h2>
                         <h3>Year Consume</h3>
-                        <div style={{width: 300}}>
-                            <Doughnut data={dataElectric} options={{plugins: {tooltip: {enabled: false}}}}/>
+                        <div style={{ width: 300 }}>
+                            <Doughnut data={dataElectric} options={{ plugins: { tooltip: { enabled: false } } }} />
                             <p><strong>{electricTotalConsume} kWh</strong></p>
                         </div>
                     </div>
 
-                    <div className="consume-input" onClick={() => {if ((gasTotalConsume) > 0) {navigate(`/GasMyConsume/${selectedProperty}`)}}}>
+                    <div className="consume-input" onClick={() => { if ((gasTotalConsume) > 0) { navigate(`/GasMyConsume/${selectedProperty}`) } }}>
                         <h2><FaFire /> Gas</h2>
                         <h3>Year Consume</h3>
-                        <div style={{width: 300}}>
-                            <Doughnut data={dataGas} options={{plugins: {tooltip: {enabled: false}}}}/>
+                        <div style={{ width: 300 }}>
+                            <Doughnut data={dataGas} options={{ plugins: { tooltip: { enabled: false } } }} />
                             <p><strong>{gasTotalConsume} m³</strong></p>
                         </div>
                     </div>
-                </div>  
+                </div>
             )}
             <Footer />
         </div>

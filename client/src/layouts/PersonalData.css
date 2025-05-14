@@ -38,7 +38,9 @@ select {
 }
 
 /* Edit User Data*/
-.input input[type="text"], .input input[type="password"], select {
+.input input[type="text"],
+.input input[type="password"],
+select {
     border-radius: 5px;
     width: 93%;
     padding: 10px;
@@ -48,13 +50,18 @@ select {
 }
 
 /* Only View User Data*/
-.input input[type="text"]:disabled, .input input[type="password"]:disabled, select:disabled {
+.input input[type="text"]:disabled,
+.input input[type="password"]:disabled,
+select:disabled {
     background: rgba(180, 180, 180, 0.349);
     color: grey;
     cursor: not-allowed;
 }
 
-.edit, .save, .cancel, .delete {
+.edit,
+.save,
+.cancel,
+.delete {
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -64,21 +71,25 @@ select {
     max-width: 95px;
 }
 
-.edit, .save {
+.edit,
+.save {
     background-color: rgb(3, 133, 122);
     color: white;
 }
 
-.edit:hover, .save:hover {
+.edit:hover,
+.save:hover {
     background-color: rgb(1, 92, 84);
 }
 
-.cancel, .delete {
+.cancel,
+.delete {
     background-color: rgba(221, 38, 38, 0.904);
     color: white;
 }
 
-.cancel:hover, .delete:hover {
+.cancel:hover,
+.delete:hover {
     background-color: rgb(180, 31, 31);
 }
 
@@ -121,7 +132,7 @@ select {
 }
 
 .property-input {
-    max-width: 250px; 
+    max-width: 250px;
     padding: 20px;
     background-color: rgba(228, 228, 228, 0.493);
     border-radius: 8px;
@@ -175,10 +186,12 @@ select {
     .user-data {
         width: 90%;
     }
+
     .row {
         flex-direction: column;
         gap: 10px;
     }
+
     .properties-data {
         width: 90%;
     }
