@@ -28,8 +28,15 @@ function Login() {
         }).then((response) => {
             localStorage.setItem("user_id", response.data.userId);
             localStorage.setItem("username", response.data.username);
+            localStorage.setItem("type", response.data.type);
+
             console.log("User ID stored:", response.data.userId);
-            navigate('/dashboard');
+
+            if (response.data.type === "Donor") {
+                navigate("/dashboard");
+            } else {
+                navigate("/dashboard2")
+            }
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);

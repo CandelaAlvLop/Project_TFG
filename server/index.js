@@ -15,6 +15,9 @@ app.use("/PropertyManager", propertyRoute);
 const dataRoute = require("./routes/DataDonationManager");
 app.use("/DataDonationManager", dataRoute);
 
+const campaignRoute = require("./routes/CampaignManager");
+app.use("/CampaignManager", campaignRoute);
+
 
 //Start API, you can use any port but it must be different than our react application
 app.listen(3001, () => {

@@ -1,23 +1,18 @@
 import { useState, useEffect } from 'react';
-import Navbar from './NavbarIn';
-import Navbar2 from './Navbar2';
+import NavbarIn2 from './NavbarIn2';
+import Navbar3 from './Navbar3';
 import Footer from "./Footer";
 import '../layouts/PersonalData.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { MdAddCircle } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import { RiDeleteBin5Fill } from "react-icons/ri";
 
 
-function PersonalData() {
+function PersonalData2() {
     useEffect(() => {
         window.scrollTo(0, 0);
         setUserData();
-        setUserProperties();
         //eslint-disable-next-line
     }, []);
-    const navigate = useNavigate();
 
     // ------------------------------- USER DATA -------------------------------
     const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
@@ -86,35 +81,10 @@ function PersonalData() {
         setError("");
     }
 
-    // ------------------------------- PROPERTY DATA -------------------------------   
-    const [properties, setProperties] = useState([]);
-
-    function setUserProperties() {
-        if (!userId) return console.error("No User retrieved");
-        axios.get(`http://localhost:3001/PropertyManager/properties/${userId}`)
-            .then((response) => {
-                setProperties(response.data);
-            })
-            .catch((error) => {
-                console.error("Error retrieving User Property data:", error);
-            });
-    };
-
-    //Delete property
-    function deleteProperty(propertyId) {
-        axios.delete(`http://localhost:3001/PropertyManager/properties/${propertyId}`)
-            .then(() => {
-                setProperties(properties.filter(property => property.property_id !== propertyId));
-            })
-            .catch((error) => {
-                console.error("Unexpected error deleting Property", error);
-            });
-    };
-
     return (
         <div>
-            <Navbar />
-            <Navbar2 />
+            <NavbarIn2 />
+            <Navbar3 />
             <div className="user-data">
                 <h1>Personal Information</h1>
                 <form onSubmit={editUserData}>
@@ -242,37 +212,9 @@ function PersonalData() {
                 </form>
             </div>
 
-            <div className="properties-data">
-                <h1>Your Properties</h1>
-                <div className="properties">
-                    {properties.length > 0 && properties.map((property) => (
-                        <div key={property.property_id} className="property-input">
-                            <div className="property-name">{property.propertyName}</div>
-                            <div className="property-information">
-                                <p><strong>Size:</strong> {property.size} m²</p>
-                                <p><strong>Building Age:</strong> {property.buildingAge} years</p>
-                                <p><strong>District:</strong> {property.district}</p>
-                            </div>
-                            <div className="property-buttons">
-                                <button type="button" className="edit"
-                                    onClick={() => {
-                                        localStorage.setItem("property_id", property.property_id);
-                                        navigate('/editproperty');
-                                    }
-                                    }><FaEdit /> Edit</button>
-                                <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}><RiDeleteBin5Fill /> Delete</button>
-                            </div>
-                        </div>
-                    ))}
-                    {properties.length === 0 && <p className="no-properties">No properties added</p>}
-                </div>
-
-                <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>
-            </div>
-
             <Footer />
         </div>
     );
 }
-export default PersonalData;
+export default PersonalData2;
 

@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS donations_justification CASCADE;
 DROP TABLE IF EXISTS donations_consent CASCADE;
 DROP TABLE IF EXISTS donations_readings CASCADE;
 DROP TABLE IF EXISTS donations_metadata CASCADE;
+DROP TABLE IF EXISTS campaign CASCADE;
 DROP TABLE IF EXISTS property CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
@@ -23,11 +24,11 @@ CREATE TABLE IF NOT EXISTS users(
 
 INSERT INTO users (user_id, name, surname, username, DNI, email, password, type) 
 VALUES 
-    (1, 'Pol', 'Lopez', 'pol', '54172433D', 'pol@example.com', '123Abc*', 'Donor'),
-    (2, 'Carlos', 'Romero', 'carla', '54224211E', 'carla@example.com', '123Abc*', 'Donor'),
+    (1, 'Pol', 'Lopez', 'pol', '54172433D', 'pol@example.com', '123Abc*', 'Government'),
+    (2, 'Carlos', 'Romero', 'carla', '54224211E', 'carla@example.com', '123Abc*', 'Business'),
     (3, 'Claudia', 'Garcia', 'claudia', '54164322D', 'claudia@example.com', '123Abc*', 'Education'),
     (4, 'Marta', 'Alvarez', 'marta', '54777727F', 'marta@example.com', '123Abc*', 'Research'),
-    (5, 'Candela', 'Alvarez', 'cande', '54166134F', 'cande@gmail.com', '123Abc*', 'Research'),
+    (5, 'Candela', 'Alvarez', 'cande', '54166134F', 'cande@gmail.com', '123Abc*', 'Donor'),
     (6, 'Vladimir', 'Estivill', 'vladimir', '54177163D', 'vladimir@gmail.com', '123Abc*', 'Donor');
 
 -- PROPERTY
@@ -71,8 +72,15 @@ VALUES
     (6, 'Flat', 90, 25, '08823', 2, '0-20,21-35', 48000, 'no', 'Full Day,No Work', 'City Flat, daily use.', 'Fridge,Washing Machine,Dryer,Gas Central Heating,Swimming Pool', 700, 60, 1),
 	(6, 'Vacation House', 150, 10, '92340', 2, '0-20,21-35', 48000, 'yes', 'Morning,Afternoon', 'House in the beach for vacations.', 'Fridge,Dish Washer,Electric Oven,Lamps,TV', 200, 20, 1);
 
-SELECT * FROM users;
-SELECT * FROM property;
+-- CAMPAIGN
+CREATE TABLE IF NOT EXISTS campaign(
+	campaign_id INT PRIMARY KEY AUTO_INCREMENT, 
+	user_id INT,
+    campaignName VARCHAR(200),
+	CONSTRAINT fk_user_id_campaign FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+SELECT * FROM campaign;
 
 CREATE TABLE IF NOT EXISTS donations_metadata (
   donation_id INT PRIMARY KEY AUTO_INCREMENT,

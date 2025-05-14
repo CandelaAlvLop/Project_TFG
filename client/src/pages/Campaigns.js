@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import Navbar from './NavbarIn';
 import Footer from './Footer';
 import Navbar2 from "./Navbar2";
+import NavbarIn2 from './NavbarIn2';
+import Navbar3 from "./Navbar3";
 import "../layouts/Campaigns.css";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
@@ -15,6 +17,7 @@ function Campaigns() {
     }, []);
 
     const [selectedIcons, setSelectedIcons] = useState([]);
+    const userType = localStorage.getItem("type");
 
     const campaigns = [
         {
@@ -99,11 +102,15 @@ function Campaigns() {
         }
     } else { filter = campaigns; } //No Icon Selected = Show All Campaigns
 
+    function navbars() {
+        if (userType === "Donor") return (<> <Navbar /> <Navbar2 /></>); 
+        else return (<> <NavbarIn2 /> <Navbar3 /></>);
+    }
+ 
     return (
         <div>
-            <Navbar />
-            <Navbar2 />
-            <h1 className="campaigns-data">Campaigns</h1>
+            {navbars()}
+            <h1 className="campaigns-title">Campaigns</h1>
             <div className="icon-filter">
                 <span onClick={() => iconSelection(IoWaterOutline)} className={iconSelectionCSS(IoWaterOutline)}><IoWaterOutline /></span>
                 <span onClick={() => iconSelection(FaFire)} className={iconSelectionCSS(FaFire)}><FaFire /></span>
@@ -116,7 +123,7 @@ function Campaigns() {
                         <h2>{campaign.title}</h2>
                         <p>{campaign.text}</p>
                         <div className="campaigns-input-date">
-                            <p ><strong>{campaign.dates}</strong></p>
+                            <p><strong>{campaign.dates}</strong></p>
                             <p><strong>{campaign.endDate}</strong></p>
                         </div>
                         <div className="campaigns-view-more"> <p>View more</p> </div>

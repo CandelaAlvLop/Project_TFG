@@ -81,7 +81,7 @@ router.post("/login", (req, res) => {
             }
             if (result.length > 0) { //Check if combination is in database
                 console.log("User logged succesfully:", result);
-                res.status(200).send({ userId: result[0].user_id, username: result[0].username });
+                res.status(200).send({ userId: result[0].user_id, username: result[0].username, type: result[0].type });
 
                 console.log("Redirecting to Dashboard");
             } else {
@@ -228,6 +228,5 @@ router.get("/notification/:userId", (req, res) => {
         }
     );
 });
-
 
 module.exports = router;

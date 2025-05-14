@@ -67,7 +67,7 @@ function Dashboard() {
             .catch((error) => {
                 console.error("Error retrieving User Property data:", error);
             });
-    }, []);
+    }, [userId]);
 
 
     const waterConsumeMax = 1500000;

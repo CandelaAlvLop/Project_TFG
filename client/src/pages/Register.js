@@ -150,6 +150,7 @@ function Register() {
                             <option value="Government">Government</option>
                             <option value="Education">Education</option>
                             <option value="Transport">Transport</option>
+                            <option value="Business">Business</option>
                         </select>
 
                         {error && <div className="error-register">{error}</div>}
