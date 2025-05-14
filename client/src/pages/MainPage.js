@@ -26,7 +26,6 @@ function MainPage() {
                 <img src={Drawing} alt="Data Visualization" />
             </div>
 
-            {/* Main Content Sidebar Section */}
             <div className="maincontent-mainpage">
                 {/* Sidebar */}
                 <div className="sidebar-mainpage">

@@ -10,6 +10,7 @@ import DataDonation from './pages/DataDonation';
 import Campaigns from './pages/Campaigns';
 import Instructions from './pages/Instructions';
 import Faq from './pages/Faq';
+import FaqInside from './pages/FaqInside';
 import AddProperty from './pages/AddProperty';
 import EditProperty from './pages/EditProperty';
 import WaterMyConsume from './pages/WaterMyConsume';
@@ -32,6 +33,7 @@ function App() {
         <Route path="/campaigns" element={<Campaigns />} />
         <Route path="/instructions" element={<Instructions />} />
         <Route path="/faq" element={<Faq/>} />
+        <Route path="/faqinside" element={<FaqInside/>} />
         <Route path="/addproperty" element={<AddProperty/>} />
         <Route path="/editproperty" element={<EditProperty/>} />
         <Route path="/watermyconsume/:propertyId" element={<WaterMyConsume/>} />
