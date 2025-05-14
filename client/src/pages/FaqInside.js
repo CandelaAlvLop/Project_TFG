@@ -30,13 +30,13 @@ function FaqInside() {
                     <h3>Your Campaigns</h3>
                     {/*<a href="/campaigns">*/} View and edit your campaign participation {/*</a>*/}
                     <h3>Consume Overwiew</h3>
-                    {/*<a href="/instructions">*/} Check your overall consume{/*</a>*/}
+                    <a href="/dashboard"> Check your overall consume</a>
                     <h3>Information</h3>
                     <a href="/faqinside">Frequently Asked Questions</a>
                 </div>
 
                 {/* Register and Login access */}
-                <div className="access-dashboard">
+                <div className="main-dashboard">
                     <div className="questions">
                         <h3>Frequently Asked Questions</h3>
                         <h1>Do you have Questions?</h1>

@@ -4,6 +4,7 @@ import Footer from './Footer';
 import Navbar2 from "./Navbar2";
 import "../layouts/WaterMyConsume.css";
 import axios from 'axios';
+import "chart.js/auto";
 import { Doughnut, Bar } from "react-chartjs-2";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';

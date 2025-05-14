@@ -1,4 +1,3 @@
--- USER
 drop database if exists database_tfg;
 create database database_tfg;
 use database_tfg;

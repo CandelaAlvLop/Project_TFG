@@ -4,6 +4,7 @@ import Footer from './Footer';
 import Navbar2 from "./Navbar2";
 import "../layouts/MyConsume.css";
 import axios from 'axios';
+import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import { useNavigate } from 'react-router-dom';
 import { IoWaterOutline } from "react-icons/io5";
@@ -46,18 +47,27 @@ function MyConsume() {
                 if (response.data.length === 0) { setWaterTotalConsume(0); return }
                 setWaterTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2)); //Last reading is the accumulated consume of the year
             })
+            .catch((error) => {
+                console.error("Error retrieving Water Consume data:", error);
+            });
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${selectedProperty}/Electric`)
             .then((response) => {
                 if (response.data.length === 0) { setElectricTotalConsume(0); return }
                 setElectricTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(2));
             })
+            .catch((error) => {
+                console.error("Error retrieving Electric Consume data:", error);
+            });
 
         axios.get(`http://localhost:3001/DataDonationManager/consume/${selectedProperty}/Gas`)
             .then((response) => {
                 if (response.data.length === 0) { setGasTotalConsume(0); return }
                 setGasTotalConsume(parseFloat(response.data[response.data.length - 1].meter_reading).toFixed(4));
             })
+            .catch((error) => {
+                console.error("Error retrieving Gas Consume data:", error);
+            });
     }, [selectedProperty]);
 
     const waterConsumeMax = 450000;
