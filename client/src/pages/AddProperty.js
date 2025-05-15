@@ -147,7 +147,7 @@ function AddProperty() {
                     <div className="section">
                         <label htmlFor="propertyName">Name of the Property</label>
                         <input type="text" id="propertyName" name="propertyName" value={NewPropertyName} placeholder="Name of the property" required
-                            //Property name must start with a capital letter and be followed by small letters, max 10 letters
+                            //Property name must start with a capital letter and be followed by small letters, max 15 letters
                             onInvalid={(e) => e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");

@@ -9,10 +9,12 @@ const campaignName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
 // ------- ADDING A CAMPAIGN -------
 //Add Campaign
 router.post("/campaigns", (req, res) => {
-    const { userId, campaignName } = req.body;
+    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, description3, titleObjective4, 
+        description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName) {
+    if (!campaignName || !description| !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !description3 || !titleObjective4 
+         || !description4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
@@ -34,8 +36,10 @@ router.post("/campaigns", (req, res) => {
             }
 
             db.query(
-                "INSERT INTO campaign (user_id, campaignName) VALUES (?,?)",
-                [userId, campaignName],
+                `INSERT INTO campaign (user_id, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, 
+                titleObjective3, description3, titleObjective4, description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                [userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, description3, titleObjective4, 
+                    description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence],
                 (err, result) => {
                     if (err) {
                         console.log(err);
