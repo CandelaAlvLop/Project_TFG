@@ -13,7 +13,7 @@ router.post("/campaigns", (req, res) => {
         description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName || !description| !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !description3 || !titleObjective4 
+    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !description3 || !titleObjective4 
          || !description4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
@@ -109,10 +109,12 @@ router.get("/campaignsUpdate/:id", (req, res) => {
 //Update Campaign
 router.put("/campaignsUpdate/:id", (req, res) => {
     const campaignId = req.params.id;
-    const { userId, campaignName } = req.body;
+    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, description3, titleObjective4, 
+        description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName) {
+    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !description3 || !titleObjective4 
+         || !description4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
@@ -133,8 +135,10 @@ router.put("/campaignsUpdate/:id", (req, res) => {
                 return res.status(400).send({ message: "There is already a campaign with this name" });
             }
 
-            db.query("UPDATE campaign SET campaignName = ? WHERE campaign_id = ?",
-                [campaignName, campaignId],
+            db.query(`UPDATE campaign SET campaignName = ?, description = ?, dates = ?, endDate = ?, retainDate = ?, type = ?, titleObjective1 = ?, descriptionObjective1 = ?, titleObjective2 = ?, descriptionObjective2 = ?, 
+                titleObjective3 = ?, description3 = ?, titleObjective4 = ?, description4 = ?, step1 = ?, step2 = ?, step3 = ?, whyJoin = ?,  moreInfo = ?, conclusionSentence = ? WHERE campaign_id = ?`,
+                [campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, 
+                titleObjective3, description3, titleObjective4, description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence, campaignId],
                 (err) => {
                     if (err) {
                         return res.status(500).send({ message: "Error updating campaign" });

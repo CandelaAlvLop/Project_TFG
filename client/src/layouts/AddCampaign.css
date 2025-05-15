@@ -1,0 +1,112 @@
+.add-campaign {
+    width: 80%;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-campaign h1,
+.add-campaign h2 {
+    color: rgb(3, 133, 122);
+    margin-bottom: 10px;
+    margin-top: 50px;
+    border-bottom: 2px solid rgb(204, 204, 204);
+    padding-bottom: 8px;
+}
+
+.add-campaign h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.section label {
+    font-weight: strong;
+}
+
+.section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.objective {
+    border: 1px solid rgb(0, 0, 0, 0.192);
+    padding: 10px 30px 20px 30px;
+}
+
+.add-campaign input[type="text"] {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid rgb(0, 0, 0, 0.192);
+    font-size: 14px;
+    border-radius: 5px;
+    background: rgba(228, 228, 228, 0.349);
+}
+
+.add-campaign-button {
+    background-color: rgb(3, 133, 122);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+}
+
+.add-campaign-button:hover {
+    background-color: rgb(1, 92, 84);
+}
+
+.error-campaign-missing {
+    color: rgb(196, 30, 52);
+    background: rgb(255, 237, 240);
+    font-size: 14px;
+    padding: 15px;
+    margin: 30px auto;
+    max-width: 400px;
+    border-radius: 8px;
+    border: 1px solid rgb(230, 168, 179);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.icon-filter {
+    display: flex;
+    gap: 15px;
+    justify-content: left;
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+
+.icon-filter h3 {
+    margin-right: 30px;
+}
+
+.icon-select {
+    font-size: 25px;
+    padding: 10px;
+    background: white;
+    border: 2px solid rgba(128, 128, 128, 0.356);
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.icon-select:hover {
+    background: rgb(225, 252, 252);
+    border-color: rgb(3, 133, 122);
+}
+
+
+@media (max-width: 700px) {
+    .section {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
