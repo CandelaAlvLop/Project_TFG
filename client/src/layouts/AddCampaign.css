@@ -77,7 +77,7 @@
     text-align: center;
 }
 
-.icon-filter {
+.icon-filter-mycampaigns {
     display: flex;
     gap: 15px;
     justify-content: left;
@@ -85,7 +85,7 @@
     margin-top: 20px;
 }
 
-.icon-filter h3 {
+.icon-filter-mycampaigns h3 {
     margin-right: 30px;
 }
 

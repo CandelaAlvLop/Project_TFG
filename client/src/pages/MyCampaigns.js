@@ -14,6 +14,7 @@ function MyCampaigns() {
     useEffect(() => {
         window.scrollTo(0, 0);
         setUserCampaigns();
+        //eslint-disable-next-line
     }, []);
 
     const navigate = useNavigate();
@@ -55,7 +56,9 @@ function MyCampaigns() {
                         <div key={campaigns.campaigns_id} className="campaign-input">
                             <div className="campaign-name">{campaign.campaignName}</div>
                             <div className="campaign-information">
-
+                                <p>{campaign.description}</p>
+                                <p><strong>{campaign.dates}</strong> </p>
+                                <p><strong>Ends:</strong> {campaign.endDate}</p>
                             </div>
                             <div className="campaign-buttons">
                                 <button type="button" className="edit"

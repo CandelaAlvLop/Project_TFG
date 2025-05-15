@@ -146,7 +146,7 @@ function AddCampaign() {
                         <input type="text" id="retainDate" name="retainDate" value={NewRetainDate} placeholder="Until when is data retained" required
                             onChange={(e) => setNewRetainDate(e.target.value)}
                         />
-                        <div className="icon-filter">
+                        <div className="icon-filter-mycampaigns">
                             <h3>Utilities requested</h3>
                             <span onClick={() => typeSelection("Water")} className={typeSelectionCSS("Water")}><IoWaterOutline /></span>
                             <span onClick={() => typeSelection("Gas")} className={typeSelectionCSS("Gas")}><FaFire /></span>

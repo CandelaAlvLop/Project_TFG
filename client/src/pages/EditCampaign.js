@@ -20,7 +20,6 @@ function EditCampaign() {
     }, []);
 
     const campaignName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,39}$/;
-    const [setCampaigns] = useState([]);
     const [NewCampaignName, setNewCampaignName] = useState("");
     const [NewDescription, setNewDescription] = useState("");
     const [NewDates, setNewDates] = useState("");
@@ -173,7 +172,7 @@ function EditCampaign() {
                         <input type="text" id="retainDate" name="retainDate" value={NewRetainDate} placeholder="Until when is data retained" required
                             onChange={(e) => setNewRetainDate(e.target.value)}
                         />
-                        <div className="icon-filter">
+                        <div className="icon-filter-mycampaigns">
                             <h3>Utilities requested</h3>
                             <span onClick={() => typeSelection("Water")} className={typeSelectionCSS("Water")}><IoWaterOutline /></span>
                             <span onClick={() => typeSelection("Gas")} className={typeSelectionCSS("Gas")}><FaFire /></span>
