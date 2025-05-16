@@ -13,33 +13,47 @@
     justify-content: center;
 }
 
-.campaigns-input {
+.campaign-input {
     max-width: 280px;
+    min-width: 280px;
+    min-height: 290px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     font-size: 14px;
+    background-color: rgb(240, 232, 255);
     color: rgb(61, 61, 61);
     display: flex;
     flex-direction: column;
 }
 
-.campaigns-input h2 {
+.campaign-input:hover {
+    cursor: pointer;
+    background-color: rgb(222, 205, 253);
+}
+
+.campaign-icon {
+    margin-bottom: 10px;
+}
+
+.campaign-name {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
+    margin-bottom: 10px;
 }
 
-.campaigns-input-date {
+.campaign-information {
+    font-size: 14px;
+    color: rgb(85, 85, 85);
+}
+
+.campaign-input-date {
     font-size: 14px;
     color: black;
     line-height: 0.7;
-}
-
-.campaigns-input:hover {
-    cursor: pointer;
-    filter: brightness(85%);
+    margin-top: 30px;
 }
 
 .campaigns-view-more {
@@ -55,7 +69,7 @@
     display: flex;
     gap: 20px;
     justify-content: center;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 }
 
 .icon-select {
@@ -77,4 +91,8 @@
     background: rgb(0, 168, 154);
     border-color: rgb(3, 133, 122);
     color: white;
+}
+
+.icon-select.selected:hover {
+    background: rgb(4, 207, 190);
 }

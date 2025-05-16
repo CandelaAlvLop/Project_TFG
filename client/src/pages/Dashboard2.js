@@ -4,7 +4,7 @@ import "../layouts/Dashboard.css";
 import Footer from "./Footer";
 import NavbarIn2 from "./NavbarIn2";
 import Navbar3 from "./Navbar3";
-import "chart.js/auto";
+import Drawing from "../images/drawing-mainpage.png";
 
 
 function Dashboard2() {
@@ -34,8 +34,11 @@ function Dashboard2() {
                 </div>
 
                 {/* Main Section */}
-                <div className="main-dashboard">
-
+                <div className="main-dashboard2">
+                        <h1>Claim Your Data!</h1>
+                        <p>Follow the steps and help us build a better city.</p>
+                        <p>If you have any questions, you can always email us at info@datalog.com</p>
+                        <img src={Drawing} alt="Data Visualization" />
                 </div>
             </div>
             <Footer />

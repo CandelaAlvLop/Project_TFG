@@ -85,6 +85,38 @@
     color: rgb(3, 133, 122);
 }
 
+.main-dashboard2 {
+    background-color: white;
+    padding: 40px;
+    margin-left: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 65%;
+}
+
+.main-dashboard2 {
+    color: white;
+    text-align: center;
+    background: url("../images/background-mainpage3.jpg")
+}
+
+.main-dashboard2 h1 {
+    font-size: 40px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.938);
+}
+
+.main-dashboard2 p {
+    margin: auto;
+}
+
+.main-dashboard2 img {
+    max-width: 200px;
+    max-height: 150px;
+    margin-top: 30px;
+}
+
+
 
 /* Responsive */
 @media (max-width: 700px) {

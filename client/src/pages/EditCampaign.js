@@ -19,7 +19,6 @@ function EditCampaign() {
         //eslint-disable-next-line
     }, []);
 
-    const campaignName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,39}$/;
     const [NewCampaignName, setNewCampaignName] = useState("");
     const [NewDescription, setNewDescription] = useState("");
     const [NewDates, setNewDates] = useState("");
@@ -146,14 +145,6 @@ function EditCampaign() {
                     <div className="section">
                         <h3>Name of the Campaign</h3>
                         <input type="text" id="campaignName" name="campaignName" value={NewCampaignName} placeholder="Name of the campaign" required
-                            //Campaign name must start with a capital letter and be followed by small letters, max 40 letters
-                            onInvalid={(e) => e.target.setCustomValidity("Campaign name must start with a capital letter and be followed by small letters, max 40 letters")}
-                            onInput={(e) => {
-                                e.target.setCustomValidity("");
-                                if (!campaignName_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Campaign name must start with a capital letter and be followed by small letters, max 15 letters");
-                                }
-                            }}
                             onChange={(e) => setNewCampaignName(e.target.value)}
                         />
                         <h3>Campaign Description</h3>

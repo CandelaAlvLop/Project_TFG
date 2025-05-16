@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { MdAddCircle } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { IoWaterOutline } from "react-icons/io5";
+import { FaFire } from "react-icons/fa6";
+import { FaRegLightbulb } from "react-icons/fa";
+
 
 function MyCampaigns() {
     //Show top of the page
@@ -51,16 +55,28 @@ function MyCampaigns() {
             <Navbar3 />
             <div className="campaigns-data">
                 <h1>My Campaigns</h1>
-                <div className="campaigns">
+                <div className="my-campaigns">
                     {campaigns.length > 0 && campaigns.map((campaign) => (
-                        <div key={campaigns.campaigns_id} className="campaign-input">
-                            <div className="campaign-name">{campaign.campaignName}</div>
-                            <div className="campaign-information">
+                        <div key={campaign.campaign_id} className="my-campaign-input">
+                            {(() => {
+                                let typeIcons = [];
+                                if (campaign.type) {
+                                    const types = campaign.type.split(",");
+                                    if (types.includes("Water")) typeIcons.push(<IoWaterOutline />);
+                                    if (types.includes("Electric")) typeIcons.push(<FaRegLightbulb />);
+                                    if (types.includes("Gas")) typeIcons.push(<FaFire />);
+                                }
+                                return <div className="my-campaign-icon">{typeIcons}</div>
+                            })()}
+                            <div className="my-campaign-name">{campaign.campaignName}</div>
+                            <div className="my-campaign-information">
                                 <p>{campaign.description}</p>
-                                <p><strong>{campaign.dates}</strong> </p>
-                                <p><strong>Ends:</strong> {campaign.endDate}</p>
+                                <div className="my-campaign-input-date">
+                                    <p><strong>{campaign.dates}</strong> </p>
+                                    <p><strong>Ends:</strong> {campaign.endDate}</p>
+                                </div>
                             </div>
-                            <div className="campaign-buttons">
+                            <div className="my-campaign-buttons">
                                 <button type="button" className="edit"
                                     onClick={() => {
                                         localStorage.setItem("campaign_id", campaign.campaign_id);

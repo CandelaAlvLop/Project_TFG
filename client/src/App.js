@@ -22,6 +22,7 @@ import ElectricMyConsume from './pages/ElectricMyConsume';
 import GasMyConsume from './pages/GasMyConsume';
 import AddCampaign from './pages/AddCampaign';
 import EditCampaign from './pages/EditCampaign';
+import ViewCampaign from './pages/ViewCampaign';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
                 <Route path="/gasmyconsume/:propertyId" element={<GasMyConsume />} />
                 <Route path="/addcampaign" element={<AddCampaign />} />
                 <Route path="/editcampaign" element={<EditCampaign />} />
+                <Route path="/viewcampaign" element={<ViewCampaign />} />
             </Routes>
         </Router>
     )

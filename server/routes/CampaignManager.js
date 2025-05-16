@@ -4,8 +4,6 @@ const db = require('../db');
 
 // ------------------------------- USER CAMPAIGNS -------------------------------
 
-const campaignName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
-
 // ------- ADDING A CAMPAIGN -------
 //Add Campaign
 router.post("/campaigns", (req, res) => {
@@ -17,9 +15,6 @@ router.post("/campaigns", (req, res) => {
          || !description4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
-
-    //Check correctness of patterns
-    else if (!campaignName_Pattern.test(campaignName)) return res.status(400).send({ message: "Campaign name must start with a capital letter and be followed by small letters, max 15 letters" });
 
     //Check uniqueness of campaign names of the user
     db.query(
@@ -118,9 +113,6 @@ router.put("/campaignsUpdate/:id", (req, res) => {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
-    //Check correctness of patterns
-    else if (!campaignName_Pattern.test(campaignName)) return res.status(400).send({ message: "Campaign name must start with a capital letter and be followed by small letters, max 15 letters" });
-
     //Check uniqueness of campaign names of the user
     db.query(
         "SELECT * FROM campaign WHERE user_id = ? AND campaignName = ? AND campaign_id != ?",
@@ -147,6 +139,17 @@ router.put("/campaignsUpdate/:id", (req, res) => {
                 });
         }
     );
+});
+
+router.get("/campaignsAll", (req, res) => {
+    db.query("SELECT * FROM campaign",
+        (err, result) => {
+            if (err) {
+                console.error("Error getting campaigns:", err);
+                return res.status(500).send({ message: "Database error", error: err });
+            }
+            res.status(200).send(result);
+        });
 });
 
 module.exports = router;
