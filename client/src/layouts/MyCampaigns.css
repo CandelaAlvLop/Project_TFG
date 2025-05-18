@@ -20,8 +20,7 @@
 }
 
 .my-campaign-input {
-    max-width: 280px;
-    min-width: 280px;
+    width: 280px;
     min-height: 290px;
     padding: 20px;
     border-radius: 8px;

@@ -7,12 +7,12 @@ const db = require('../db');
 // ------- ADDING A CAMPAIGN -------
 //Add Campaign
 router.post("/campaigns", (req, res) => {
-    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, description3, titleObjective4, 
-        description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
+    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4, 
+        descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !description3 || !titleObjective4 
-         || !description4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
+    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4 
+         || !descriptionObjective4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
@@ -32,9 +32,9 @@ router.post("/campaigns", (req, res) => {
 
             db.query(
                 `INSERT INTO campaign (user_id, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, 
-                titleObjective3, description3, titleObjective4, description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-                [userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, description3, titleObjective4, 
-                    description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence],
+                titleObjective3, descriptionObjective3, titleObjective4, descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                [userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4, 
+                    descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence],
                 (err, result) => {
                     if (err) {
                         console.log(err);
@@ -104,12 +104,12 @@ router.get("/campaignsUpdate/:id", (req, res) => {
 //Update Campaign
 router.put("/campaignsUpdate/:id", (req, res) => {
     const campaignId = req.params.id;
-    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, description3, titleObjective4, 
-        description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
+    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4, 
+        descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !description3 || !titleObjective4 
-         || !description4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
+    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4 
+         || !descriptionObjective4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
@@ -128,9 +128,9 @@ router.put("/campaignsUpdate/:id", (req, res) => {
             }
 
             db.query(`UPDATE campaign SET campaignName = ?, description = ?, dates = ?, endDate = ?, retainDate = ?, type = ?, titleObjective1 = ?, descriptionObjective1 = ?, titleObjective2 = ?, descriptionObjective2 = ?, 
-                titleObjective3 = ?, description3 = ?, titleObjective4 = ?, description4 = ?, step1 = ?, step2 = ?, step3 = ?, whyJoin = ?,  moreInfo = ?, conclusionSentence = ? WHERE campaign_id = ?`,
+                titleObjective3 = ?, descriptionObjective3 = ?, titleObjective4 = ?, descriptionObjective4 = ?, step1 = ?, step2 = ?, step3 = ?, whyJoin = ?,  moreInfo = ?, conclusionSentence = ? WHERE campaign_id = ?`,
                 [campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, 
-                titleObjective3, description3, titleObjective4, description4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence, campaignId],
+                titleObjective3, descriptionObjective3, titleObjective4, descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence, campaignId],
                 (err) => {
                     if (err) {
                         return res.status(500).send({ message: "Error updating campaign" });
@@ -141,6 +141,7 @@ router.put("/campaignsUpdate/:id", (req, res) => {
     );
 });
 
+//Get All Campaigns
 router.get("/campaignsAll", (req, res) => {
     db.query("SELECT * FROM campaign",
         (err, result) => {

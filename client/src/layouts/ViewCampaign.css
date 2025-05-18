@@ -1,0 +1,151 @@
+.header-campaign {
+    color: white;
+    padding: 40px 10px;
+    background: url("../images/background-mainpage3.jpg")
+}
+
+.button-back {
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 40px;
+    background-color: rgb(3, 133, 122);
+    color: white;
+}
+
+.button-back :hover {
+    background-color: rgb(1, 92, 84);
+}
+
+.campaign-icon-2 {
+    font-size: 50px;
+    text-align: right;
+    padding: 0px 70px 0px 0px;
+}
+
+.header-campaign h1 {
+    font-size: 50px;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.header-campaign h2 {
+    margin-top: 0px;
+    text-align: center;
+}
+
+.join-campaign-button {
+    background-color: rgb(3, 133, 122);
+    padding: 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.join-campaign-button:hover {
+    background-color: rgb(1, 92, 84);
+}
+
+.campaign-content {
+    padding: 40px 100px;
+}
+
+.campaign-content p {
+    line-height: 1.5;
+}
+
+.campaign-content h2 {
+    border-bottom: 2px solid rgb(204, 204, 204);
+    padding-bottom: 8px;
+    margin-top: 50px;
+    color: rgb(3, 133, 122);
+}
+
+.campaign-objectives {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.objective {
+    width: 230px;
+    min-height: 290px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    background-color: rgb(222, 205, 253);
+    color: rgb(61, 61, 61);
+}
+
+.objective h3 {
+    text-align: center;
+}
+
+.objective img {
+    max-width: 200px;
+    padding: 20px 20px 5px 20px;
+}
+
+.campaign-steps,
+.campaign-data-transfer,
+.campaign-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.step,
+.data-transfer {
+    width: 200px;
+    padding: 5px 20px;
+    border: 1px solid rgb(0, 0, 0, 0.192);
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    background-color: rgb(245, 240, 255);
+    margin-top: 15px;
+}
+
+.data-transfer {
+    width: 250px;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.step h3 {
+    color: rgb(10, 170, 157);
+    font-size: 23px;
+}
+
+.data-transfer h3 {
+    color: rgb(10, 170, 157);
+    font-size: 35px;
+}
+
+.campaign-section {
+    align-items: center;
+    gap: 80px;
+}
+
+.campaign-section-text {
+    width: 900px;
+}
+
+.campaign-section img {
+    height: 300px;
+}
+
+.campaign-conclusion {
+    margin-top: 60px;
+    color: rgb(1, 92, 84);
+    font-size: 18px;
+}

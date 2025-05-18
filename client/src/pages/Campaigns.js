@@ -89,7 +89,7 @@ function Campaigns() {
                                 <p><strong>Ends:</strong> {campaign.endDate}</p>
                             </div>
                         </div>
-                        <div className="campaigns-view-more" onClick={() => navigate("/viewcampaign")}><p>View more</p> </div>
+                        <div className="campaigns-view-more" onClick={() => { localStorage.setItem("campaign_id", campaign.campaign_id); navigate("/viewcampaign") }}><p>View more</p> </div>
                     </div>
                 ))}
             </div>
