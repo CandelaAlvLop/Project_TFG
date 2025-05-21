@@ -155,7 +155,7 @@ function GasMyConsume() {
     const barMonthGas = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
-            label: "Gas Month Consume (l)",
+            label: "Gas Month Consume (m³)",
             data: gasMonthConsume,
             backgroundColor: "rgb(248, 121, 121)"
         }]
@@ -165,7 +165,7 @@ function GasMyConsume() {
     const barDayGas = {
         labels: gasDayConsume_.map((value, index) => (index + 1).toString()),
         datasets: [{
-            label: "Gas Daily Consume (l)",
+            label: "Gas Daily Consume (m³)",
             data: gasDayConsume_,
             backgroundColor: "rgb(248, 121, 121)"
         }]

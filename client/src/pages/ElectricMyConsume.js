@@ -155,7 +155,7 @@ function ElectricMyConsume() {
     const barMonthElectric = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
-            label: "Electric Month Consume (l)",
+            label: "Electric Month Consume (kWh)",
             data: electricMonthConsume,
             backgroundColor: "rgb(152, 240, 149)"
         }]
@@ -165,7 +165,7 @@ function ElectricMyConsume() {
     const barDayElectric = {
         labels: electricDayConsume_.map((value, index) => (index + 1).toString()),
         datasets: [{
-            label: "Electric Daily Consume (l)",
+            label: "Electric Daily Consume (kWh)",
             data: electricDayConsume_,
             backgroundColor: "rgb(152, 240, 149)"
         }]

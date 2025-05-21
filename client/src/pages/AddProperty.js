@@ -301,7 +301,7 @@ function AddProperty() {
 
                     <h2>Energy Consumption</h2>
                     <div className="section">
-                        <label htmlFor="electricConsumption">Electric Consumption</label>
+                        <label htmlFor="electricConsumption">Electric Consumption (kWh)</label>
                         <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of electric consumption" required
                             //Electric Consumption must not start with a 0, no decimals, and up to 5 digits
                             onInvalid={(e) => e.target.setCustomValidity("Electrical Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
@@ -313,7 +313,7 @@ function AddProperty() {
                             }}
                             onChange={(e) => setNewElectricConsumption(e.target.value)}
                         />
-                        <label htmlFor="gasConsumption">Gas Consumption</label>
+                        <label htmlFor="gasConsumption">Gas Consumption (m³)</label>
                         <input type="number" id="gasConsumption" name="gascConsumption" value={NewGasConsumption} placeholder="Estimation of gas consumption" required
                             //Gas Consumption must not start with a 0, no decimals, and up to 5 digits
                             onInvalid={(e) => e.target.setCustomValidity("Gas Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
@@ -325,7 +325,7 @@ function AddProperty() {
                             }}
                             onChange={(e) => setNewGasConsumption(e.target.value)}
                         />
-                        <label htmlFor="waterConsumption">Water Consumption</label>
+                        <label htmlFor="waterConsumption">Water Consumption (l)</label>
                         <input type="number" id="waterConsumption" name="waterConsumption" value={NewWaterConsumption} placeholder="Estimation of water consumption" required
                             //Water Consumption must not start with a 0, no decimals, and up to 5 digits
                             onInvalid={(e) => e.target.setCustomValidity("Water Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
