@@ -13,7 +13,7 @@ function Register() {
     }, []);
 
     const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
-    const usernamePattern = /^.{2,10}$/;
+    const usernamePattern = /^.{3,10}$/;
     const DNIPattern = /^[0-9]{8}[A-Z]$/;
     const emailPattern = /^[\w.-]+@([\w-]+\.)+[\w-]{2,}$/;
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9])[\S]{6,}$/;
@@ -87,7 +87,7 @@ function Register() {
                         />
 
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" name="username" value={NewUsername} placeholder="Enter username (between 2 and 10 characters)" required
+                        <input type="text" id="username" name="username" value={NewUsername} placeholder="Enter username (between 3 and 10 characters)" required
                             //Username must be between 3 and 10 characters 
                             onInvalid={(e) => e.target.setCustomValidity("Username must be between 3 and 10 characters")}
                             onInput={(e) => {

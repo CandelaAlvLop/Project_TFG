@@ -12,7 +12,7 @@ function Login() {
         window.scrollTo(0, 0);
     }, []);
 
-    const usernamePattern = /^.{2,10}$/;
+    const usernamePattern = /^.{3,10}$/;
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9])[\S]{6,}$/;
 
     const [Username, setUsername] = useState("");
@@ -75,11 +75,11 @@ function Login() {
                         <div className="subtitle-login">
                             <label htmlFor="username">Username</label>
                             <input type="text" id="username" name="username" value={Username} placeholder="Enter username" required
-                                onInvalid={(e) => e.target.setCustomValidity("Username must be between 2 and 10 characters")}
+                                onInvalid={(e) => e.target.setCustomValidity("Username must be between 3 and 10 characters")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
                                     if (!usernamePattern.test(e.target.value)) {
-                                        e.target.setCustomValidity("Username must be between 2 and 10 characters");
+                                        e.target.setCustomValidity("Username must be between 3 and 10 characters");
                                     }
                                 }}
                                 onChange={(e) => setUsername(e.target.value)}

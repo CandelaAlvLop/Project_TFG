@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db');
 
 const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
-const usernamePattern = /^.{2,10}$/;
+const usernamePattern = /^.{3,10}$/;
 const DNIPattern = /^[0-9]{8}[A-Z]$/;
 const emailPattern = /^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$/;
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9])[\S]{6,}$/;
