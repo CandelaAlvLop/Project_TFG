@@ -71,43 +71,54 @@ router.post('/donation/:userId/:propertyId/:consumeType', multer_storage.single(
                 fs.unlinkSync(filepath);
                 return res.status(400).send({
                     message: `The uploaded file must include the following columns: 
-                • TimerHours 
-                • TimerDay 
-                • TimerMonth 
-                • TimerYear 
-                • WaterMeterReading
-                • ElectricityMeterReading
-                • GasMeterReading`});
+                        • TimerHours 
+                        • TimerDay 
+                        • TimerMonth 
+                        • TimerYear 
+                        • WaterMeterReading
+                        • ElectricityMeterReading
+                        • GasMeterReading`});
             }
-            //If valid store it in uploads folder
+            //If valid store it in uploads folder, but check it does not already exist
             db.query(
-                "INSERT INTO donations_metadata (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",
+                "SELECT * FROM donations_metadata WHERE user_id = ? AND property_id = ? AND consume_type = ? AND filename = ?",
                 [userId, propertyId, consumeType, filename],
                 (err, result) => {
                     if (err) {
-                        console.error("Error inserting file information to the database:", err);
-                        return res.status(500).send({ message: "Error inserting file information to the database" });
+                        console.error("Error checking if file already exists");
+                    }
+                    if (result.length > 0) { //If file already uploaded do not proceed
+                        return res.status(500).send({ message: "This file has already been uploaded for this consume type and property. Try again." });
                     }
 
-                    const donationId = result.insertId;
-                    const finalReadings = readings.map(read => [donationId, ...read]); //Insert donationId
-
                     db.query(
-                        "INSERT INTO donations_readings (donation_id, timer_hours, timer_day, timer_month, timer_year, meter_reading) VALUES ?",
-                        [finalReadings],
-                        (err) => {
+                        "INSERT INTO donations_metadata (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",
+                        [userId, propertyId, consumeType, filename],
+                        (err, result) => {
                             if (err) {
-                                console.error("Error inserting data read into to the database:", err);
-                                return res.status(500).send({ message: "Error inserting data read into the database" });
+                                console.error("Error inserting file information to the database:", err);
+                                return res.status(500).send({ message: "Error inserting file information to the database" });
                             }
-                            console.log(`File ${filename} uploaded and saved, whith ${finalReadings.length} readings inserted`);
-                            res.status(200).send({ message: "File uploaded and saved:", filename, donationId });
-                        }
-                    );
-                }
-            );
+
+                            const donationId = result.insertId;
+                            const finalReadings = readings.map(read => [donationId, ...read]); //Insert donationId
+
+                            db.query(
+                                "INSERT INTO donations_readings (donation_id, timer_hours, timer_day, timer_month, timer_year, meter_reading) VALUES ?",
+                                [finalReadings],
+                                (err) => {
+                                    if (err) {
+                                        console.error("Error inserting data read into to the database:", err);
+                                        return res.status(500).send({ message: "Error inserting data read into the database" });
+                                    }
+                                    console.log(`File ${filename} uploaded and saved, whith ${finalReadings.length} readings inserted`);
+                                    res.status(200).send({ message: "File uploaded and saved:", filename, donationId });
+                                });
+                        });
+                })
         })
 });
+
 
 //Get donations
 router.get("/donations/:userId/:propertyId/:consumeType", (req, res) => {
@@ -202,9 +213,6 @@ router.post("/donationDelete", (req, res) => {
                 return res.status(500).send({ message: "Error inserting justifications" });
             }
 
-            //Delete file from uploads folder
-
-
             //Delete data from Database Tables
             db.query("DELETE FROM donations_readings WHERE donation_id = ?",
                 [donationId],
@@ -220,19 +228,37 @@ router.post("/donationDelete", (req, res) => {
                                 return res.status(500).send({ message: "Error deleting donation consent" });
                             }
 
-                            db.query("DELETE FROM donations_metadata WHERE donation_id = ?",
+                            //Delete file from uploads folder
+                            db.query("SELECT filename FROM donations_metadata WHERE donation_id = ?",
                                 [donationId],
-                                (err) => {
+                                (err, result) => {
                                     if (err) {
-                                        return res.status(500).send({ message: "Error deleting donation metadata" });
+                                        return res.status(500).send({ message: "Error getting filename from metadata" });
                                     }
-                                    console.log(`Donation ${donationId} deleted successfully`);
-                                    res.status(200).send({ message: `Donation ${donationId} deleted successfully` });
+
+                                    const filepath = `uploads/${result[0].filename}`;
+                                    fs.unlink(filepath, (err) => {
+                                        if (err) {
+                                            console.log("Error deleting file");
+                                        } else {
+                                            console.log(`Donation File ${donationId} deleted successfully`);
+                                        }
+
+                                        //Delete metadata from Database Tables
+                                        db.query("DELETE FROM donations_metadata WHERE donation_id = ?",
+                                            [donationId],
+                                            (err) => {
+                                                if (err) {
+                                                    return res.status(500).send({ message: "Error deleting donation metadata" });
+                                                }
+                                                console.log(`Donation ${donationId} deleted successfully`);
+                                                res.status(200).send({ message: `Donation ${donationId} deleted successfully` });
+                                            });
+                                    })
                                 });
                         });
                 });
-        }
-    );
+        });
 });
 
 
