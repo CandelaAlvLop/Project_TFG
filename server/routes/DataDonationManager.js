@@ -23,12 +23,12 @@ router.get("/properties/:userId", (req, res) => {
 });
 
 //Upload Data File
-const multer = require('multer');
-const fs = require('fs');
-const csv = require('csv-parser');
+const multer = require("multer");
+const fs = require("fs");
+const csv = require("csv-parser");
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => { cb(null, 'uploads/'); },
+    destination: (req, file, cb) => { cb(null, 'uploads'); },
     filename: (req, file, cb) => {
         const { consumeType, propertyId } = req.params;
         const fileName = `${consumeType}${propertyId}_${file.originalname}`;
@@ -36,9 +36,9 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const multer_storage = multer({ storage });
 
-router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'), (req, res) => {
+router.post('/donation/:userId/:propertyId/:consumeType', multer_storage.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).send({ message: "No file uploaded" });
     }
@@ -67,8 +67,10 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
             readings.push([parseInt(row.TimerHours), parseInt(row.TimerDay), parseInt(row.TimerMonth), parseInt(row.TimerYear), parseFloat(row[headerType])]);
         })
         .on('end', () => { //After all file is read
-            if (readings.length === 0 || !format) return res.status(400).send({
-                message: `The uploaded file must include the following columns: 
+            if (readings.length === 0 || !format) { //If file is not valid remove it
+                fs.unlinkSync(filepath);
+                return res.status(400).send({
+                    message: `The uploaded file must include the following columns: 
                 • TimerHours 
                 • TimerDay 
                 • TimerMonth 
@@ -76,7 +78,8 @@ router.post('/donation/:userId/:propertyId/:consumeType', upload.single('file'),
                 • WaterMeterReading
                 • ElectricityMeterReading
                 • GasMeterReading`});
-
+            }
+            //If valid store it in uploads folder
             db.query(
                 "INSERT INTO donations_metadata (user_id, property_id, consume_type, filename) VALUES (?, ?, ?, ?)",
                 [userId, propertyId, consumeType, filename],
