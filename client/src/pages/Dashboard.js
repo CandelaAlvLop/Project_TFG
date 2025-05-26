@@ -111,18 +111,16 @@ function Dashboard() {
             <div className="maincontent-dashboard">
                 {/* Sidebar */}
                 <div className="sidebar-dashboard">
-                    <h3>Add Property</h3>
-                    <a href="/addproperty">Start registering your properties</a>
-                    <h3>Access your Personal Data</h3>
-                    <a href="/personaldata">View and edit your personal data</a>
-                    <h3>View Your Data</h3>
-                    <a href="/myconsume">View your utility consumption data</a>
-                    <h3>Your Campaigns</h3>
-                    {/*<a href="/campaigns">*/} View and edit your campaign participation {/*</a>*/}
-                    <h3>Consume Overwiew</h3>
-                    <a href="/dashboard"> Check your overall consume</a>
                     <h3>Information</h3>
                     <a href="/faqinside">Frequently Asked Questions</a>
+                    <h3>Upload Data</h3>
+                    <a href="/datadonation"> Upload your utility consumption data</a>
+                    <h3>View Your Data</h3>
+                    <a href="/myconsume">View your utility consumption data</a>
+                    <h3>Access your Personal Data</h3>
+                    <a href="/personaldata">View and edit your personal data</a>
+                    <h3>Add Property</h3>
+                    <a href="/addproperty">Start registering your properties</a>
                 </div>
 
                 {/* Main Section */}

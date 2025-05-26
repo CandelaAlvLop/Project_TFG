@@ -342,7 +342,7 @@ function DataDonation() {
             <Navbar2 />
 
             {/*Show User Properties*/}
-            <h1 className="property-title">Select a Property to Donate Data</h1>
+            <h1 className="property-title">Select a Property to Upload Data</h1>
             {properties.length > 0 && (
                 <div className="property-data">
                     {properties.map((property) => (

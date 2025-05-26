@@ -152,6 +152,7 @@ function MyConsume() {
                     </div>
                 </div>
             )}
+            <button className="datadonation-button" onClick={() => navigate('/datadonation')}><MdAddCircle /> Upload Utility Consumption Data</button>
             <Footer />
         </div>
     );

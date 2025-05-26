@@ -9,7 +9,7 @@ function Navbar2() {
                 <Link to="/dashboard"><FaHome /></Link>
                 <Link to="/personaldata" className="personaldata">Personal Data</Link>
                 <Link to="/myconsume" className="myconsume">My Consume</Link>
-                <Link to="/datadonation" className="datadonation">Data Donation</Link>
+                <Link to="/datadonation" className="datadonation">Data Upload</Link>
             </nav>
         </div>
     );
