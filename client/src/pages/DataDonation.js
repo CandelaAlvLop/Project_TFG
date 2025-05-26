@@ -36,7 +36,6 @@ function DataDonation() {
     const [uploadedInfos, setUploadedInfos] = useState([]); //After upload
     const [firstUpload, setFirstUpload] = useState(null);
     const [lastUpload, setLastUpload] = useState(null);
-    const [showFiles, setShowFiles] = useState(false);
     const [donationId, setDonationId] = useState(null);
     const [error, setError] = useState("");
 
@@ -71,7 +70,6 @@ function DataDonation() {
                     setFirstUpload(response.data.firstUpload);
                     setLastUpload(response.data.lastUpload);
                     //Reset State
-                    setShowFiles(false);
                     setShowAnswer1(false);
                     setShowAnswer2(false);
                     setShowAnswer3(false);
@@ -86,7 +84,6 @@ function DataDonation() {
                     setUploadedInfos([]);
                     setUpload(false);
                     setUploadedFile(null);
-                    setShowFiles(false);
                     setShowAnswer1(false);
                     setShowAnswer2(false);
                     setShowAnswer3(false);
@@ -262,16 +259,12 @@ function DataDonation() {
                         <><p><strong>First uploaded data:</strong> {new Date(firstUpload.upload_time).toLocaleDateString()}</p>
                             <p><strong>Last updated data:</strong> {new Date(lastUpload.upload_time).toLocaleDateString()}</p></>
                     )}
-
-                    {/*Show Upload Files*/}
-                    <strong className="show-hide-files-uploaded" onClick={() => setShowFiles(!showFiles)}> {showFiles ? "▼ Hide Files Uploaded" : "▶ Show Files Uploaded"} </strong>
-                    {showFiles && (
-                        <ul>
-                            {uploadedInfos.map((file, i) => (
-                                <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => { editConsent(file.donation_id) }}><FaEdit /> Edit Consent</button> </li>
-                            ))}
-                        </ul>
-                    )}
+                    <p><strong>Files Uploaded:</strong></p>
+                    <ul>
+                        {uploadedInfos.map((file, i) => (
+                            <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => { editConsent(file.donation_id) }}><FaEdit /> Edit Consent</button> </li>
+                        ))}
+                    </ul>
 
                     {/*Show Security Policies Answers*/}
                     <h2>Security policies</h2>
