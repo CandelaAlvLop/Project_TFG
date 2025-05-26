@@ -1,5 +1,5 @@
 .add-property {
-    width: 80%;
+    width: 60%;
     margin: 40px auto;
     padding: 40px;
     background: white;
@@ -15,16 +15,19 @@
     padding-bottom: 8px;
 }
 
-.section {
+.section-property {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    row-gap: 20px;
 }
 
+.add-property label {
+    margin-top: 10px;
+}
 .add-property input[type="number"],
 .add-property input[type="text"],
 .add-property select {
-    width: 95%;
+    width: 90%;
     padding: 10px;
     border: 1px solid rgb(0, 0, 0, 0.192);
     font-size: 14px;
@@ -123,7 +126,7 @@
 
 
 @media (max-width: 700px) {
-    .section {
+    .section-property {
         grid-template-columns: repeat(1, 1fr);
     }
 }

@@ -197,9 +197,9 @@ function EditProperty() {
                 <form onSubmit={editPropertyData}>
 
                     <h2>Place</h2>
-                    <div className="section">
+                    <div className="section-property">
                         <label htmlFor="propertyName">Name of the Property</label>
-                        <input type="text" id="propertyName" name="propertyName" value={NewPropertyName} placeholder="Name of the property" required
+                        <input type="text" id="propertyName" name="propertyName" value={NewPropertyName} placeholder="Name of the property (e.g. My Home, Beach House, Madrid Flat)" required
                             //Property name must start with a capital letter and be followed by small letters, max 10 letters
                             onInvalid={(e) => e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters")}
                             onInput={(e) => {
@@ -249,7 +249,7 @@ function EditProperty() {
                     </div>
 
                     <h2>People</h2>
-                    <div className="section">
+                    <div className="section-property">
                         <label htmlFor="quantity">Quantity</label>
                         <input type="number" id="quantity" name="quantity" value={NewQuantity} placeholder="Number of people living in the property" required
                             //Quantity must not start with a 0, no decimals, and up to 3 digits
@@ -274,7 +274,7 @@ function EditProperty() {
                         </div>
 
                         <label htmlFor="income">Income</label>
-                        <input type="number" id="income" name="income" value={NewIncome} placeholder="Approximate total income" required
+                        <input type="number" id="income" name="income" value={NewIncome} placeholder="Approximate monthly income of all the household (€)" required
                             //Income must not start with a 0, no decimals, and up to 7 digits
                             onInvalid={(e) => e.target.setCustomValidity("Income must not start by zero, cannot contain decimals and it must be up to 7 digits")}
                             onInput={(e) => {
@@ -304,7 +304,7 @@ function EditProperty() {
                             {submitted && !NewWorkingSchedule.length && <div className="error-property">"Please select at least one Working Schedule"</div>}
                         </div>
                         <label htmlFor="description">Description</label>
-                        <input type="text" id="description" name="description" value={NewDescription} placeholder="Small description about the people living in the property"
+                        <input type="text" id="description" name="description" value={NewDescription} placeholder="Small description (e.g. Three students living temporarily)"
                             onChange={(e) => setNewDescription(e.target.value)}
                         />
                     </div>
@@ -347,15 +347,15 @@ function EditProperty() {
                             <label><input type="checkbox" checked={NewAppliances.water.swimmingPool} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, swimmingPool: !NewAppliances.water.swimmingPool } })} /> Swimming Pool</label>
                             <label><input type="checkbox" checked={NewAppliances.water.garden} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, garden: !NewAppliances.water.garden } })} /> Garden</label>
                             <label><input type="checkbox" checked={NewAppliances.water.bathrooms} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, bathrooms: !NewAppliances.water.bathrooms } })} /> Bathrooms</label>
-                            <label><input type="checkbox" checked={NewAppliances.water.halfBathrooms} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, halfBathrooms: !NewAppliances.water.halfBathrooms } })} /> Half Bathrooms</label>
+                            <label><input type="checkbox" checked={NewAppliances.water.halfBathrooms} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, halfBathrooms: !NewAppliances.water.halfBathrooms } })} /> Half Bathrooms (Only toilet)</label>
                             <label><input type="checkbox" checked={NewAppliances.water.terraceWithPlants} onChange={() => setNewAppliances({ ...NewAppliances, water: { ...NewAppliances.water, terraceWithPlants: !NewAppliances.water.terraceWithPlants } })} /> Terrace with Plants</label>
                         </div>
                     </div>
 
                     <h2>Energy Consumption</h2>
-                    <div className="section">
+                    <div className="section-property">
                         <label htmlFor="electricConsumption">Electric Consumption</label>
-                        <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of electric consumption" required
+                        <input type="number" id="electricConsumption" name="electricConsumption" value={NewElectricConsumption} placeholder="Estimation of monthly electric consumption" required
                             //Electric Consumption must not start with a 0, no decimals, and up to 5 digits
                             onInvalid={(e) => e.target.setCustomValidity("Electrical Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
@@ -367,7 +367,7 @@ function EditProperty() {
                             onChange={(e) => setNewElectricConsumption(e.target.value)}
                         />
                         <label htmlFor="gasConsumption">Gas Consumption</label>
-                        <input type="number" id="gasConsumption" name="gascConsumption" value={NewGasConsumption} placeholder="Estimation of gas consumption" required
+                        <input type="number" id="gasConsumption" name="gascConsumption" value={NewGasConsumption} placeholder="Estimation of monthly gas consumption" required
                             //Gas Consumption must not start with a 0, no decimals, and up to 5 digits
                             onInvalid={(e) => e.target.setCustomValidity("Gas Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
@@ -379,7 +379,7 @@ function EditProperty() {
                             onChange={(e) => setNewGasConsumption(e.target.value)}
                         />
                         <label htmlFor="waterConsumption">Water Consumption</label>
-                        <input type="number" id="waterConsumption" name="waterConsumption" value={NewWaterConsumption} placeholder="Estimation of water consumption" required
+                        <input type="number" id="waterConsumption" name="waterConsumption" value={NewWaterConsumption} placeholder="Estimation of monthly water consumption" required
                             //Water Consumption must not start with a 0, no decimals, and up to 5 digits
                             onInvalid={(e) => e.target.setCustomValidity("Water Consumption must not start nor be zero, cannot contain decimals and it must be up to 5 digits")}
                             onInput={(e) => {
