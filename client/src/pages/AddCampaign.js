@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import '../layouts/AddCampaign.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { MdAddCircle } from "react-icons/md";
+import { CiSaveDown2 } from "react-icons/ci";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
 import { FaRegLightbulb } from "react-icons/fa";
@@ -221,7 +221,7 @@ function AddCampaign() {
                         />
                     </div>
 
-                    <button className="add-campaign-button" type="submit"><MdAddCircle /> Add Campaign</button>
+                    <button className="add-campaign-button" type="submit"><CiSaveDown2 /> Save Campaign</button>
                     {error && <div className="error-campaign-missing">{error}</div>}
                 </form>
             </div>

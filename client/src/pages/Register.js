@@ -70,11 +70,11 @@ function Register() {
                             <label htmlFor="name">Name</label>
                             <input type="text" id="name" name="name" value={NewName} placeholder="Enter name (must start with capital letter)" required
                                 //Name must start with a capital letter and be followed by small letters, max 10 letters
-                                onInvalid={(e) => e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters")}
+                                onInvalid={(e) => e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters, and no characters")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
                                     if (!name_surnamePattern.test(e.target.value)) {
-                                        e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters");
+                                        e.target.setCustomValidity("Name must start with a capital letter and be followed by small letters, max 10 letters, and no characters");
                                     }
                                 }}
                                 onChange={(e) => setNewName(e.target.value)}
@@ -83,11 +83,11 @@ function Register() {
                             <label htmlFor="surname">Surname</label>
                             <input type="text" id="surname" name="surname" value={NewSurname} placeholder="Enter surname (must start with capital letter)" required
                                 //Surname must start with a capital letter and be followed by small letters, max 10 letters
-                                onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters")}
+                                onInvalid={(e) => e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters, and no characters")}
                                 onInput={(e) => {
                                     e.target.setCustomValidity("");
                                     if (!name_surnamePattern.test(e.target.value)) {
-                                        e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters");
+                                        e.target.setCustomValidity("Surname must start with a capital letter and be followed by small letters, max 10 letters, and no characters");
                                     }
                                 }}
                                 onChange={(e) => setNewSurname(e.target.value)}

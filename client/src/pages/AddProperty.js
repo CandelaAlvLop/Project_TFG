@@ -148,11 +148,11 @@ function AddProperty() {
                         <label htmlFor="propertyName">Name of the Property</label>
                         <input type="text" id="propertyName" name="propertyName" value={NewPropertyName} placeholder="Name of the property (e.g. My Home, Beach House, Madrid Flat)" required
                             //Property name must start with a capital letter and be followed by small letters, max 15 letters
-                            onInvalid={(e) => e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters")}
+                            onInvalid={(e) => e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters, and no characters")}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
                                 if (!propertyName_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters");
+                                    e.target.setCustomValidity("Property name must start with a capital letter and be followed by small letters, max 15 letters, and no characters");
                                 }
                             }}
                             onChange={(e) => setNewPropertyName(e.target.value)}

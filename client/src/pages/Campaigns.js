@@ -62,7 +62,7 @@ function Campaigns() {
     return (
         <div>
             {navbars()}
-            <h1 className="campaigns-title">Campaigns</h1>
+            <h1 className="campaigns-title">Join Campaigns!</h1>
             <div className="icon-filter">
                 <span onClick={() => iconSelection("Water")} className={iconSelectionCSS("Water")}><IoWaterOutline /></span>
                 <span onClick={() => iconSelection("Electric")} className={iconSelectionCSS("Electric")}><FaRegLightbulb /></span>
@@ -70,7 +70,7 @@ function Campaigns() {
             </div>
             <div className="campaigns">
                 {filter.map((campaign) => (
-                    <div key={campaign.campaign_id} className="campaign-input">
+                    <div key={campaign.campaign_id} className="campaign-input" onClick={() => { localStorage.setItem("campaign_id", campaign.campaign_id); navigate("/viewcampaign") }}>
                         {(() => {
                             let typeIcons = [];
                             if (campaign.type) {
@@ -89,7 +89,7 @@ function Campaigns() {
                                 <p><strong>Ends:</strong> {campaign.endDate}</p>
                             </div>
                         </div>
-                        <div className="campaigns-view-more" onClick={() => { localStorage.setItem("campaign_id", campaign.campaign_id); navigate("/viewcampaign") }}><p>View more</p> </div>
+                        <div className="campaigns-view-more"><p>Acces to view more</p></div>
                     </div>
                 ))}
             </div>

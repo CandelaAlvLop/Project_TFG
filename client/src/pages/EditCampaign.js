@@ -173,7 +173,7 @@ function EditCampaign() {
 
                     <h2>Objectives</h2>
                     <div className="section">
-                        <div className="objective">
+                        <div className="objective-add">
                             <h3>Objective Title</h3>
                             <input type="text" id="titleObjective1" name="titleOjective1" value={NewTitleObjective1} placeholder="Objective Title" required
                                 onChange={(e) => setNewTitleObjective1(e.target.value)}
@@ -183,7 +183,7 @@ function EditCampaign() {
                                 onChange={(e) => setNewDescriptionObjective1(e.target.value)}
                             />
                         </div>
-                        <div className="objective">
+                        <div className="objective-add">
                             <h3>Objective Title</h3>
                             <input type="text" id="titleObjective2" name="titleOjective2" value={NewTitleObjective2} placeholder="Objective Title" required
                                 onChange={(e) => setNewTitleObjective2(e.target.value)}
@@ -193,7 +193,7 @@ function EditCampaign() {
                                 onChange={(e) => setNewDescriptionObjective2(e.target.value)}
                             />
                         </div>
-                        <div className="objective">
+                        <div className="objective-add">
                             <h3>Objective Title</h3>
                             <input type="text" id="titleObjective3" name="titleOjective3" value={NewTitleObjective3} placeholder="Objective Title" required
                                 onChange={(e) => setNewTitleObjective3(e.target.value)}
@@ -203,7 +203,7 @@ function EditCampaign() {
                                 onChange={(e) => setNewDescriptionObjective3(e.target.value)}
                             />
                         </div>
-                        <div className="objective">
+                        <div className="objective-add">
                             <h3>Objective Title</h3>
                             <input type="text" id="titleObjective4" name="titleOjective4" value={NewTitleObjective4} placeholder="Objective Title" required
                                 onChange={(e) => setNewTitleObjective4(e.target.value)}

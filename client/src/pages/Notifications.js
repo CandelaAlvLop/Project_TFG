@@ -12,6 +12,7 @@ function Notifications() {
         "Government Campaigns", "Education Campaigns", "Transport Campaigns", "Business Campaigns", "New Campaigns", "Email Notifications", "SMS Notifications", "App Notifications"];
     const [selectedNotification, setSelectedNotification] = useState([]);
     const [savedNotification, setSavedNotification] = useState([]);
+    const [savedNotificationMessage, setSavedNotificationMessage] = useState(false);
     const userId = localStorage.getItem("user_id");
 
     useEffect(() => {
@@ -26,11 +27,13 @@ function Notifications() {
     }, [userId]);
 
     function notificationSelection(value) {
+        setSavedNotificationMessage(false);
         if (selectedNotification.includes(value)) { setSelectedNotification(selectedNotification.filter(notification => notification !== value)); } //Remove element from the new array
         else { setSelectedNotification([...selectedNotification, value]); } //Add element to the new array
     }
 
     function notificationSelectionAll() {
+        setSavedNotificationMessage(false);
         if (selectedNotification.length === NotificationList.length) {
             setSelectedNotification([]); //Unselect when already selected
         } else {
@@ -46,6 +49,7 @@ function Notifications() {
         })
             .then(() => {
                 setSavedNotification([...selectedNotification]);
+                setSavedNotificationMessage(true);
             })
             .catch((err) => {
                 console.error("Error storing notifications:", err);
@@ -110,6 +114,8 @@ function Notifications() {
                         <label><input type="checkbox" checked={selectedNotification.includes("App Notifications")} onChange={() => notificationSelection("App Notifications")} />
                             I agree to receive notifications via app push notifications.
                         </label>
+
+                        {savedNotificationMessage && <div className="notification-message">Notifications have been saved succesfully</div>}
 
                         <div className="buttons-notification">
                             <button className="save-notification" onClick={saveNotifications}><MdAddCircle /> Save</button>

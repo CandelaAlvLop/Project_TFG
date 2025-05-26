@@ -86,3 +86,16 @@
 .select-all-notifications label {
     font-size: 16px;
 }
+
+.notification-message {
+    color: rgb(30, 196, 119);
+    background: rgb(237, 255, 241);
+    font-size: 14px;
+    padding: 15px;
+    margin: 30px auto 0px auto;
+    max-width: 400px;
+    border-radius: 8px;
+    border: 1px solid rgb(168, 230, 183);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
