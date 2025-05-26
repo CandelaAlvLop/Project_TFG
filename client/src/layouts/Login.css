@@ -79,8 +79,7 @@ html {
     background: rgba(228, 228, 228, 0.349);
 }
 
-.login input[type="submit"],
-button {
+.button-login {
     border-radius: 7px;
     width: 120px;
     margin-top: 15px;
@@ -108,6 +107,19 @@ button:hover {
     border-radius: 8px;
     border: 1px solid rgb(230, 168, 179);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.password-see-login {
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    width: 290px;
+}
+
+.password-eye-login {
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
 /* Responsive */

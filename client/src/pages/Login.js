@@ -4,6 +4,8 @@ import Footer from "./Footer";
 import '../layouts/Login.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 
 
 function Login() {
@@ -17,6 +19,8 @@ function Login() {
 
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
+
+    const [seePassword, setSeePassword] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -46,28 +50,28 @@ function Login() {
         });
     };
 
+    function viewPassword() { setSeePassword(!seePassword); }
+
     return (
         <div>
             <Navbar />
             {/* Main Content Sidebar Section */}
             <div className="maincontent-login">
                 {/* Sidebar */}
-                <aside className="sidebar-login">
+                <div className="sidebar-login">
                     <h3>Welcome</h3>
                     <a href="/register">Start your journey with us</a>
-                    <h3>Data Sharing</h3>
-                    <a href="/login">Login to view content</a>
-                    <h3>View Your Data</h3>
-                    <a href="/login">Login to view content</a>
-                    <h3>Participate in Campaigns</h3>
-                    <a href="/login">Login to participate</a>
                     <h3>Information</h3>
                     <a href="/instructions">Instructions</a>
                     <a href="/faq">Frequently Asked Questions</a>
-                </aside>
+                    <h3>Upload and View Your Data</h3>
+                    <a href="/login">Login to view content</a>
+                    <h3>Participate in Campaigns</h3>
+                    <a href="/login">Login to participate</a>
+                </div>
 
                 {/* Register and Login access */}
-                <main className="login">
+                <div className="login">
                     <div className="title-login">
                         <h1>Login to your account</h1>
                     </div>
@@ -85,7 +89,8 @@ function Login() {
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                             <label htmlFor="password">Password</label>
-                            <input type="password" id="password" name="password" value={Password} placeholder="Enter password" required
+                            <div className="password-see-login">
+                            <input type={(seePassword && "text") || "password"} id="password" name="password" value={Password} placeholder="Enter password" required
                                 //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
                                 onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
                                 onInput={(e) => {
@@ -96,11 +101,13 @@ function Login() {
                                 }}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <span onClick={viewPassword} className="password-eye-login">{(seePassword && <IoEyeOff />) || <IoEye />}</span>
+                            </div>
                             {error && <div className="error-login">{error}</div>}
                         </div>
                         <button className="button-login" type="submit">Login</button>
                     </form>
-                </main>
+                </div>
             </div>
             <Footer />
         </div>

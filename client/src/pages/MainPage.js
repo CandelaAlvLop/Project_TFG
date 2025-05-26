@@ -31,15 +31,13 @@ function MainPage() {
                 <div className="sidebar-mainpage">
                     <h3>Welcome</h3>
                     <a href="/register">Start your journey with us</a>
-                    <h3>Data Sharing</h3>
-                    <a href="/login">Login to view content</a>
-                    <h3>View Your Data</h3>
-                    <a href="/login">Login to view content</a>
-                    <h3>Participate in Campaigns</h3>
-                    <a href="/login">Login to participate</a>
                     <h3>Information</h3>
                     <a href="/instructions">Instructions</a>
                     <a href="/faq">Frequently Asked Questions</a>
+                    <h3>Upload and View Your Data</h3>
+                    <a href="/login">Login to view content</a>
+                    <h3>Participate in Campaigns</h3>
+                    <a href="/login">Login to participate</a>
                 </div>
 
                 {/* Register and Login access */}

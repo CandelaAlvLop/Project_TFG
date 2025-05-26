@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { MdAddCircle } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 
 
 function PersonalData() {
@@ -34,6 +36,7 @@ function PersonalData() {
     const [NewPassword, setNewPassword] = useState("");
     const [NewType, setNewType] = useState("");
 
+    const [seePassword, setSeePassword] = useState(false);
     const [edit, setEdit] = useState(false);
     const [error, setError] = useState("");
 
@@ -110,6 +113,8 @@ function PersonalData() {
                 console.error("Unexpected error deleting Property", error);
             });
     };
+
+    function viewPassword() { setSeePassword(!seePassword); }
 
     return (
         <div>
@@ -198,17 +203,20 @@ function PersonalData() {
                         </div>
                         <div className="input">
                             <label htmlFor="password">Password</label>
-                            <input type="password" id="password" name="password" value={NewPassword}
-                                onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
-                                onInput={(e) => {
-                                    e.target.setCustomValidity("");
-                                    if (!passwordPattern.test(e.target.value)) {
-                                        e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character");
-                                    }
-                                }}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                disabled={!edit}
-                            />
+                            <div className="password-see">
+                                <input type={(seePassword && "text") || "password"} id="password" name="password" value={NewPassword}
+                                    onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
+                                    onInput={(e) => {
+                                        e.target.setCustomValidity("");
+                                        if (!passwordPattern.test(e.target.value)) {
+                                            e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character");
+                                        }
+                                    }}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    disabled={!edit}
+                                />
+                                <span onClick={viewPassword} className="password-eye">{(seePassword && <IoEyeOff />) || <IoEye />}</span>
+                            </div>
                         </div>
                     </div>
 

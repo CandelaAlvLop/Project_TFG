@@ -7,8 +7,14 @@ html {
 }
 
 /*Register Form*/
+.register-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .register {
-    max-width: 70%;
+    width: 50%;
     padding: 25px;
     background: white;
     margin: 100px 70px;
@@ -21,7 +27,7 @@ html {
     color: rgb(3, 133, 122);
     margin-top: 10px;
     margin-bottom: 30px;
-    margin-left: 20px;
+    text-align: center;
 }
 
 .error-register {
@@ -44,14 +50,14 @@ html {
     color: rgb(43, 42, 42);
     display: block;
     margin-bottom: 5px;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 .register input[type="text"],
 .register input[type="password"],
 select {
     border-radius: 5px;
-    width: 90%;
+    width: 85%;
     margin: 20px 0;
     padding: 10px;
     border: 1px solid rgb(0, 0, 0, 0.192);
@@ -65,7 +71,7 @@ button {
     border-radius: 7px;
     width: 120px;
     margin-top: 30px;
-    margin-left: 20px;
+    margin-left: 40px;
     padding: 10px;
     border: none;
     background-color: rgb(3, 133, 122);
@@ -77,4 +83,15 @@ button {
 .register input[type="submit"]:hover,
 button:hover {
     background-color: rgb(1, 92, 84)
+}
+
+.password-see {
+    display: flex;
+    align-items: center;
+}
+
+.password-eye {
+    margin-left: 15px;
+    font-size: 18px;
+    cursor: pointer;
 }

@@ -9,8 +9,8 @@ html {
 /* Header Section */
 .header-mainpage {
     color: white;
-    margin: 60px 0;
-    padding: 60px 20px;
+    margin: 50px 0;
+    padding: 50px 20px 30px 20px;
     text-align: center;
     background: url("../images/background-mainpage3.jpg")
 }
@@ -26,8 +26,8 @@ html {
 }
 
 .header-mainpage img {
-    max-width: 200px;
-    margin-top: 50px;
+    max-width: 150px;
+    margin-top: 40px;
 }
 
 /* Main Content Section */
