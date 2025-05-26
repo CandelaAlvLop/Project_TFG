@@ -61,9 +61,9 @@ function EditCampaign() {
                 setNewTitleObjective2(response.data.titleObjective2);
                 setNewDescriptionObjective2(response.data.descriptionObjective2);
                 setNewTitleObjective3(response.data.titleObjective3);
-                setNewDescriptionObjective3(response.data.description3);
+                setNewDescriptionObjective3(response.data.descriptionObjective3);
                 setNewTitleObjective4(response.data.titleObjective4);
-                setNewDescriptionObjective4(response.data.description4);
+                setNewDescriptionObjective4(response.data.descriptionObjective4);
                 setNewStep1(response.data.step1);
                 setNewStep2(response.data.step2);
                 setNewStep3(response.data.step3);
@@ -97,9 +97,9 @@ function EditCampaign() {
             titleObjective2: NewTitleObjective2,
             descriptionObjective2: NewDescriptionObjective2,
             titleObjective3: NewTitleObjective3,
-            description3: NewDescriptionObjective3,
+            descriptionObjective3: NewDescriptionObjective3,
             titleObjective4: NewTitleObjective4,
-            description4: NewDescriptionObjective4,
+            descriptionObjective4: NewDescriptionObjective4,
             step1: NewStep1,
             step2: NewStep2,
             step3: NewStep3,
