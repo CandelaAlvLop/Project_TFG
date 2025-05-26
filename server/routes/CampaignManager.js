@@ -108,7 +108,7 @@ router.put("/campaignsUpdate/:id", (req, res) => {
         descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4 
+    if (!campaignName || !description || !dates || !endDate || !retainDate || !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4 
          || !descriptionObjective4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
