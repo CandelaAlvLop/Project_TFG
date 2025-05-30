@@ -57,7 +57,7 @@ router.post("/register", (req, res) => {
                         return res.status(500).send({ message: "Registration failed", error: err });
                     } else {
                         console.log("User registered succesfully:", result.insertId);
-                        res.status(200).send({ message: "Registration successful", userId: result.insertId });
+                        res.status(200).send({ message: "Registration successful", userId: result.insertId, type: type });
                         console.log("Redirecting to Dashboard");
                     }
                 }
