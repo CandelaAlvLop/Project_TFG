@@ -9,6 +9,7 @@ import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
 import { FaRegLightbulb, FaEdit, FaFileUpload } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { CiSaveDown2 } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -458,7 +459,7 @@ function DataDonation() {
                             )}
                         </div>
 
-                        <button className="save-consent" onClick={saveConsent}><MdAddCircle /> Save</button>
+                        <button className="save-consent" onClick={saveConsent}><CiSaveDown2 /> Save</button>
                         {editingConsent && <button className="cancel-consent" onClick={() => { setConsent(false); setSelectedConsents([]); setEditingConsent(null) }}><MdCancel /> Cancel</button>}
                     </div>
                 </div>

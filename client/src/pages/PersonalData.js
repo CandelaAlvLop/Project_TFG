@@ -5,7 +5,8 @@ import Footer from "./Footer";
 import '../layouts/PersonalData.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { MdAddCircle } from "react-icons/md";
+import { MdAddCircle, MdCancel } from "react-icons/md";
+import { CiSaveDown2 } from "react-icons/ci";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { IoEye } from "react-icons/io5";
@@ -244,8 +245,8 @@ function PersonalData() {
 
                     {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}><FaEdit /> Edit</button>)}
                     {edit === true && (
-                        <><button type="submit" className="save">Save</button>
-                            <button type="button" className="cancel" onClick={cancelEditUserData}>Cancel</button></>
+                        <><button type="submit" className="save"><CiSaveDown2 /> Save</button>
+                            <button type="button" className="cancel" onClick={cancelEditUserData}><MdCancel /> Cancel</button></>
                     )}
                 </form>
             </div>

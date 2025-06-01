@@ -7,6 +7,8 @@ import axios from 'axios';
 import { FaEdit } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
+import { MdCancel } from "react-icons/md";
+import { CiSaveDown2 } from "react-icons/ci";
 
 
 function PersonalData2() {
@@ -214,8 +216,8 @@ function PersonalData2() {
 
                     {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}><FaEdit /> Edit</button>)}
                     {edit === true && (
-                        <><button type="submit" className="save">Save</button>
-                            <button type="button" className="cancel" onClick={cancelEditUserData}>Cancel</button></>
+                        <><button type="submit" className="save"><CiSaveDown2 /> Save</button>
+                            <button type="button" className="cancel" onClick={cancelEditUserData}><MdCancel /> Cancel</button></>
                     )}
                 </form>
             </div>

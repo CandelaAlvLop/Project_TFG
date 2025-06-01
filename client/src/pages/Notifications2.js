@@ -4,7 +4,8 @@ import Footer from './Footer';
 import Navbar3 from "./Navbar3";
 import '../layouts/Notifications.css';
 import axios from 'axios';
-import { MdAddCircle, MdCancel } from "react-icons/md";
+import { MdCancel } from "react-icons/md";
+import { CiSaveDown2 } from "react-icons/ci";
 
 function Notifications2() {
 
@@ -99,7 +100,7 @@ function Notifications2() {
                         {savedNotificationMessage && <div className="notification-message">Notifications have been saved succesfully</div>}
 
                         <div className="buttons-notification">
-                            <button className="save-notification" onClick={saveNotifications}><MdAddCircle /> Save</button>
+                            <button className="save-notification" onClick={saveNotifications}><CiSaveDown2 /> Save</button>
                             <button className="cancel-notification" onClick={() => setSelectedNotification(savedNotification)}><MdCancel /> Cancel</button>
                         </div>
                     </div>
