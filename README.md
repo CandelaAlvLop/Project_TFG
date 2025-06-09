@@ -11,8 +11,8 @@ The platform uses a MySQL database named “database_tfg”. The current setup c
  
 ### Step 4: Deploy the Platform
 Next, to launch the web interface, two terminals must be open inside the project:
-- **Server**: Inside "Project_TFG" access folder "server" (cd server) and execute the command npm start. This will deploy the server and its connection to the database.
-- **Client**: Inside "Project_TFG" access folder "client" (cd client) and execute the command npm start. This will open the web in your navigator.
+- **Server**: Inside "Project_TFG" access folder "server" (**cd server**) and execute the command **npm start**. This will deploy the server and its connection to the database.
+- **Client**: Inside "Project_TFG" access folder "client" (**cd client**) and execute the command **npm start**. This will open the web in your navigator.
 
 If a permission error occurs when starting the server due to the difference between macOS/Linux and Windows operating systems, execute in the server **chmod +x node_modules/.bin/nodemon**.
 
