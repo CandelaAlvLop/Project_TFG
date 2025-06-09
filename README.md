@@ -9,7 +9,7 @@ Once the project is stored on your machine, you must open two terminals inside "
 ### Step 3: Configure Connection to Database
 The platform uses a MySQL database named “database_tfg”. The current setup contains default credentials provided in **db.js**. If you desire to use your own credentials, access the file db.js in the server directory and modify the pre-set user and password to match your database.
  
-### tep 4: Deploy the Platform
+### Step 4: Deploy the Platform
 Next, to launch the web interface, two terminals must be open inside the project:
 - **Server**: Inside "Project_TFG" access folder "server" (cd server) and execute the command npm start. This will deploy the server and its connection to the database.
 - **Client**: Inside "Project_TFG" access folder "client" (cd client) and execute the command npm start. This will open the web in your navigator.
