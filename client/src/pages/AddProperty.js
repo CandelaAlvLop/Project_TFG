@@ -15,7 +15,8 @@ function AddProperty() {
 
     const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
     const size_Pattern = /^[1-9][0-9]{0,5}$/;
-    const buildingAge_Pattern = /^[0-9]{0,4}$/;
+    const buildingYear_Pattern = /^[0-9]{4}$/;
+    const presentYear = new Date().getFullYear();
     const district_Pattern = /^[0-9]{5}$/;
     const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
     const income_Pattern = /^[1-9][0-9]{0,6}$/;
@@ -24,7 +25,7 @@ function AddProperty() {
     const [setProperties] = useState([]);
     const [NewPropertyName, setNewPropertyName] = useState("");
     const [NewSize, setNewSize] = useState();
-    const [NewBuildingAge, setNewBuildingAge] = useState();
+    const [NewBuildingYear, setNewBuildingYear] = useState();
     const [NewDistrict, setNewDistrict] = useState();
     const [NewQuantity, setNewQuantity] = useState();
     const [NewAges, setNewAges] = useState([]);
@@ -100,7 +101,7 @@ function AddProperty() {
             userId,
             propertyName: NewPropertyName,
             size: NewSize,
-            buildingAge: NewBuildingAge,
+            buildingYear: NewBuildingYear,
             district: NewDistrict,
             quantity: NewQuantity,
             ages: NewAges.join(','),
@@ -169,17 +170,17 @@ function AddProperty() {
                             }}
                             onChange={(e) => setNewSize(e.target.value)}
                         />
-                        <label htmlFor="buildingAge">Building age (years)</label>
-                        <input type="number" id="buildingAge" name="buildingAge" value={NewBuildingAge} placeholder="Age of the building in years" required
-                            //Age of the Building no decimals, and up to 4 digits
-                            onInvalid={(e) => e.target.setCustomValidity("The age cannot contain decimals and it must be up to 4 digits")}
+                        <label htmlFor="buildingYear">Building year</label>
+                        <input type="number" id="buildingYear" name="buildingYear" value={NewBuildingYear} placeholder="Year of the building construction" required
+                            //Year of the Building no decimals, 4 digits, and not future
+                            onInvalid={(e) => e.target.setCustomValidity(`The year must be 4 digits (no decimals), and not later than ${presentYear}`)}
                             onInput={(e) => {
                                 e.target.setCustomValidity("");
-                                if (!buildingAge_Pattern.test(e.target.value)) {
-                                    e.target.setCustomValidity("The age cannot contain decimals and it must be up to 4 digits");
+                                if ((!buildingYear_Pattern.test(e.target.value)) || (e.target.value > presentYear)) {
+                                    e.target.setCustomValidity(`The year must be 4 digits (no decimals), and not later than ${presentYear}`)
                                 }
                             }}
-                            onChange={(e) => setNewBuildingAge(e.target.value)}
+                            onChange={(e) => setNewBuildingYear(e.target.value)}
                         />
                         <label htmlFor="district">District (Postal Code)</label>
                         <input type="text" id="district" name="district" value={NewDistrict} placeholder="District code" required

@@ -4,7 +4,7 @@ const db = require('../db');
 
 const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
 const size_Pattern = /^[1-9][0-9]{0,5}$/;
-const buildingAge_Pattern = /^[0-9]{0,4}$/;
+const buildingYear_Pattern = /^[0-9]{4}$/;
 const district_Pattern = /^[0-9]{5}$/;
 const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
 const income_Pattern = /^[1-9][0-9]{0,6}$/;
@@ -18,17 +18,17 @@ const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
 // ------- ADDING A PROPERTY -------
 //Add Property
 router.post("/properties", (req, res) => {
-    const { userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption } = req.body;
+    const { userId, propertyName, size, buildingYear, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption } = req.body;
 
     //Check no parameter is empty
-    if (!propertyName || !size || !buildingAge || !district || !quantity || !ages || !income || !remoteWorkers || !workingSchedules || !electricConsumption || !gasConsumption || !waterConsumption) {
+    if (!propertyName || !size || !buildingYear || !district || !quantity || !ages || !income || !remoteWorkers || !workingSchedules || !electricConsumption || !gasConsumption || !waterConsumption) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
     //Check correctness of patterns
     else if (!propertyName_Pattern.test(propertyName)) return res.status(400).send({ message: "Property name must start with a capital letter and be followed by small letters, max 15 letters" });
     else if (!size_Pattern.test(size)) return res.status(400).send({ message: "Size must not start by zero, cannot contain decimals and it must be up to 6 digits" });
-    else if (!buildingAge_Pattern.test(buildingAge)) return res.status(400).send({ message: "The age cannot contain decimals and it must be up to 4 digits" });
+    else if (!buildingYear_Pattern.test(buildingYear)) return res.status(400).send({ message: "The age cannot contain decimals and it must be up to 4 digits" });
     else if (!district_Pattern.test(district)) return res.status(400).send({ message: "District (Postal code) is 5 digits" });
     else if (!quantity_Pattern.test(quantity)) return res.status(400).send({ message: "Quantity must not start by zero, cannot contain decimals and it must be up to 3 digits" });
     else if (!income_Pattern.test(income)) return res.status(400).send({ message: "Income must not start by zero, cannot contain decimals and it must be up to 7 digits" });
@@ -51,8 +51,8 @@ router.post("/properties", (req, res) => {
             }
 
             db.query(
-                "INSERT INTO property (user_id, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                [userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption],
+                "INSERT INTO property (user_id, propertyName, size, buildingYear, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                [userId, propertyName, size, buildingYear, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption],
                 (err, result) => {
                     if (err) {
                         console.log(err);
@@ -121,17 +121,17 @@ router.get("/propertiesUpdate/:id", (req, res) => {
 //Update Property
 router.put("/propertiesUpdate/:id", (req, res) => {
     const propertyId = req.params.id;
-    const { userId, propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption } = req.body;
+    const { userId, propertyName, size, buildingYear, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption } = req.body;
 
     //Check no parameter is empty
-    if (!propertyName || !size || !buildingAge || !district || !quantity || !ages || !income || !remoteWorkers || !workingSchedules || !electricConsumption || !gasConsumption || !waterConsumption) {
+    if (!propertyName || !size || !buildingYear || !district || !quantity || !ages || !income || !remoteWorkers || !workingSchedules || !electricConsumption || !gasConsumption || !waterConsumption) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
     //Check correctness of patterns
     else if (!propertyName_Pattern.test(propertyName)) return res.status(400).send({ message: "Property name must start with a capital letter and be followed by small letters, max 15 letters" });
     else if (!size_Pattern.test(size)) return res.status(400).send({ message: "Size must not start by zero, cannot contain decimals and it must be up to 6 digits" });
-    else if (!buildingAge_Pattern.test(buildingAge)) return res.status(400).send({ message: "The age cannot contain decimals and it must be up to 4 digits" });
+    else if (!buildingYear_Pattern.test(buildingYear)) return res.status(400).send({ message: "The year cannot contain decimals and it must be 4 digits" });
     else if (!district_Pattern.test(district)) return res.status(400).send({ message: "District (Postal code) is 5 digits" });
     else if (!quantity_Pattern.test(quantity)) return res.status(400).send({ message: "Quantity must not start by zero, cannot contain decimals and it must be up to 3 digits" });
     else if (!income_Pattern.test(income)) return res.status(400).send({ message: "Income must not start by zero, cannot contain decimals and it must be up to 7 digits" });
@@ -153,8 +153,8 @@ router.put("/propertiesUpdate/:id", (req, res) => {
                 return res.status(400).send({ message: "There is already a property with this name" });
             }
 
-            db.query("UPDATE property SET propertyName = ?, size = ?, buildingAge = ?, district = ?, quantity = ?, ages = ?, income = ?, remoteWorkers = ?, workingSchedules = ?, description = ?, appliances = ?, electricConsumption = ?, gasConsumption = ?, waterConsumption = ? WHERE property_id = ?",
-                [propertyName, size, buildingAge, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption, propertyId],
+            db.query("UPDATE property SET propertyName = ?, size = ?, buildingYear = ?, district = ?, quantity = ?, ages = ?, income = ?, remoteWorkers = ?, workingSchedules = ?, description = ?, appliances = ?, electricConsumption = ?, gasConsumption = ?, waterConsumption = ? WHERE property_id = ?",
+                [propertyName, size, buildingYear, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption, propertyId],
                 (err) => {
                     if (err) {
                         return res.status(500).send({ message: "Error updating property" });

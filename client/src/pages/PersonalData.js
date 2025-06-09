@@ -259,7 +259,7 @@ function PersonalData() {
                             <div className="property-name">{property.propertyName}</div>
                             <div className="property-information">
                                 <p><strong>Size:</strong> {property.size} m²</p>
-                                <p><strong>Building Age:</strong> {property.buildingAge} years</p>
+                                <p><strong>Building Year:</strong> {property.buildingYear}</p>
                                 <p><strong>District:</strong> {property.district}</p>
                             </div>
                             <div className="property-buttons">
