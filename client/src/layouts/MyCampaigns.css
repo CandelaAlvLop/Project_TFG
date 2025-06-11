@@ -71,6 +71,7 @@
 .my-campaign-buttons {
     text-align: center;
     margin-top: auto;
+    display: flex;
 }
 
 .add-campaign-button {
@@ -89,4 +90,11 @@
 
 .add-campaign-button:hover {
     background-color: rgb(1, 92, 84);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .my-campaigns {
+        width: 70%;
+    }
 }

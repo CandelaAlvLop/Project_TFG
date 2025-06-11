@@ -95,3 +95,11 @@ button:hover {
     font-size: 18px;
     cursor: pointer;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register {
+        margin: 100px 0px;
+        width: auto;
+    }
+}

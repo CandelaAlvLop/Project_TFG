@@ -80,3 +80,15 @@
 .ExcelenciaMariaDeMaetzu {
     max-width: 110px;
 }
+
+/*Responsive*/
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 20px;
+    }
+
+    .footer-down {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

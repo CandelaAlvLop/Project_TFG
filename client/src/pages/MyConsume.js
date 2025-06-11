@@ -127,7 +127,7 @@ function MyConsume() {
                     <div className="consume-input" onClick={() => { if ((waterTotalConsume) > 0) { navigate(`/WaterMyConsume/${selectedProperty}`) } }}>
                         <h2><IoWaterOutline /> Water</h2>
                         <h3>Year Consume</h3>
-                        <div style={{ width: 300 }}>
+                        <div>
                             <Doughnut data={dataWater} options={{ plugins: { tooltip: { enabled: false } } }} />
                             <p><strong>{waterTotalConsume} l</strong></p>
                         </div>
@@ -136,7 +136,7 @@ function MyConsume() {
                     <div className="consume-input" onClick={() => { if ((electricTotalConsume) > 0) { navigate(`/ElectricMyConsume/${selectedProperty}`) } }}>
                         <h2><FaRegLightbulb /> Electric</h2>
                         <h3>Year Consume</h3>
-                        <div style={{ width: 300 }}>
+                        <div>
                             <Doughnut data={dataElectric} options={{ plugins: { tooltip: { enabled: false } } }} />
                             <p><strong>{electricTotalConsume} kWh</strong></p>
                         </div>
@@ -145,7 +145,7 @@ function MyConsume() {
                     <div className="consume-input" onClick={() => { if ((gasTotalConsume) > 0) { navigate(`/GasMyConsume/${selectedProperty}`) } }}>
                         <h2><FaFire /> Gas</h2>
                         <h3>Year Consume</h3>
-                        <div style={{ width: 300 }}>
+                        <div>
                             <Doughnut data={dataGas} options={{ plugins: { tooltip: { enabled: false } } }} />
                             <p><strong>{gasTotalConsume} m³</strong></p>
                         </div>

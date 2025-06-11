@@ -128,7 +128,7 @@ function Dashboard() {
                     <div className="graphic-main">
                         <div className="graphic-input">
                             <h2><IoWaterOutline /> Water</h2>
-                            <div style={{ width: 220 }}>
+                            <div>
                                 <Doughnut data={dataWater} options={{ plugins: { tooltip: { enabled: false } } }} />
                                 <p><strong>{waterTotalConsume} l</strong></p>
                             </div>
@@ -136,7 +136,7 @@ function Dashboard() {
 
                         <div className="graphic-input">
                             <h2><FaRegLightbulb /> Electric</h2>
-                            <div style={{ width: 220 }}>
+                            <div>
                                 <Doughnut data={dataElectric} options={{ plugins: { tooltip: { enabled: false } } }} />
                                 <p><strong>{electricTotalConsume} kWh</strong></p>
                             </div>
@@ -144,7 +144,7 @@ function Dashboard() {
 
                         <div className="graphic-input">
                             <h2><FaFire /> Gas</h2>
-                            <div style={{ width: 220 }}>
+                            <div>
                                 <Doughnut data={dataGas} options={{ plugins: { tooltip: { enabled: false } } }} />
                                 <p><strong>{gasTotalConsume} m³</strong></p>
                             </div>

@@ -6,8 +6,8 @@
 }
 
 .consume-input {
-    max-width: 500px;
-    padding: 40px;
+    width: 250px;
+    padding: 20px 30px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
@@ -30,11 +30,12 @@
 .consume-input h3 {
     text-align: center;
     color: grey;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .consume-input p {
-    margin-top: 50px;
+    margin-top: 35px;
+    margin-bottom: 10px;
     font-size: 18px;
     color: rgb(3, 133, 122);
 }
@@ -55,4 +56,16 @@
 
 .datadonation-button:hover {
     background-color: rgb(1, 92, 84);
+}
+
+@media (max-width: 768px) {
+    .consume-input {
+        width: 160px;
+        padding: 10px 20px;
+        margin-top: 30px;
+    }
+
+    .consume-input h3 {
+        margin-bottom: 10px;
+    }
 }

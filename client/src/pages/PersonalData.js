@@ -267,8 +267,8 @@ function PersonalData() {
                                     onClick={() => {
                                         localStorage.setItem("property_id", property.property_id);
                                         navigate('/editproperty');
-                                    }
-                                    }><FaEdit /> Edit</button>
+                                    }}>
+                                <FaEdit /> Edit</button>
                                 <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}><RiDeleteBin5Fill /> Delete</button>
                             </div>
                         </div>

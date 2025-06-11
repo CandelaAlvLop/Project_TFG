@@ -24,6 +24,7 @@
 .add-property label {
     margin-top: 10px;
 }
+
 .add-property input[type="number"],
 .add-property input[type="text"],
 .add-property select {
@@ -124,9 +125,13 @@
     text-align: center;
 }
 
-
-@media (max-width: 700px) {
+/*Responsive*/
+@media (max-width: 768px) {
     .section-property {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    .add-property {
+        width: 75%;
     }
 }

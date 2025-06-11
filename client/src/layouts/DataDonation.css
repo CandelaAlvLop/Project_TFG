@@ -17,7 +17,7 @@
 }
 
 .property-consume-type {
-    gap: 10px;
+    gap: 0px;
     margin-bottom: 50px;
 }
 
@@ -81,6 +81,10 @@
 
 .donation-txt {
     font-size: 17px;
+}
+
+.donation li {
+    word-break: break-all;
 }
 
 .donation h2 {
@@ -196,6 +200,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
 }
 
 .consent-popup-content h2,
@@ -350,4 +355,22 @@
 
 .select-all label {
     font-size: 16px;
+}
+
+@media (max-width: 895px) {
+    .property-data {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .upload-data {
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .consent-popup,
+    .donation-popup {
+        align-items: flex-start;
+    }
 }
