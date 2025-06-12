@@ -1,18 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../db');
+const db = require("../db");
 
-// ------------------------------- USER CAMPAIGNS -------------------------------
 
 // ------- ADDING A CAMPAIGN -------
 //Add Campaign
 router.post("/campaigns", (req, res) => {
-    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4, 
-        descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
+    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4,
+        descriptionObjective4, step1, step2, step3, whyJoin, moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName || !description || !dates| !endDate| !retainDate| !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4 
-         || !descriptionObjective4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
+    if (!campaignName || !description || !dates | !endDate | !retainDate | !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4
+        || !descriptionObjective4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
@@ -22,34 +21,29 @@ router.post("/campaigns", (req, res) => {
         [userId, campaignName],
         (err, result) => {
             if (err) {
-                console.log("Database error:", err);
-                return res.status(500).send({ message: "Database error", error: err });
+                return res.status(500).send({ message: "Error getting campaign data" });
             }
 
-            if (result.length > 0) { //Check uniqueness
+            if (result.length > 0) {
                 return res.status(400).send({ message: "There is already a campaign with this name" });
             }
 
             db.query(
                 `INSERT INTO campaign (user_id, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, 
                 titleObjective3, descriptionObjective3, titleObjective4, descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-                [userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4, 
-                    descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence],
+                [userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4,
+                    descriptionObjective4, step1, step2, step3, whyJoin, moreInfo, conclusionSentence],
                 (err, result) => {
                     if (err) {
-                        console.log(err);
-                        return res.status(500).send({ message: "Registration of Campaign failed", error: err });
+                        return res.status(500).send({ message: "Registration of Campaign failed" });
                     } else {
-                        console.log("Campaign registered succesfully:", result.insertId);
                         res.status(200).send({ message: "Registration of Campaign successful", campaignId: result.insertId });
                     }
                 }
             );
-
         }
     );
 });
-
 
 //Get User Campaigns (Adding)
 router.get("/campaigns/:userId", (req, res) => {
@@ -60,10 +54,7 @@ router.get("/campaigns/:userId", (req, res) => {
         (err, result) => {
             if (err) {
                 console.error("Error getting campaigns:", err);
-                return res.status(500).send({ message: "Database error", error: err });
-            }
-            if (result.length === 0) {
-                return res.status(404).send({ message: "No campaigns found" });
+                return res.status(500).send({ message: "Error getting campaign data" });
             }
             res.status(200).send(result);
         });
@@ -83,6 +74,7 @@ router.delete("/campaigns/:id", (req, res) => {
         });
 });
 
+
 // ------- EDITING A CAMPAIGN -------
 //Get Campaign (Editing)
 router.get("/campaignsUpdate/:id", (req, res) => {
@@ -91,11 +83,7 @@ router.get("/campaignsUpdate/:id", (req, res) => {
         [campaignId],
         (err, result) => {
             if (err) {
-                console.log("Error getting campaign:", err);
                 return res.status(500).send({ message: "Error getting campaign" });
-            }
-            if (!result.length) {
-                return res.status(404).send({ message: "Campaign not found" });
             }
             res.status(200).send(result[0]);
         });
@@ -104,12 +92,12 @@ router.get("/campaignsUpdate/:id", (req, res) => {
 //Update Campaign
 router.put("/campaignsUpdate/:id", (req, res) => {
     const campaignId = req.params.id;
-    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4, 
-        descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence } = req.body;
+    const { userId, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4,
+        descriptionObjective4, step1, step2, step3, whyJoin, moreInfo, conclusionSentence } = req.body;
 
     //Check no parameter is empty
-    if (!campaignName || !description || !dates || !endDate || !retainDate || !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4 
-         || !descriptionObjective4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
+    if (!campaignName || !description || !dates || !endDate || !retainDate || !type || !titleObjective1 || !descriptionObjective1 || !titleObjective2 || !descriptionObjective2 || !titleObjective3 || !descriptionObjective3 || !titleObjective4
+        || !descriptionObjective4 || !step1 || !step2 || !step3 || !whyJoin || !moreInfo || !conclusionSentence) {
         return res.status(400).send({ message: "There are missing parameters" });
     }
 
@@ -119,18 +107,17 @@ router.put("/campaignsUpdate/:id", (req, res) => {
         [userId, campaignName, campaignId],
         (err, result) => {
             if (err) {
-                console.log("Database error:", err);
-                return res.status(500).send({ message: "Database error", error: err });
+                return res.status(500).send({ message: "Error getting campaign data" });
             }
 
-            if (result.length > 0) { //Check uniqueness
+            if (result.length > 0) {
                 return res.status(400).send({ message: "There is already a campaign with this name" });
             }
 
             db.query(`UPDATE campaign SET campaignName = ?, description = ?, dates = ?, endDate = ?, retainDate = ?, type = ?, titleObjective1 = ?, descriptionObjective1 = ?, titleObjective2 = ?, descriptionObjective2 = ?, 
                 titleObjective3 = ?, descriptionObjective3 = ?, titleObjective4 = ?, descriptionObjective4 = ?, step1 = ?, step2 = ?, step3 = ?, whyJoin = ?,  moreInfo = ?, conclusionSentence = ? WHERE campaign_id = ?`,
-                [campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, 
-                titleObjective3, descriptionObjective3, titleObjective4, descriptionObjective4, step1, step2, step3, whyJoin,  moreInfo, conclusionSentence, campaignId],
+                [campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2,
+                    titleObjective3, descriptionObjective3, titleObjective4, descriptionObjective4, step1, step2, step3, whyJoin, moreInfo, conclusionSentence, campaignId],
                 (err) => {
                     if (err) {
                         return res.status(500).send({ message: "Error updating campaign" });
@@ -147,7 +134,7 @@ router.get("/campaignsAll", (req, res) => {
         (err, result) => {
             if (err) {
                 console.error("Error getting campaigns:", err);
-                return res.status(500).send({ message: "Database error", error: err });
+                return res.status(500).send({ message: "Error getting campaign data" });
             }
             res.status(200).send(result);
         });

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import NavbarIn2 from './NavbarIn2';
-import Navbar3 from './Navbar3';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import NavbarIn2 from "./NavbarIn2";
+import Navbar3 from "./Navbar3";
 import Footer from "./Footer";
-import '../layouts/PersonalData.css';
-import axios from 'axios';
+import "../layouts/PersonalData.css";
 import { FaEdit } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
@@ -66,8 +66,7 @@ function PersonalData2() {
             email: NewEmail,
             password: NewPassword,
             type: NewType
-        }).then((response) => {
-            console.log("User ID updated:", response.data.userId);
+        }).then(() => {
             setEdit(false);
             setUserData();
             setError(""); //Clean Errors
@@ -108,7 +107,7 @@ function PersonalData2() {
                                     }
                                 }}
                                 onChange={(e) => setNewName(e.target.value)}
-                                disabled={!edit}
+                                disabled={!edit} //Edition is not enabled until Edit button is clicked
                             />
                         </div>
                         <div className="input">
@@ -213,18 +212,18 @@ function PersonalData2() {
                     </div>
 
                     {error && <div className="error-upload">{error}</div>}
-
+                    {/*Enable Edit Mode*/}
                     {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}><FaEdit /> Edit</button>)}
+                    {/*Return to View Mode*/}
                     {edit === true && (
                         <><button type="submit" className="save"><CiSaveDown2 /> Save</button>
                             <button type="button" className="cancel" onClick={cancelEditUserData}><MdCancel /> Cancel</button></>
                     )}
                 </form>
             </div>
-
             <Footer />
         </div>
     );
 }
-export default PersonalData2;
 
+export default PersonalData2;

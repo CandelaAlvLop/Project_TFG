@@ -1,11 +1,10 @@
 .footer {
-    background: rgba(236, 236, 236, 0.555);
+    background-color: rgba(236, 236, 236, 0.555);
     padding: 40px 60px;
     margin-top: 60px;
     text-align: center;
 }
 
-/* Up Footer */
 .footer-up {
     max-width: 100%;
     margin-bottom: 30px;
@@ -34,7 +33,6 @@
     margin-top: 15px;
 }
 
-/* Down Footer */
 .footer-down {
     display: flex;
     flex-direction: row;
@@ -52,7 +50,6 @@
     margin: 0px 10px;
 }
 
-/* Individual Image Sizes */
 .UPFLogo {
     max-width: 170px;
 }

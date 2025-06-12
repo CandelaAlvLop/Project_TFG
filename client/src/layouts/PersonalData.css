@@ -2,7 +2,7 @@
 .user-data {
     width: 60%;
     padding: 30px;
-    background: white;
+    background-color: white;
     margin: 50px auto;
     border-radius: 8px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
@@ -37,7 +37,6 @@ select {
     margin-bottom: 7px;
 }
 
-/* Edit User Data*/
 .input input[type="text"],
 .input input[type="password"],
 select {
@@ -46,14 +45,13 @@ select {
     padding: 10px;
     border: 1px solid rgb(0, 0, 0, 0.192);
     font-size: 14px;
-    background: rgba(228, 228, 228, 0.349);
+    background-color: rgba(228, 228, 228, 0.349);
 }
 
-/* Only View User Data*/
 .input input[type="text"]:disabled,
 .input input[type="password"]:disabled,
 select:disabled {
-    background: rgba(180, 180, 180, 0.349);
+    background-color: rgba(180, 180, 180, 0.349);
     color: grey;
     cursor: not-allowed;
 }
@@ -95,7 +93,7 @@ select:disabled {
 
 .error-upload {
     color: rgb(196, 30, 52);
-    background: rgb(255, 237, 240);
+    background-color: rgb(255, 237, 240);
     font-size: 14px;
     padding: 12px;
     margin: 25px auto 40px auto;
@@ -106,8 +104,6 @@ select:disabled {
     text-align: center;
 }
 
-
-/* PROPERTY INFORMATION */
 .properties-data {
     width: 60%;
     padding: 30px;

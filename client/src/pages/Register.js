@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import Navbar from './Navbar';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
-import '../layouts/Register.css';
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import "../layouts/Register.css";
+import { useNavigate } from "react-router-dom";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 
@@ -34,7 +34,7 @@ function Register() {
 
     function registerUser(e) {
         e.preventDefault(); //Prevent refreshing
-        axios.post('http://localhost:3001/UserManager/register', {
+        axios.post("http://localhost:3001/UserManager/register", {
             name: NewName,
             surname: NewSurname,
             username: NewUsername,
@@ -43,10 +43,9 @@ function Register() {
             password: NewPassword,
             type: NewType
         }).then((response) => {
-            localStorage.setItem("user_id", response.data.userId); //Store user ID
+            //Store user ID and user type
+            localStorage.setItem("user_id", response.data.userId);
             localStorage.setItem("type", response.data.type);
-
-            console.log("User ID stored after registration:", response.data.userId);
 
             if (response.data.type === "Donor") {
                 navigate("/dashboard");
@@ -114,7 +113,7 @@ function Register() {
                             />
 
                             <label htmlFor="DNI">DNI</label>
-                            <input type="text" id="DNI" name="DNI" value={NewDNI} placeholder="Enter DNI (9 digits and a letter)" required
+                            <input type="text" id="DNI" name="DNI" value={NewDNI} placeholder="Enter DNI (8 digits and a letter)" required
                                 //DNI contains 8 digits and a capital letter                           
                                 onInvalid={(e) => e.target.setCustomValidity("DNI must contain 8 digits and a capital letter")}
                                 onInput={(e) => {

@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../db');
+const db = require("../db");
 
 const propertyName_Pattern = /^[A-Z][a-zA-Z0-9\s]{0,14}$/;
 const size_Pattern = /^[1-9][0-9]{0,5}$/;
@@ -10,10 +10,6 @@ const quantity_Pattern = /^[1-9][0-9]{0,2}$/;
 const income_Pattern = /^[1-9][0-9]{0,6}$/;
 const consumption_Pattern = /^[1-9][0-9]{0,4}$/;
 
-
-// ------------------------------- PERSONAL DATA -------------------------------
-
-// ------------- PROPERTY DATA -------------
 
 // ------- ADDING A PROPERTY -------
 //Add Property
@@ -42,11 +38,10 @@ router.post("/properties", (req, res) => {
         [userId, propertyName],
         (err, result) => {
             if (err) {
-                console.log("Database error:", err);
-                return res.status(500).send({ message: "Database error", error: err });
+                return res.status(500).send({ message: "Error getting property data" });
             }
 
-            if (result.length > 0) { //Check uniqueness
+            if (result.length > 0) {
                 return res.status(400).send({ message: "There is already a property with this name" });
             }
 
@@ -55,10 +50,8 @@ router.post("/properties", (req, res) => {
                 [userId, propertyName, size, buildingYear, district, quantity, ages, income, remoteWorkers, workingSchedules, description, appliances, electricConsumption, gasConsumption, waterConsumption],
                 (err, result) => {
                     if (err) {
-                        console.log(err);
-                        return res.status(500).send({ message: "Registration of Property failed", error: err });
+                        return res.status(500).send({ message: "Registration of Property failed" });
                     } else {
-                        console.log("Property registered succesfully:", result.insertId);
                         res.status(200).send({ message: "Registration of Property successful", propertyId: result.insertId });
                     }
                 }
@@ -76,11 +69,7 @@ router.get("/properties/:userId", (req, res) => {
         [userId],
         (err, result) => {
             if (err) {
-                console.error("Error getting properties:", err);
-                return res.status(500).send({ message: "Database error", error: err });
-            }
-            if (result.length === 0) {
-                return res.status(404).send({ message: "No properties found" });
+                return res.status(500).send({ message: "Error getting property data" });
             }
             res.status(200).send(result);
         });
@@ -92,13 +81,14 @@ router.delete("/properties/:id", (req, res) => {
 
     db.query("DELETE FROM property WHERE property_id = ?",
         [propertyId],
-        (err) => {
+        (err, result) => {
             if (err) {
                 return res.status(500).send({ message: "Error deleting property" });
             }
             res.status(200).send({ message: "Property deleted successfully" });
         });
 });
+
 
 // ------- EDITING A PROPERTY -------
 //Get Property (Editing)
@@ -108,11 +98,7 @@ router.get("/propertiesUpdate/:id", (req, res) => {
         [propertyId],
         (err, result) => {
             if (err) {
-                console.log("Error getting property:", err);
                 return res.status(500).send({ message: "Error getting property" });
-            }
-            if (!result.length) {
-                return res.status(404).send({ message: "Property not found" });
             }
             res.status(200).send(result[0]);
         });
@@ -145,11 +131,10 @@ router.put("/propertiesUpdate/:id", (req, res) => {
         [userId, propertyName, propertyId],
         (err, result) => {
             if (err) {
-                console.log("Database error:", err);
-                return res.status(500).send({ message: "Database error", error: err });
+                return res.status(500).send({ message: "Error getting property data" });
             }
 
-            if (result.length > 0) { //Check uniqueness
+            if (result.length > 0) {
                 return res.status(400).send({ message: "There is already a property with this name" });
             }
 
@@ -164,6 +149,5 @@ router.put("/propertiesUpdate/:id", (req, res) => {
         }
     );
 });
-
 
 module.exports = router;

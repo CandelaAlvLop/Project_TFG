@@ -17,7 +17,6 @@ function MainPage() {
     return (
         <div>
             <NavbarStart />
-
             {/*Header Section*/}
             <div className="header-mainpage">
                 <h1>Claim Your Data!</h1>

@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import Navbar from './NavbarIn';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "./NavbarIn";
 import Navbar2 from "./Navbar2";
-import Footer from './Footer';
+import Footer from "./Footer";
 import "../layouts/DataDonation.css";
-import axios from 'axios';
 import { MdAddCircle, MdCancel } from "react-icons/md";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
 import { FaRegLightbulb, FaEdit, FaFileUpload } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { CiSaveDown2 } from "react-icons/ci";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 function DataDonation() {
 
-    const userId = localStorage.getItem('user_id');
+    const userId = localStorage.getItem("user_id");
     useEffect(() => {
         window.scrollTo(0, 0);
         if (!userId) return console.error("No User retrieved");
@@ -61,10 +61,11 @@ function DataDonation() {
     const navigate = useNavigate();
 
     const ConsentList = ["General usage trends", "Campaign Contact", "Research Campaigns", "Government Campaigns", "Education Campaigns", "Transport Campaigns", "Business Campaigns", "Compare with Metadata"]
-    const consumeIcons = [{ icon: <IoWaterOutline />, consume: 'Water' }, { icon: <FaRegLightbulb />, consume: 'Electric' }, { icon: <FaFire />, consume: 'Gas' }];
+    const consumeIcons = [{ icon: <IoWaterOutline />, consume: "Water" }, { icon: <FaRegLightbulb />, consume: "Electric" }, { icon: <FaFire />, consume: "Gas" }];
 
     useEffect(() => {
         if (userId && selectedProperty && selectedConsume) {
+            //Get files metadata for the consume and property selected for a certain user
             axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`)
                 .then((response) => {
                     setUploadedInfos(response.data.files);
@@ -96,17 +97,16 @@ function DataDonation() {
         }
     }, [selectedProperty, selectedConsume, userId]);
 
-
-    //Property and Consume Selection
+    //CSS for property selection and deselection
     function selectionProperty(propertyId) {
         if (selectedProperty === propertyId) return "property-select selected";
         else return "property-select";
     }
+    //CSS for consume selection and deselection
     function selectionConsume(consume) {
         if (selectedConsume === consume) return "property-consume-select selected";
         else return "property-consume-select";
     }
-
 
     //Upload a data file
     function UploadFile() {
@@ -118,6 +118,7 @@ function DataDonation() {
         const formData = new FormData();
         formData.append("file", uploadedFile);
 
+        //Post file for the consume and property selected for a certain user
         axios.post(`http://localhost:3001/DataDonationManager/donation/${userId}/${selectedProperty}/${selectedConsume}`, formData)
             .then((response) => {
                 setDonationId(response.data.donationId);
@@ -141,7 +142,6 @@ function DataDonation() {
             });
     }
 
-
     //Edit Consents
     function editConsent(donationId) {
         axios.get(`http://localhost:3001/DataDonationManager/consent/${donationId}`)
@@ -155,12 +155,15 @@ function DataDonation() {
             });
     }
 
-    //Consent Selection
+    //Consent Selection - Processing for checkbox selection and deselection
     function consentSelection(value) {
-        if (selectedConsents.includes(value)) { setSelectedConsents(selectedConsents.filter(consent => consent !== value)); } //Remove element from the new array
+        //If the previosuly checked value is deselected, a new array is created filtering that value
+        if (selectedConsents.includes(value)) { setSelectedConsents(selectedConsents.filter(consent => consent !== value)); }
+        //If the value is selected (is not stored in the array), the value is added to the array
         else { setSelectedConsents([...selectedConsents, value]); } //Add element to the new array
     }
 
+    //Processing for "Select All" checkbox selection and deselction
     function consentSelectionAll() {
         if (selectedConsents.length === ConsentList.length) {
             setSelectedConsents([]); //Unselect when already selected
@@ -175,20 +178,17 @@ function DataDonation() {
         if (selectedConsents.length === 0) return;
         axios.post("http://localhost:3001/DataDonationManager/consent", {
             donationId: editingConsent || donationId,
-            consents: selectedConsents.join(",")
-        })
-            .then(() => {
-                setConsent(false);
-                setSavedConsent(false);
-                setSelectedConsents([]);
-            })
-            .catch((err) => {
-                console.error("Error storing consents:", err);
-            });
+            consents: selectedConsents.join(",") //Join consents to send to the backend as a single list
+        }).then(() => {
+            setConsent(false);
+            setSavedConsent(false);
+            setSelectedConsents([]);
+        }).catch((err) => {
+            console.error("Error storing consents:", err);
+        });
     }
 
-
-    //Select Justifications
+    //Select Justifications - Processing for checkbox selection and deselection
     function justificationSelection(value) {
         if (selectedJustifications.includes(value)) { setSelectedJustifications(selectedJustifications.filter(consent => consent !== value)); }
         else { setSelectedJustifications([...selectedJustifications, value]); }
@@ -207,37 +207,32 @@ function DataDonation() {
         }
     }
 
-
     //Delete Donation
     function deleteDonation(donationId) {
         axios.post("http://localhost:3001/DataDonationManager/donationDelete/", {
             userId: userId,
             donationId: donationId,
-            justifications: selectedJustifications.join(",")
-        })
-            .then(() => {
-                setConsent(false);
-                setSelectedConsents([]);
-                setEditingConsent(null);
-                setSelectedJustifications([]);
-                setSavedJustifications(false);
-                setOther("");
-                setError("");
-                return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
-            })
-            .then((response) => {
-                setUploadedInfos(response.data.files);
-                setFirstUpload(response.data.firstUpload);
-                setLastUpload(response.data.lastUpload);
-            })
-            .catch((err) => {
-                console.error("Error deleting donation:", err);
-            });
+            justifications: selectedJustifications.join(",") //Join justifications to send to the backend as a single list
+        }).then(() => {
+            setConsent(false);
+            setSelectedConsents([]);
+            setEditingConsent(null);
+            setSelectedJustifications([]);
+            setSavedJustifications(false);
+            setOther("");
+            setError("");
+            return axios.get(`http://localhost:3001/DataDonationManager/donations/${userId}/${selectedProperty}/${selectedConsume}`);
+        }).then((response) => {
+            setUploadedInfos(response.data.files);
+            setFirstUpload(response.data.firstUpload);
+            setLastUpload(response.data.lastUpload);
+        }).catch((err) => {
+            console.error("Error deleting donation:", err);
+        });
     }
 
-
-    //Data Donation Section, View Uploads, View Security Policies Answers, Manage File Upload, Access Consent Edit
     function donationManagement() {
+        //Upload file section
         if (upload) {
             return (
                 <div className="upload-data">
@@ -250,11 +245,13 @@ function DataDonation() {
             );
         }
 
+        //If uploaded file
         if (uploadedInfos.length > 0) {
             return (
                 <div className="donation">
                     <p className="donation-txt">Thank for letting us help you through your data to improve your habits and raise awareness about a better use of resources.</p>
 
+                    {/*View files metadata*/}
                     <h2>Provided Data</h2>
                     {firstUpload && lastUpload && (
                         <><p><strong>First uploaded data:</strong> {new Date(firstUpload.upload_time).toLocaleDateString()}</p>
@@ -262,6 +259,7 @@ function DataDonation() {
                     )}
                     <p><strong>Files Uploaded:</strong></p>
                     <ul>
+                        {/*Edit consents access*/}
                         {uploadedInfos.map((file, i) => (
                             <li key={i}>{file.filename} – Uploaded on: <strong>{new Date(file.upload_time).toLocaleDateString()} </strong> <button className="edit-consent" onClick={() => { editConsent(file.donation_id) }}><FaEdit /> Edit Consent</button> </li>
                         ))}
@@ -317,6 +315,7 @@ function DataDonation() {
                             </ul>
                         </div>
                     }
+                    {/*Upload data access*/}
                     <button className="add-data" onClick={() => { window.scrollTo(0, 0); setUpload(true) }}><MdAddCircle /> Add</button>
                 </div>
             );
@@ -334,9 +333,9 @@ function DataDonation() {
         <div>
             <Navbar />
             <Navbar2 />
-
             {/*Show User Properties*/}
             <h1 className="property-title">Select a Property to Upload Data</h1>
+            {/*Property selection*/}
             {properties.length > 0 && (
                 <div className="property-data">
                     {properties.map((property) => (
@@ -350,11 +349,11 @@ function DataDonation() {
             {properties.length === 0 && (
                 <div className="no-properties">
                     No properties added
-                    <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>
+                    <button className="add-property-button" onClick={() => navigate("/addproperty")}><MdAddCircle /> Add New Property</button>
                 </div>
             )}
 
-            {/*Show Consume Types*/}
+            {/*Consume type selection*/}
             {selectedProperty && (<div className="property-consume-type">
                 {consumeIcons.map(({ icon, consume }) => (
                     <button key={consume} className={selectionConsume(consume)}
@@ -477,7 +476,6 @@ function DataDonation() {
                     </div>
                 </div>
             )}
-
             <Footer />
         </div>
     )

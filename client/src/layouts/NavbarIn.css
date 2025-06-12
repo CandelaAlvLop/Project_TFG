@@ -1,5 +1,5 @@
 .navbarin {
-    background: #C4E8E8;
+    background-color: #C4E8E8;
     position: fixed;
     display: flex;
     z-index: 2;
@@ -38,7 +38,6 @@
 }
 
 .right-navbar a:hover {
-    background-color: rgba(255, 255, 255, 0.637);
     background-color: rgb(143, 216, 226);
     color: white;
 }

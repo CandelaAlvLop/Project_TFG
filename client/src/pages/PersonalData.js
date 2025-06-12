@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import Navbar from './NavbarIn';
-import Navbar2 from './Navbar2';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "./NavbarIn";
+import Navbar2 from "./Navbar2";
 import Footer from "./Footer";
-import '../layouts/PersonalData.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import "../layouts/PersonalData.css";
+import { useNavigate } from "react-router-dom";
 import { MdAddCircle, MdCancel } from "react-icons/md";
 import { CiSaveDown2 } from "react-icons/ci";
 import { FaEdit } from "react-icons/fa";
@@ -20,6 +20,7 @@ function PersonalData() {
         setUserProperties();
         //eslint-disable-next-line
     }, []);
+
     const navigate = useNavigate();
 
     // ------------------------------- USER DATA -------------------------------
@@ -70,8 +71,7 @@ function PersonalData() {
             email: NewEmail,
             password: NewPassword,
             type: NewType
-        }).then((response) => {
-            console.log("User ID updated:", response.data.userId);
+        }).then(() => {
             setEdit(false);
             setUserData();
             setError(""); //Clean Errors
@@ -93,6 +93,7 @@ function PersonalData() {
     // ------------------------------- PROPERTY DATA -------------------------------   
     const [properties, setProperties] = useState([]);
 
+    //Get User properties
     function setUserProperties() {
         if (!userId) return console.error("No User retrieved");
         axios.get(`http://localhost:3001/PropertyManager/properties/${userId}`)
@@ -121,6 +122,7 @@ function PersonalData() {
         <div>
             <Navbar />
             <Navbar2 />
+            {/* ------------------------------- USER DATA ------------------------------- */}
             <div className="user-data">
                 <h1>Personal Information</h1>
                 <form onSubmit={editUserData}>
@@ -137,7 +139,7 @@ function PersonalData() {
                                     }
                                 }}
                                 onChange={(e) => setNewName(e.target.value)}
-                                disabled={!edit}
+                                disabled={!edit} //Edition is not enabled until Edit button is clicked
                             />
                         </div>
                         <div className="input">
@@ -243,7 +245,9 @@ function PersonalData() {
 
                     {error && <div className="error-upload">{error}</div>}
 
+                    {/*Enable Edit Mode*/}
                     {edit === false && (<button type="button" className="edit" onClick={() => setEdit(true)}><FaEdit /> Edit</button>)}
+                    {/*Return to View Mode*/}
                     {edit === true && (
                         <><button type="submit" className="save"><CiSaveDown2 /> Save</button>
                             <button type="button" className="cancel" onClick={cancelEditUserData}><MdCancel /> Cancel</button></>
@@ -251,6 +255,7 @@ function PersonalData() {
                 </form>
             </div>
 
+            {/* ------------------------------- PROPERTY DATA ------------------------------- */}
             <div className="properties-data">
                 <h1>Your Properties</h1>
                 <div className="properties">
@@ -266,22 +271,20 @@ function PersonalData() {
                                 <button type="button" className="edit"
                                     onClick={() => {
                                         localStorage.setItem("property_id", property.property_id);
-                                        navigate('/editproperty');
+                                        navigate("/editproperty");
                                     }}>
-                                <FaEdit /> Edit</button>
+                                    <FaEdit /> Edit</button>
                                 <button type="button" className="delete" onClick={() => deleteProperty(property.property_id)}><RiDeleteBin5Fill /> Delete</button>
                             </div>
                         </div>
                     ))}
                     {properties.length === 0 && <p className="no-properties">No properties added</p>}
                 </div>
-
-                <button className="add-property-button" onClick={() => navigate('/addproperty')}><MdAddCircle /> Add New Property</button>
+                <button className="add-property-button" onClick={() => navigate("/addproperty")}><MdAddCircle /> Add New Property</button>
             </div>
-
             <Footer />
         </div>
     );
 }
-export default PersonalData;
 
+export default PersonalData;

@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
-import '../layouts/NavbarIn.css';
+import { Link, useNavigate } from "react-router-dom";
+import "../layouts/NavbarIn.css";
 import { FaBell } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 
@@ -18,10 +18,9 @@ function NavbarIn() {
                 <IoIosLogOut
                     className="logout"
                     onClick={() => {
-                        console.log("User logged out");
                         localStorage.removeItem("user_id");
                         localStorage.removeItem("username");
-                        navigate('/');
+                        navigate("/");
                     }}
                 />
             </div>

@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../db');
+const db = require("../db");
 
 const name_surnamePattern = /^[A-Z][a-z]{1,9}$/;
 const usernamePattern = /^.{3,10}$/;
@@ -33,11 +33,10 @@ router.post("/register", (req, res) => {
         [username, DNI, email],
         (err, result) => {
             if (err) {
-                console.log("Database error:", err);
-                return res.status(500).send({ message: "Database error", error: err });
+                return res.status(500).send({ message: "Error getting User data" });
             }
 
-            if (result.length > 0) { //Check uniqueness of username, DNI and email
+            if (result.length > 0) {
                 let uniqueValue = [];
                 result.forEach(user => {
                     if (user.DNI === DNI) uniqueValue.push("DNI");
@@ -53,45 +52,41 @@ router.post("/register", (req, res) => {
                 [name, surname, username, DNI, email, password, type],
                 (err, result) => {
                     if (err) {
-                        console.log(err);
-                        return res.status(500).send({ message: "Registration failed", error: err });
+                        return res.status(500).send({ message: "Registration failed" });
                     } else {
-                        console.log("User registered succesfully:", result.insertId);
                         res.status(200).send({ message: "Registration successful", userId: result.insertId, type: type });
-                        console.log("Redirecting to Dashboard");
                     }
                 }
             );
         }
     );
-
 });
 
 // ------------------------------- LOGIN -------------------------------
 //Login User
 router.post("/login", (req, res) => {
     const { username, password } = req.body;
+
+    //Check no parameter is empty
+    if (!username || !password) {
+        return res.status(400).send({ message: "Username and password are required" });
+    }
+
     db.query(
         "SELECT * FROM users WHERE username = ? AND password = ?",
         [username, password],
         (err, result) => {
             if (err) {
-                console.log(err);
-                res.status(500).send(err);
+                return res.status(500).send({ message: "Error getting User data" });
             }
             if (result.length > 0) { //Check if combination is in database
-                console.log("User logged succesfully:", result);
                 res.status(200).send({ userId: result[0].user_id, username: result[0].username, type: result[0].type });
-
-                console.log("Redirecting to Dashboard");
             } else {
-                console.log("Wrong username or password");
                 res.status(400).send({ message: "Wrong username or password" })
             }
         }
     );
 });
-
 
 
 // ------------------------------- PERSONAL DATA -------------------------------
@@ -103,10 +98,8 @@ router.get("/userUpdate/:id", (req, res) => {
         [userId],
         (err, result) => {
             if (err) {
-                console.log(err);
-                return res.status(500).send({ message: "Error getting User Data" });
+                return res.status(500).send({ message: "Error getting User data" });
             }
-            console.log("User data retrieved succesfully:", result);
             res.status(200).send(result[0]);
         });
 });
@@ -135,11 +128,10 @@ router.put("/userUpdate/:id", (req, res) => {
         [username, DNI, email, userId],
         (err, result) => {
             if (err) {
-                console.log("Database error:", err);
-                return res.status(500).send({ message: "Database error", error: err });
+                return res.status(500).send({ message: "Error getting User data" });
             }
 
-            if (result.length > 0) { //Check uniqueness of username, DNI and email
+            if (result.length > 0) {
                 let uniqueValue = [];
                 result.forEach(user => {
                     if (user.DNI === DNI) uniqueValue.push("DNI");
@@ -154,14 +146,11 @@ router.put("/userUpdate/:id", (req, res) => {
                 [name, surname, username, DNI, email, password, type, userId],
                 (err) => {
                     if (err) {
-                        console.log(err);
                         return res.status(500).send({ message: "Error updating User data" });
                     }
-                    console.log("User data updated succesfully");
                     res.status(200).send({ message: "User data updated successfully" });
                 }
             );
-
         }
     );
 });
@@ -169,14 +158,12 @@ router.put("/userUpdate/:id", (req, res) => {
 //Save Notifications
 router.post("/notification", (req, res) => {
     const { userId, notifications } = req.body;
-    console.log("Stored:", req.body);
 
     db.query(
         "SELECT * FROM notifications_consent WHERE user_id = ?",
         [userId],
         (err, result) => {
             if (err) {
-                console.error("Error checking existing notification consents:", err);
                 return res.status(500).send({ message: "Error checking existing notification consents" });
             }
             if (result.length > 0) {
@@ -185,7 +172,6 @@ router.post("/notification", (req, res) => {
                     [notifications, userId],
                     (update_err) => {
                         if (update_err) {
-                            console.error("Error updating notification consents:", update_err);
                             return res.status(500).send({ message: "Error updating notification consents" });
                         }
                         return res.status(200).send({ message: "Notification consents updated successfully" });
@@ -197,7 +183,6 @@ router.post("/notification", (req, res) => {
                     [userId, notifications],
                     (insert_err) => {
                         if (insert_err) {
-                            console.error("Error inserting notification consents:", insert_err);
                             return res.status(500).send({ message: "Error inserting notification consents" });
                         }
                         return res.status(200).send({ message: "Notification consents inserted successfully" });
@@ -217,7 +202,6 @@ router.get("/notification/:userId", (req, res) => {
         [userId],
         (err, result) => {
             if (err) {
-                console.error("Error getting notification consents:", err);
                 return res.status(500).send({ message: "Error getting notification consents" });
             }
             if (result.length > 0 && result[0].notifications) {

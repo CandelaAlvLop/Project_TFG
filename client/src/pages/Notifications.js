@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import Navbar from './NavbarIn';
-import Footer from './Footer';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "./NavbarIn";
 import Navbar2 from "./Navbar2";
-import '../layouts/Notifications.css';
-import axios from 'axios';
+import Footer from "./Footer";
+import "../layouts/Notifications.css";
 import { MdCancel } from "react-icons/md";
 import { CiSaveDown2 } from "react-icons/ci";
+
 
 function Notifications() {
 
@@ -18,6 +19,7 @@ function Notifications() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        //Get User notifications
         axios.get(`http://localhost:3001/UserManager/notification/${userId}`)
             .then((response) => {
                 setSelectedNotification(response.data.notifications);
@@ -27,12 +29,16 @@ function Notifications() {
             })
     }, [userId]);
 
+    //Processing for checkbox selection and deselection
     function notificationSelection(value) {
         setSavedNotificationMessage(false);
-        if (selectedNotification.includes(value)) { setSelectedNotification(selectedNotification.filter(notification => notification !== value)); } //Remove element from the new array
-        else { setSelectedNotification([...selectedNotification, value]); } //Add element to the new array
+        //If the previosuly checked value is deselected, a new array is created filtering that value
+        if (selectedNotification.includes(value)) { setSelectedNotification(selectedNotification.filter(notification => notification !== value)); }
+        //If the value is selected (is not stored in the array), the value is added to the array
+        else { setSelectedNotification([...selectedNotification, value]); }
     }
 
+    //Processing for "Select All" checkbox selection and deselction
     function notificationSelectionAll() {
         setSavedNotificationMessage(false);
         if (selectedNotification.length === NotificationList.length) {
@@ -46,15 +52,13 @@ function Notifications() {
         setSavedNotification([...selectedNotification]);
         axios.post("http://localhost:3001/UserManager/notification", {
             userId,
-            notifications: selectedNotification.join(",")
-        })
-            .then(() => {
-                setSavedNotification([...selectedNotification]);
-                setSavedNotificationMessage(true);
-            })
-            .catch((err) => {
-                console.error("Error storing notifications:", err);
-            });
+            notifications: selectedNotification.join(",") //Join notifications to send to the backend as a single list
+        }).then(() => {
+            setSavedNotification([...selectedNotification]);
+            setSavedNotificationMessage(true);
+        }).catch((err) => {
+            console.error("Error storing notifications:", err);
+        });
     }
 
     return (

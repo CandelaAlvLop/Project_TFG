@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import Navbar from './Navbar';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
-import '../layouts/Login.css';
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import "../layouts/Login.css";
+import { useNavigate } from "react-router-dom";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 
@@ -26,15 +26,14 @@ function Login() {
 
     function loginUser(e) {
         e.preventDefault(); //Prevent refreshing
-        axios.post('http://localhost:3001/UserManager/login', {
+        axios.post("http://localhost:3001/UserManager/login", {
             username: Username,
             password: Password
         }).then((response) => {
+            //Store user ID, username and user type
             localStorage.setItem("user_id", response.data.userId);
             localStorage.setItem("username", response.data.username);
             localStorage.setItem("type", response.data.type);
-
-            console.log("User ID stored:", response.data.userId);
 
             if (response.data.type === "Donor") {
                 navigate("/dashboard");
@@ -55,7 +54,6 @@ function Login() {
     return (
         <div>
             <Navbar />
-            {/* Main Content Sidebar Section */}
             <div className="maincontent-login">
                 {/* Sidebar */}
                 <div className="sidebar-login">
@@ -90,18 +88,18 @@ function Login() {
                             />
                             <label htmlFor="password">Password</label>
                             <div className="password-see-login">
-                            <input type={(seePassword && "text") || "password"} id="password" name="password" value={Password} placeholder="Enter password" required
-                                //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
-                                onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
-                                onInput={(e) => {
-                                    e.target.setCustomValidity("");
-                                    if (!(passwordPattern).test(e.target.value)) {
-                                        e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character");
-                                    }
-                                }}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <span onClick={viewPassword} className="password-eye-login">{(seePassword && <IoEyeOff />) || <IoEye />}</span>
+                                <input type={(seePassword && "text") || "password"} id="password" name="password" value={Password} placeholder="Enter password" required
+                                    //Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character
+                                    onInvalid={(e) => e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character")}
+                                    onInput={(e) => {
+                                        e.target.setCustomValidity("");
+                                        if (!(passwordPattern).test(e.target.value)) {
+                                            e.target.setCustomValidity("Password of min 6 characters containing at least one lower and one uppercase letters, one digit and one special character");
+                                        }
+                                    }}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <span onClick={viewPassword} className="password-eye-login">{(seePassword && <IoEyeOff />) || <IoEye />}</span>
                             </div>
                             {error && <div className="error-login">{error}</div>}
                         </div>

@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import Navbar from './NavbarIn';
-import Footer from './Footer';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "./NavbarIn";
 import Navbar2 from "./Navbar2";
-import NavbarIn2 from './NavbarIn2';
+import NavbarIn2 from "./NavbarIn2";
 import Navbar3 from "./Navbar3";
+import Footer from "./Footer";
 import "../layouts/ViewCampaign.css";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
@@ -28,18 +28,17 @@ function ViewCampaigns() {
 
     const navigate = useNavigate();
 
+    //Get selected campaign details
     useEffect(() => {
         window.scrollTo(0, 0);
         if (!campaignId) return console.error("No Campaign retrieved");
         axios.get(`http://localhost:3001/CampaignManager/campaignsUpdate/${campaignId}`)
             .then((response) => {
                 setCampaign(response.data);
-                console.log("Fetched campaign ID from localStorage:", campaignId);
-
             }).catch((error) => {
                 console.error("Error retrieving Camapign data:", error);
             });
-    }, []);
+    }, [campaignId]);
 
     function navbars() {
         if (userType === "Donor") return (<> <Navbar /> <Navbar2 /></>);
@@ -51,9 +50,10 @@ function ViewCampaigns() {
             {navbars()}
             <div key={campaign.campaign_id}>
                 <div className="header-campaign">
-                    <button type="button" className="button-back" onClick={() => navigate('/campaigns')}><IoMdArrowRoundBack /> Back</button>
+                    <button type="button" className="button-back" onClick={() => navigate("/campaigns")}><IoMdArrowRoundBack /> Back</button>
                     {(() => {
                         let typeIcons = [];
+                        //Get campaign utility icons
                         if (campaign.type) {
                             const types = campaign.type.split(",");
                             if (types.includes("Water")) typeIcons.push(<IoWaterOutline />);
@@ -69,9 +69,7 @@ function ViewCampaigns() {
                 </div>
 
                 <div className="campaign-content">
-
                     <p className="campaign-description">{campaign.description}</p>
-
                     <div className="campaign-input-date">
                         <p><strong>{campaign.dates}</strong> </p>
                         <p><strong>Ends:</strong> {campaign.endDate}</p>

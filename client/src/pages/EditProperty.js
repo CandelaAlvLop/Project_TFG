@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import Navbar from './NavbarIn';
-import Navbar2 from './Navbar2';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "./NavbarIn";
+import Navbar2 from "./Navbar2";
 import Footer from "./Footer";
-import '../layouts/AddProperty.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import "../layouts/AddProperty.css";
+import { useNavigate } from "react-router-dom";
 import { MdCancel } from "react-icons/md";
 import { CiSaveDown2 } from "react-icons/ci";
 
@@ -53,15 +53,18 @@ function EditProperty() {
     const propertyId = localStorage.getItem("property_id");
     const userId = localStorage.getItem("user_id");
 
+    //Get User properties information
     function setUserProperty() {
         if (!propertyId) return console.error("No Property retrieved");
         axios.get(`http://localhost:3001/PropertyManager/propertiesUpdate/${propertyId}`)
             .then((response) => {
                 let propertyAppliances_string = [];
-                if (response.data.appliances) propertyAppliances_string = response.data.appliances.split(',');
+                //Split appliances list to retrieve them individually
+                if (response.data.appliances) propertyAppliances_string = response.data.appliances.split(",");
 
                 const propertyAppliances = { electric: {}, gas: {}, water: {} };
 
+                //Set to true (select checkboxes) if the appliance is stored
                 propertyAppliances.electric.fridge = propertyAppliances_string.includes("Fridge");
                 propertyAppliances.electric.dishWasher = propertyAppliances_string.includes("Dish Washer");
                 propertyAppliances.electric.washingMachine = propertyAppliances_string.includes("Washing Machine");
@@ -94,10 +97,10 @@ function EditProperty() {
                 setNewBuildingYear(response.data.buildingYear);
                 setNewDistrict(response.data.district);
                 setNewQuantity(response.data.quantity);
-                setNewAges(response.data.ages.split(','));
+                setNewAges(response.data.ages.split(",")); //Split ages list to retrieve them individually
                 setNewIncome(response.data.income);
                 setNewRemoteWorkers(response.data.remoteWorkers);
-                setNewWorkingSchedule(response.data.workingSchedules.split(','));
+                setNewWorkingSchedule(response.data.workingSchedules.split(",")); //Split working schedule list to retrieve them individually
                 setNewDescription(response.data.description);
                 setNewAppliances(propertyAppliances);
                 setNewElectricConsumption(response.data.electricConsumption);
@@ -115,6 +118,7 @@ function EditProperty() {
 
         const propertyAppliances = [];
 
+        //If appliance is set to true push it to propertyAppliances
         if (NewAppliances.electric.fridge) propertyAppliances.push("Fridge");
         if (NewAppliances.electric.dishWasher) propertyAppliances.push("Dish Washer");
         if (NewAppliances.electric.washingMachine) propertyAppliances.push("Washing Machine");
@@ -142,7 +146,8 @@ function EditProperty() {
         if (NewAppliances.water.halfBathrooms) propertyAppliances.push("Half Bathrooms");
         if (NewAppliances.water.terraceWithPlants) propertyAppliances.push("Terrace with Plants");
 
-        const propertyAppliances_string = propertyAppliances.join(',');
+        //Join appliances to send to the backend as a single comma-separated list
+        const propertyAppliances_string = propertyAppliances.join(",");
 
         axios.put(`http://localhost:3001/PropertyManager/propertiesUpdate/${propertyId}`, {
             userId,
@@ -151,19 +156,18 @@ function EditProperty() {
             buildingYear: NewBuildingYear,
             district: NewDistrict,
             quantity: NewQuantity,
-            ages: NewAges.join(','),
+            ages: NewAges.join(","), //Join ages to send to the backend as a single list
             income: NewIncome,
             remoteWorkers: NewRemoteWorkers,
-            workingSchedules: NewWorkingSchedule.join(','),
+            workingSchedules: NewWorkingSchedule.join(","), //Join working schedules to send to the backend as a single list
             description: NewDescription,
             appliances: propertyAppliances_string,
             electricConsumption: NewElectricConsumption,
             gasConsumption: NewGasConsumption,
             waterConsumption: NewWaterConsumption
-        }).then((response) => {
-            console.log("Property ID updated:", response.data.propertyId);
+        }).then(() => {
             setUserProperty();
-            navigate('/personaldata');
+            navigate("/personaldata");
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -175,12 +179,14 @@ function EditProperty() {
 
     function cancelEditPropertyData() {
         localStorage.removeItem("property_id");
-        navigate('/personaldata');
+        navigate("/personaldata");
     }
 
-
+    //Processing for checkbox selection and deselection
     function ageUpdate(value) {
+        //If the previosuly checked value is deselected, a new array is created filtering that value
         if (NewAges.includes(value)) { setNewAges(NewAges.filter(age => age !== value)); }
+        //If the value is selected (is not stored in the array), the value is added to the array
         else { setNewAges([...NewAges, value]); }
     }
 
@@ -314,6 +320,7 @@ function EditProperty() {
                     <div className="appliances">
                         <div className="appliance-type">Electric</div>
                         <div className="appliance-checkboxes">
+                            {/*Each time a checkbox is selected or deselected their state is changed between true or false. The opposite state to the current one*/}
                             <label><input type="checkbox" checked={NewAppliances.electric.fridge} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, fridge: !NewAppliances.electric.fridge } })} /> Fridge</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.dishWasher} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, dishWasher: !NewAppliances.electric.dishWasher } })} /> Dish Washer</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.washingMachine} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, washingMachine: !NewAppliances.electric.washingMachine } })} /> Washing Machine</label>
@@ -404,4 +411,5 @@ function EditProperty() {
         </div>
     );
 }
+
 export default EditProperty;

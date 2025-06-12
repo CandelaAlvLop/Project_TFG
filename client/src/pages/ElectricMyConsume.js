@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react';
-import Navbar from './NavbarIn';
-import Footer from './Footer';
-import Navbar2 from "./Navbar2";
-import "../layouts/WaterMyConsume.css";
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "chart.js/auto";
+import Navbar from "./NavbarIn";
+import Navbar2 from "./Navbar2";
+import Footer from "./Footer";
 import { Doughnut, Bar } from "react-chartjs-2";
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
 import { FaRegLightbulb } from "react-icons/fa";
-
 import UseOfEfficientElectricStove from "../images/UseOfEfficientElectricStove.png";
 import TurnOffUnnecessaryLights from "../images/TurnOffUnnecessaryLights.png";
 import SmartTemperatureControl from "../images/SmartTemperatureControl.png";
@@ -34,6 +32,7 @@ function ElectricMyConsume() {
     useEffect(() => {
         window.scrollTo(0, 0);
         if (!propertyId) return console.error("No Property retrieved");
+        //Get total consume for the property and utility selected
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Water`)
             .then((response) => {
                 if (response.data.length === 0) { setWaterTotalConsume(0); return }
@@ -53,10 +52,9 @@ function ElectricMyConsume() {
             })
     }, [propertyId]);
 
-    //Month Graphic Representation
+    //Month Bar Chart Representation for the property and utility selected
     useEffect(() => {
         if (!propertyId) return;
-
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Electric`)
             .then((response) => {
                 const monthConsumes = [];
@@ -69,7 +67,7 @@ function ElectricMyConsume() {
 
                     if (response.data[i].timer_month !== previousMonth) { //Month Change
                         monthConsumes.push(parseFloat(lastReading - previousMonthReading)); //Substract difference to obtain the actual month consume
-                        previousMonth = response.data[i].timer_month; //New Month
+                        previousMonth = response.data[i].timer_month; //Save current Month
                         previousMonthReading = lastReading;
                         lastReading = readings; //Update Reading
                     } else {
@@ -82,7 +80,7 @@ function ElectricMyConsume() {
             })
     }, [propertyId]);
 
-    //Day Graphic Representation
+    //Day Bar Chart Representation for the property and utility selected
     useEffect(() => {
         axios.get(`http://localhost:3001/DataDonationManager/consume/${propertyId}/Electric`)
             .then((response) => {
@@ -96,7 +94,7 @@ function ElectricMyConsume() {
                 for (let i = 0; i < response.data.length; i++) {
                     const readings = parseFloat(response.data[i].meter_reading);
 
-                    if (response.data[i].timer_month !== previousMonth) {
+                    if (response.data[i].timer_month !== previousMonth) { //Month Change
                         dayConsumes.push(parseFloat(lastReading - previousDayReading));
                         months[previousMonth] = dayConsumes; //Store Day Consume into its Month
                         //Update Month and Day
@@ -104,7 +102,7 @@ function ElectricMyConsume() {
                         previousDay = response.data[i].timer_day;
                         previousDayReading = lastReading; //Update last Reading
                         dayConsumes = []; //Reset for the new month
-                    } else if (response.data[i].timer_day !== previousDay) {
+                    } else if (response.data[i].timer_day !== previousDay) { //Day Change
                         dayConsumes.push(parseFloat(lastReading - previousDayReading));
                         previousDay = response.data[i].timer_day;
                         previousDayReading = lastReading;
@@ -117,17 +115,19 @@ function ElectricMyConsume() {
             })
     }, [propertyId, selectMonth]);
 
+    //CSS for month selection and deselection
     function selectionMonth(month) {
         if (selectMonth === month) return "month-select selected";
         else return "month-select";
     }
 
+    //Doughnut chart visualisation
     const waterConsumeMax = 450000;
     const dataWater = {
         datasets: [{
             data: [waterTotalConsume, waterConsumeMax - waterTotalConsume],
             backgroundColor: ["rgb(143, 216, 226)", "rgba(143, 216, 226, 0.12)"],
-            cutout: '65%',
+            cutout: "65%",
             borderWidth: 0,
         }]
     }
@@ -137,7 +137,7 @@ function ElectricMyConsume() {
         datasets: [{
             data: [electricTotalConsume, electricConsumeMax - electricTotalConsume],
             backgroundColor: ["rgb(152, 240, 149)", "rgba(146, 226, 143, 0.12)"],
-            cutout: '65%',
+            cutout: "65%",
             borderWidth: 0,
         }]
     }
@@ -147,11 +147,12 @@ function ElectricMyConsume() {
         datasets: [{
             data: [gasTotalConsume, gasConsumeMax - gasTotalConsume],
             backgroundColor: ["rgb(248, 121, 121)", "rgba(196, 139, 139, 0.12)"],
-            cutout: '65%',
+            cutout: "65%",
             borderWidth: 0,
         }]
     }
 
+    //Bar chart month visualisation
     const barMonthElectric = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
@@ -161,6 +162,7 @@ function ElectricMyConsume() {
         }]
     }
 
+    //Bar chart day visualisation
     const electricDayConsume_ = electricDayConsume[selectMonth] || [];
     const barDayElectric = {
         labels: electricDayConsume_.map((value, index) => (index + 1).toString()),
@@ -175,7 +177,7 @@ function ElectricMyConsume() {
         <div>
             <Navbar />
             <Navbar2 />
-            <button type="button" className="back-button" onClick={() => navigate('/MyConsume')}><IoMdArrowRoundBack /> Back</button>
+            <button type="button" className="back-button" onClick={() => navigate("/MyConsume")}><IoMdArrowRoundBack /> Back</button>
             <h1 className="consume-title">My Electric Consume</h1>
             <div className="consume-data">
                 <div className="consume-year">

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../layouts/Instructions.css";
@@ -6,7 +6,6 @@ import Drawing from "../images/drawing-mainpage.png";
 
 
 function Instructions() {
-    //Show top of the page
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -22,7 +21,6 @@ function Instructions() {
                 <img src={Drawing} alt="Data Visualization" />
             </div>
 
-            {/* Main Content Sidebar Section */}
             <div className="maincontent-mainpage">
                 {/* Sidebar */}
                 <div className="sidebar-mainpage">
@@ -54,7 +52,7 @@ function Instructions() {
                             <li><strong>Secure</strong> Password: At least 6 characters, including one uppercase letter, one lowercase letter, one number, and one special character.</li>
                         </ul>
                         <p><strong>Select your type of user:</strong> Donor, Research, Government, Education, Transport or Business.</p>
-                        <p>Click <strong>“Register”</strong> to create your account.</p>
+                        <p>Click <strong>"Register"</strong> to create your account.</p>
                         <p>After registration, you'll be automatically redirected to your personal dashboard to manage your data.</p>
                     </div>
                 </div>

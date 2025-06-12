@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import NavbarIn2 from './NavbarIn2';
-import Navbar3 from './Navbar3';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import NavbarIn2 from "./NavbarIn2";
+import Navbar3 from "./Navbar3";
 import Footer from "./Footer";
-import '../layouts/AddCampaign.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import "../layouts/AddCampaign.css";
+import { useNavigate } from "react-router-dom";
 import { MdCancel } from "react-icons/md";
 import { CiSaveDown2 } from "react-icons/ci";
 import { IoWaterOutline } from "react-icons/io5";
@@ -55,7 +55,7 @@ function EditCampaign() {
                 setNewDates(response.data.dates);
                 setNewEndDate(response.data.endDate);
                 setNewRetainDate(response.data.retainDate);
-                setNewType(response.data.type.split(","));
+                setNewType(response.data.type.split(",")); //Split types list to retrieve them individually
                 setNewTitleObjective1(response.data.titleObjective1);
                 setNewDescriptionObjective1(response.data.descriptionObjective1);
                 setNewTitleObjective2(response.data.titleObjective2);
@@ -91,7 +91,7 @@ function EditCampaign() {
             dates: NewDates,
             endDate: NewEndDate,
             retainDate: NewRetainDate,
-            type: NewType.join(","),
+            type: NewType.join(","), //Join types to send to the backend as a single list
             titleObjective1: NewTitleObjective1,
             descriptionObjective1: NewDescriptionObjective1,
             titleObjective2: NewTitleObjective2,
@@ -106,10 +106,9 @@ function EditCampaign() {
             whyJoin: NewWhyJoin,
             moreInfo: NewMoreInfo,
             conclusionSentence: NewConclusionSentence,
-        }).then((response) => {
-            console.log("Campaign ID updated:", response.data.campaignId);
+        }).then(() => {
             setUserCampaign();
-            navigate('/mycampaigns');
+            navigate("/mycampaigns");
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -121,14 +120,17 @@ function EditCampaign() {
 
     function cancelEditCampaignData() {
         localStorage.removeItem("campaign_id");
-        navigate('/mycampaigns');
+        navigate("/mycampaigns");
     }
 
     function typeSelection(value) {
-        if (NewType.includes(value)) { setNewType(NewType.filter(type => type !== value)); } //Remove element from the new array
-        else { setNewType([...NewType, value]); } //Add element to the new array
+        //If the previosuly selected type icon is deselected, a new array is created filtering that value
+        if (NewType.includes(value)) { setNewType(NewType.filter(type => type !== value)); }
+        //If the type icon is selected (is not stored in the array), the value is added to the array
+        else { setNewType([...NewType, value]); }
     }
 
+    //CSS for type icon selection and deselection
     function typeSelectionCSS(types) {
         if (NewType.includes(types)) return "icon-select selected";
         else return "icon-select";

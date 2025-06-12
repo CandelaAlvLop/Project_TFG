@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import Footer from './Footer';
-import NavbarIn2 from './NavbarIn2';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import NavbarIn2 from "./NavbarIn2";
 import Navbar3 from "./Navbar3";
+import Footer from "./Footer";
 import "../layouts/MyCampaigns.css";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { MdAddCircle } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
@@ -14,19 +14,19 @@ import { FaRegLightbulb } from "react-icons/fa";
 
 
 function MyCampaigns() {
-    //Show top of the page
     useEffect(() => {
         window.scrollTo(0, 0);
         setUserCampaigns();
         //eslint-disable-next-line
     }, []);
 
+    const [campaigns, setCampaigns] = useState([]);
+
     const navigate = useNavigate();
 
     const userId = localStorage.getItem("user_id");
 
-    const [campaigns, setCampaigns] = useState([]);
-
+    //Get User campaigns
     function setUserCampaigns() {
         if (!userId) return console.error("No User retrieved");
         axios.get(`http://localhost:3001/CampaignManager/campaigns/${userId}`)
@@ -38,7 +38,6 @@ function MyCampaigns() {
             });
     };
 
-    //Delete campiagn
     function deleteCampaign(campaignId) {
         axios.delete(`http://localhost:3001/CampaignManager/campaigns/${campaignId}`)
             .then(() => {
@@ -60,6 +59,7 @@ function MyCampaigns() {
                         <div key={campaign.campaign_id} className="my-campaign-input">
                             {(() => {
                                 let typeIcons = [];
+                                //Get campaign utility icons
                                 if (campaign.type) {
                                     const types = campaign.type.split(",");
                                     if (types.includes("Water")) typeIcons.push(<IoWaterOutline />);
@@ -80,7 +80,7 @@ function MyCampaigns() {
                                 <button type="button" className="edit"
                                     onClick={() => {
                                         localStorage.setItem("campaign_id", campaign.campaign_id);
-                                        navigate('/editcampaign');
+                                        navigate("/editcampaign");
                                     }
                                     }><FaEdit />Edit</button>
                                 <button type="button" className="delete" onClick={() => deleteCampaign(campaign.campaign_id)}><RiDeleteBin5Fill /> Delete</button>
@@ -90,7 +90,7 @@ function MyCampaigns() {
                     {campaigns.length === 0 && <p className="no-campaigns">No campaigns launched</p>}
                 </div>
 
-                <button className="add-campaign-button" onClick={() => navigate('/addcampaign')}><MdAddCircle /> Add New Campaign</button>
+                <button className="add-campaign-button" onClick={() => navigate("/addcampaign")}><MdAddCircle /> Add New Campaign</button>
             </div>
 
             <Footer />

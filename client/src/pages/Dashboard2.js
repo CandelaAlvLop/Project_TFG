@@ -1,15 +1,13 @@
-import { useEffect } from 'react';
-import "../layouts/Navbar2.css";
-import "../layouts/Dashboard.css";
+import { useEffect } from "react";
 import Footer from "./Footer";
 import NavbarIn2 from "./NavbarIn2";
 import Navbar3 from "./Navbar3";
+import "../layouts/Navbar2.css";
+import "../layouts/Dashboard.css";
 import Drawing from "../images/drawing-mainpage.png";
 
 
 function Dashboard2() {
-
-    //const userId = localStorage.getItem('user_id');
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -35,10 +33,10 @@ function Dashboard2() {
 
                 {/* Main Section */}
                 <div className="main-dashboard2">
-                        <h1>Claim Your Data!</h1>
-                        <p>Follow the steps and help us build a better city.</p>
-                        <p>If you have any questions, you can always email us at info@datalog.com</p>
-                        <img src={Drawing} alt="Data Visualization" />
+                    <h1>Claim Your Data!</h1>
+                    <p>Follow the steps and help us build a better city.</p>
+                    <p>If you have any questions, you can always email us at info@datalog.com</p>
+                    <img src={Drawing} alt="Data Visualization" />
                 </div>
             </div>
             <Footer />
@@ -47,4 +45,3 @@ function Dashboard2() {
 }
 
 export default Dashboard2;
-

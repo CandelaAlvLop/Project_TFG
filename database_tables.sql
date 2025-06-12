@@ -1,16 +1,16 @@
 drop database if exists database_tfg;
 create database database_tfg;
 use database_tfg;
-DROP TABLE IF EXISTS notifications_consent CASCADE;
-DROP TABLE IF EXISTS donations_justification CASCADE;
-DROP TABLE IF EXISTS donations_consent CASCADE;
-DROP TABLE IF EXISTS donations_readings CASCADE;
-DROP TABLE IF EXISTS donations_metadata CASCADE;
-DROP TABLE IF EXISTS campaign CASCADE;
-DROP TABLE IF EXISTS property CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS notifications_consent;
+DROP TABLE IF EXISTS donations_justification;
+DROP TABLE IF EXISTS donations_consent;
+DROP TABLE IF EXISTS donations_readings;
+DROP TABLE IF EXISTS donations_metadata;
+DROP TABLE IF EXISTS campaign;
+DROP TABLE IF EXISTS property;
+DROP TABLE IF EXISTS users;
 
-
+-- USERS
 CREATE TABLE IF NOT EXISTS users(
 	user_id INT PRIMARY KEY AUTO_INCREMENT, 
 	name VARCHAR(200), 
@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS campaign(
 	CONSTRAINT fk_user_id_campaign FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+-- DONATIONS METADATA
 CREATE TABLE IF NOT EXISTS donations_metadata (
   donation_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
@@ -110,6 +111,7 @@ CREATE TABLE IF NOT EXISTS donations_metadata (
   CONSTRAINT fk_property_id_donations FOREIGN KEY (property_id) REFERENCES property(property_id)
 );
 
+-- DONATIONS READINGS
 CREATE TABLE IF NOT EXISTS donations_readings (
   reading_id INT PRIMARY KEY AUTO_INCREMENT,
   donation_id INT,
@@ -121,6 +123,7 @@ CREATE TABLE IF NOT EXISTS donations_readings (
   CONSTRAINT fk_donations_id_readings FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
 );
 
+-- DONATIONS CONSENT
 CREATE TABLE IF NOT EXISTS donations_consent (
   consent_id INT PRIMARY KEY AUTO_INCREMENT,
   donation_id INT,
@@ -129,6 +132,7 @@ CREATE TABLE IF NOT EXISTS donations_consent (
   CONSTRAINT fk_donations_id_consents FOREIGN KEY (donation_id) REFERENCES donations_metadata(donation_id)
 );
 
+-- DONATIONS JUSTIFICATION
 CREATE TABLE IF NOT EXISTS donations_justification (
   justification_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
@@ -137,6 +141,7 @@ CREATE TABLE IF NOT EXISTS donations_justification (
   CONSTRAINT fk_user_id_justifications FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+-- NOTIFICATIONS CONSENT
 CREATE TABLE IF NOT EXISTS notifications_consent (
   notification_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
@@ -144,13 +149,6 @@ CREATE TABLE IF NOT EXISTS notifications_consent (
   notification_consent_date DATE DEFAULT (CURRENT_DATE),
   CONSTRAINT fk_user_id_notifications FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-
-SELECT * FROM donations_metadata;
-SELECT * FROM donations_readings;
-SELECT * FROM donations_consent;
-SELECT * FROM donations_justification;
-SELECT * FROM notifications_consent;
-
 
 INSERT INTO campaign (user_id, campaignName, description, dates, endDate, retainDate, type, titleObjective1, descriptionObjective1, titleObjective2, descriptionObjective2, titleObjective3, descriptionObjective3, titleObjective4, descriptionObjective4, step1, step2, step3, whyJoin, moreInfo, conclusionSentence)
 VALUES
@@ -173,7 +171,11 @@ VALUES
 (1, 'Reduction of Energy Consumption During Peak Hours', 'Participating in this campaign, you will not only have access to personalized tools that will help you to optimize your energy consumption, reducing your bills, but you will also contribute to a bigger effort to improve the sustainability of our community.', 'Data between 2020 to 2023', '4 of April 2025', 'Retained until end of campaign', 'Electric',  'Promote ecological awareness', 'Increase awareness about energy consumption in the community and promote sustainable practices.', 'Optimization of personal consumption', 'Help users reduce their energy consumption through personalized recommendations based on their consumption data.', 'Increase citizen participation', 'Expand the base of active users who contribute with their data to have a more representative sample.', 'Contribute to local sustainability', 'Use the collected data to support local initiatives that promote energy efficiency and reduce the carbon footprint.', 'We monitor your energy consumption in real time to understand when and how you use utilities at home.', 'We analyze this data with advanced algorithms that identify usage patterns and detect improvements to save energy.', 'Tips practical and easy to implement that can help you reduce your consumption. And that will be updated over time.', 'UPF is an academic institution with a solid reputation, committed to transparency in its projects. You will contribute to a study that seeks to improve energy efficiency and reduce environmental impact. The data will be handled anonymously and used only for research purposes. And the results of this campaign will benefit the community, providing tools for energy savings, where each small change counts and adds up to a significant impact not only on your bill, but also on environmental sustainability. Join our campaign and discover how you can contribute to a greener future while saving money.', 'Pompeu Fabra University is launching a campaign to collect data on consumption in homes. This initiative aims to promote energy efficiency and contribute to sustainability. UPF seeks to better understand consumption patterns to develop solutions that reduce energy use and carbon emissions. Participating in this campaign will allow citizens to collaborate in an important cause and contribute to the creation of a more sustainable future. The collected data will be treated with strict confidentiality, ensuring participant privacy and security.', 'Join us in this important mission and be part of the shift toward more responsible and sustainable energy consumption.'),
 (2, 'Water Consumption Monitoring', 'Participating in this campaign, you will be able to donate your water consumption data to access a monitoring platform that will allow you to control and reduce your consumption, preserving this essential resource.', 'Data between 2020 to 2023', '30 of March 2026', 'Retained until end of campaign', 'Water', 'Promote ecological awareness', 'Increase awareness about energy consumption in the community and promote sustainable practices.', 'Optimization of personal consumption', 'Help users reduce their energy consumption through personalized recommendations based on their consumption data.', 'Increase citizen participation', 'Expand the base of active users who contribute with their data to have a more representative sample.', 'Contribute to local sustainability', 'Use the collected data to support local initiatives that promote energy efficiency and reduce the carbon footprint.', 'We monitor your energy consumption in real time to understand when and how you use utilities at home.', 'We analyze this data with advanced algorithms that identify usage patterns and detect improvements to save energy.', 'Tips practical and easy to implement that can help you reduce your consumption. And that will be updated over time.', 'UPF is an academic institution with a solid reputation, committed to transparency in its projects. You will contribute to a study that seeks to improve energy efficiency and reduce environmental impact. The data will be handled anonymously and used only for research purposes. And the results of this campaign will benefit the community, providing tools for energy savings, where each small change counts and adds up to a significant impact not only on your bill, but also on environmental sustainability. Join our campaign and discover how you can contribute to a greener future while saving money.', 'Pompeu Fabra University is launching a campaign to collect data on consumption in homes. This initiative aims to promote energy efficiency and contribute to sustainability. UPF seeks to better understand consumption patterns to develop solutions that reduce energy use and carbon emissions. Participating in this campaign will allow citizens to collaborate in an important cause and contribute to the creation of a more sustainable future. The collected data will be treated with strict confidentiality, ensuring participant privacy and security.', 'Join us in this important mission and be part of the shift toward more responsible and sustainable energy consumption.');
 
+SELECT * FROM users;
+SELECT * FROM property;
 SELECT * FROM campaign;
-
-
-
+SELECT * FROM donations_metadata;
+SELECT * FROM donations_readings;
+SELECT * FROM donations_consent;
+SELECT * FROM donations_justification;
+SELECT * FROM notifications_consent;

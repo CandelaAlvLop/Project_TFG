@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import Navbar from './NavbarIn';
-import Navbar2 from './Navbar2';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "./NavbarIn";
+import Navbar2 from "./Navbar2";
 import Footer from "./Footer";
-import '../layouts/AddProperty.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import "../layouts/AddProperty.css";
+import { useNavigate } from "react-router-dom";
 import { CiSaveDown2 } from "react-icons/ci";
 
 
@@ -95,28 +95,28 @@ function AddProperty() {
         if (NewAppliances.water.halfBathrooms) propertyAppliances.push("Half Bathrooms");
         if (NewAppliances.water.terraceWithPlants) propertyAppliances.push("Terrace with Plants");
 
-        const propertyAppliances_string = propertyAppliances.join(',');
+        //Join appliances to send to the backend as a single list
+        const propertyAppliances_string = propertyAppliances.join(",");
 
-        axios.post('http://localhost:3001/PropertyManager/properties', {
+        axios.post("http://localhost:3001/PropertyManager/properties", {
             userId,
             propertyName: NewPropertyName,
             size: NewSize,
             buildingYear: NewBuildingYear,
             district: NewDistrict,
             quantity: NewQuantity,
-            ages: NewAges.join(','),
+            ages: NewAges.join(","), //Join ages to send to the backend as a single list
             income: NewIncome,
             remoteWorkers: NewRemoteWorkers,
-            workingSchedules: NewWorkingSchedule.join(','),
+            workingSchedules: NewWorkingSchedule.join(","), //Join working schedules to send to the backend as a single list
             description: NewDescription,
             appliances: propertyAppliances_string,
             electricConsumption: NewElectricConsumption,
             gasConsumption: NewGasConsumption,
             waterConsumption: NewWaterConsumption
-        }).then((response) => {
+        }).then(() => {
             setUserProperty();
-            console.log("Property added successfully");
-            navigate('/personaldata');
+            navigate("/personaldata");
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -126,8 +126,11 @@ function AddProperty() {
         });
     };
 
+    //Processing for checkbox selection and deselection
     function ageUpdate(value) {
+        //If the previosuly checked value is deselected, a new array is created filtering that value
         if (NewAges.includes(value)) { setNewAges(NewAges.filter(age => age !== value)); }
+        //If the value is selected (is not stored in the array), the value is added to the array
         else { setNewAges([...NewAges, value]); }
     }
 
@@ -143,7 +146,6 @@ function AddProperty() {
             <div className="add-property">
                 <h1>Property Information</h1>
                 <form onSubmit={addProperty}>
-
                     <h2>Place</h2>
                     <div className="section-property">
                         <label htmlFor="propertyName">Name of the Property</label>
@@ -261,6 +263,7 @@ function AddProperty() {
                     <div className="appliances">
                         <div className="appliance-type">Electric</div>
                         <div className="appliance-checkboxes">
+                            {/*Each time a checkbox is selected or deselected their state is changed between true or false. The opposite state to the current one*/}
                             <label><input type="checkbox" checked={NewAppliances.electric.fridge} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, fridge: !NewAppliances.electric.fridge } })} /> Fridge</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.dishWasher} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, dishWasher: !NewAppliances.electric.dishWasher } })} /> Dish Washer</label>
                             <label><input type="checkbox" checked={NewAppliances.electric.washingMachine} onChange={() => setNewAppliances({ ...NewAppliances, electric: { ...NewAppliances.electric, washingMachine: !NewAppliances.electric.washingMachine } })} /> Washing Machine</label>
@@ -348,4 +351,5 @@ function AddProperty() {
         </div>
     );
 }
+
 export default AddProperty;

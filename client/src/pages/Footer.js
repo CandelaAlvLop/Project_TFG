@@ -1,4 +1,4 @@
-import '../layouts/Footer.css';
+import "../layouts/Footer.css";
 import EUDataAltruism from "../images/EUDataAltruism.png";
 import UPFLogo from "../images/UPFLogo.png";
 import IdeasForChange from "../images/IdeasForChange.png";
@@ -15,9 +15,7 @@ function Footer() {
             <div className="footer-up">
                 <h2>DATALOG</h2>
                 <h3>Association of Data for Planetary Well-being (DATALOG)</h3>
-                <p>
-                    The goals of the association is to promote the knowledge of cities and their actors through data and intelligent systems that impact planetary well-being; fight against climate change, energy poverty, sustainable mobility, circular economy and environmental welfare of the people and the environment in general.
-                </p>
+                <p>The goals of the association is to promote the knowledge of cities and their actors through data and intelligent systems that impact planetary well-being; fight against climate change, energy poverty, sustainable mobility, circular economy and environmental welfare of the people and the environment in general.</p>
                 <img src={EUDataAltruism} alt="EU nonprofit organization of data management" />
             </div>
 

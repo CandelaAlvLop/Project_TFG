@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import NavbarIn2 from './NavbarIn2';
-import Navbar3 from './Navbar3';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import NavbarIn2 from "./NavbarIn2";
+import Navbar3 from "./Navbar3";
 import Footer from "./Footer";
-import '../layouts/AddCampaign.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import "../layouts/AddCampaign.css";
+import { useNavigate } from "react-router-dom";
 import { CiSaveDown2 } from "react-icons/ci";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
@@ -63,14 +63,14 @@ function AddCampaign() {
             return;
         }
 
-        axios.post('http://localhost:3001/CampaignManager/campaigns', {
+        axios.post("http://localhost:3001/CampaignManager/campaigns", {
             userId,
             campaignName: NewCampaignName,
             description: NewDescription,
             dates: NewDates,
             endDate: NewEndDate,
             retainDate: NewRetainDate,
-            type: NewType.join(","),
+            type: NewType.join(","), //Join types to send to the backend as a single list
             titleObjective1: NewTitleObjective1,
             descriptionObjective1: NewDescriptionObjective1,
             titleObjective2: NewTitleObjective2,
@@ -87,8 +87,7 @@ function AddCampaign() {
             conclusionSentence: NewConclusionSentence,
         }).then(() => {
             setUserCampaign();
-            console.log("Campaign added successfully");
-            navigate('/mycampaigns');
+            navigate("/mycampaigns");
         }).catch((error) => {
             if (error.response) {
                 setError(error.response.data.message);
@@ -99,10 +98,13 @@ function AddCampaign() {
     };
 
     function typeSelection(value) {
-        if (NewType.includes(value)) { setNewType(NewType.filter(type => type !== value)); } //Remove element from the new array
-        else { setNewType([...NewType, value]); } //Add element to the new array
+        //If the previosuly selected type icon is deselected, a new array is created filtering that value
+        if (NewType.includes(value)) { setNewType(NewType.filter(type => type !== value)); }
+        //If the type icon is selected (is not stored in the array), the value is added to the array
+        else { setNewType([...NewType, value]); }
     }
 
+    //CSS for type icon selection and deselection
     function typeSelectionCSS(types) {
         if (NewType.includes(types)) return "icon-select selected";
         else return "icon-select";
@@ -118,7 +120,7 @@ function AddCampaign() {
                     <h2>General Information</h2>
                     <div className="section">
                         <h3>Name of the Campaign</h3>
-                        <input type="text" id="campaignName" name="campaignName" value={NewCampaignName} placeholder="Name of the campaign" required    
+                        <input type="text" id="campaignName" name="campaignName" value={NewCampaignName} placeholder="Name of the campaign" required
                             onChange={(e) => setNewCampaignName(e.target.value)}
                         />
                         <h3>Campaign Description</h3>

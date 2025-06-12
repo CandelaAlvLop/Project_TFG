@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import "../layouts/Navbar2.css";
-import "../layouts/Dashboard.css";
-import Footer from "./Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "chart.js/auto";
 import Navbar from "./NavbarIn";
 import Navbar2 from "./Navbar2";
-import axios from 'axios';
-import "chart.js/auto";
+import Footer from "./Footer";
+import "../layouts/Navbar2.css";
+import "../layouts/Dashboard.css";
 import { Doughnut } from "react-chartjs-2";
 import { IoWaterOutline } from "react-icons/io5";
 import { FaFire } from "react-icons/fa6";
@@ -17,7 +17,8 @@ function Dashboard() {
     const [waterTotalConsume, setWaterTotalConsume] = useState(0);
     const [gasTotalConsume, setGasTotalConsume] = useState(0);
     const [electricTotalConsume, setElectricTotalConsume] = useState(0);
-    const userId = localStorage.getItem('user_id');
+
+    const userId = localStorage.getItem("user_id");
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -30,6 +31,7 @@ function Dashboard() {
         axios.get(`http://localhost:3001/DataDonationManager/properties/${userId}`)
             .then((response) => {
                 response.data.forEach((property) => {
+                    //Get total consume for the property and utility selected
                     axios.get(`http://localhost:3001/DataDonationManager/consume/${property.property_id}/Water`)
                         .then((responseWater) => {
                             if (responseWater.data.length !== 0) {
@@ -69,13 +71,13 @@ function Dashboard() {
             });
     }, [userId]);
 
-
+    //Doughnut chart visualisation
     const waterConsumeMax = 1500000;
     const dataWater = {
         datasets: [{
             data: [waterTotalConsume, waterConsumeMax - waterTotalConsume],
             backgroundColor: ["rgb(143, 216, 226)", "rgba(143, 216, 226, 0.12)"],
-            cutout: '65%',
+            cutout: "65%",
             borderWidth: 0,
         }]
     }
@@ -85,7 +87,7 @@ function Dashboard() {
         datasets: [{
             data: [electricTotalConsume, electricConsumeMax - electricTotalConsume],
             backgroundColor: ["rgb(152, 240, 149)", "rgba(146, 226, 143, 0.12)"],
-            cutout: '65%',
+            cutout: "65%",
             borderWidth: 0,
         }]
     }
@@ -95,11 +97,10 @@ function Dashboard() {
         datasets: [{
             data: [gasTotalConsume, gasConsumeMax - gasTotalConsume],
             backgroundColor: ["rgb(248, 121, 121)", "rgba(196, 139, 139, 0.12)"],
-            cutout: '65%',
+            cutout: "65%",
             borderWidth: 0,
         }]
     }
-
 
     return (
         <div>
@@ -158,4 +159,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
