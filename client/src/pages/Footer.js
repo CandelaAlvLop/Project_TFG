@@ -14,8 +14,8 @@ function Footer() {
         <footer className="footer">
             <div className="footer-up">
                 <h2>DATALOG</h2>
-                <h3>Association of Data for Planetary Well-being (DATALOG)</h3>
-                <p>The goals of the association is to promote the knowledge of cities and their actors through data and intelligent systems that impact planetary well-being; fight against climate change, energy poverty, sustainable mobility, circular economy and environmental welfare of the people and the environment in general.</p>
+                <h3>Association of Data for Planetary Well-Being (DATALOG)</h3>
+                <p>The goals of the association are to promote the knowledge of cities and their actors through data and intelligent systems that impact planetary well-being; fight against climate change, energy poverty, sustainable mobility, circular economy, and environmental welfare of the people and the environment in general.</p>
                 <img src={EUDataAltruism} alt="EU nonprofit organization of data management" />
             </div>
 

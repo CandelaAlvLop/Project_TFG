@@ -429,7 +429,7 @@ function DataDonation() {
                                 </label>
                             </div>
                             <label><input type="checkbox" checked={selectedConsents.includes("General usage trends")} onChange={() => consentSelection("General usage trends")} />
-                                I consent to the analysis of my compsumtion data for general purposes and usage trends.
+                                I consent to the analysis of my consumption data for general purposes and usage trends.
                             </label>
                             <label><input type="checkbox" checked={selectedConsents.includes("Campaign Contact")} onChange={() => consentSelection("Campaign Contact")} />
                                 I consent campaigns to contact me for further investigations.
@@ -438,13 +438,13 @@ function DataDonation() {
                                 I allow my consumption data to be used for research oriented campaigns (e.g., academic, social and economic impact).
                             </label>
                             <label><input type="checkbox" checked={selectedConsents.includes("Government Campaigns")} onChange={() => consentSelection("Government Campaigns")} />
-                                I allow my consumption data to be used for goverment driven campaigns (e.g., energy regulations monitorization, investment planning).
+                                I allow my consumption data to be used for government driven campaigns (e.g., energy regulations monitoring, investment planning).
                             </label>
                             <label> <input type="checkbox" checked={selectedConsents.includes("Education Campaigns")} onChange={() => consentSelection("Education Campaigns")} />
                                 I allow my consumption data to be used in educational initiatives (e.g., school programs, awareness).
                             </label>
                             <label><input type="checkbox" checked={selectedConsents.includes("Transport Campaigns")} onChange={() => consentSelection("Transport Campaigns")} />
-                                I allow my consumption data to be used for transport oriented campaigns (e.g., infraestructure optimization, energy usage analysis).
+                                I allow my consumption data to be used for transport oriented campaigns (e.g., infrastructure optimization, energy usage analysis).
                             </label>
                             <label> <input type="checkbox" checked={selectedConsents.includes("Business Campaigns")} onChange={() => consentSelection("Business Campaigns")} />
                                 I allow my consumption data to be used for business driven campaigns (e.g., energy saving solutions, services optimization).

@@ -46,7 +46,7 @@ function Instructions() {
                         <p>Fill in your personal information:</p>
                         <ul>
                             <li><strong>Name and Surname:</strong> Must start with a capital letter and be no longer than 10 characters.</li>
-                            <li><strong>Username:</strong> Between 2 and 10 characters.</li>
+                            <li><strong>Username:</strong> Between 3 and 10 characters.</li>
                             <li><strong>DNI:</strong> 8 digits followed by an uppercase letter (e.g., 12345678A).</li>
                             <li><strong>Email:</strong> Must be a valid email address.</li>
                             <li><strong>Secure</strong> Password: At least 6 characters, including one uppercase letter, one lowercase letter, one number, and one special character.</li>

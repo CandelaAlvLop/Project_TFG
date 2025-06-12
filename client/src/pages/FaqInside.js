@@ -38,7 +38,7 @@ function FaqInside() {
                         <h3>Frequently Asked Questions</h3>
                         <h1>Do you have Questions?</h1>
                         <h2>From who is the data?</h2>
-                        <p>Consumption data belongs to each consumer, which is why you can decide who to grant access to and authorize to reuse for a common good.</p>
+                        <p>Consumption data belongs to each consumer, which is why you can decide who to grant access to and authorize reuse for a common good.</p>
                         <h2>Why claim your data?</h2>
                         <p>Because consumption data is not prepared to be reused and to unlock its potential.</p>
                         <h2>What do I get in return for authorizing access?</h2>
